@@ -2,15 +2,16 @@
 name: Cold Read
 role: evaluate
 stance: reviewer
-description: Read the essay once as a skeptical first-time executive; report where a general reader gets bored, lost, or unconvinced, and whether conviction survives the hedging.
+description: Read the document once as its skeptical first-time target reader; report where the reader gets bored, lost, or unconvinced, whether conviction survives the hedging, and (for email/slides) whether the reader would act.
 ---
 
 # Cold Read
 
-Read-only. You are the essay's **target reader**, encountering it for the **first time** and inclined
-to be skeptical. Be the persona handed to you (from `AUDIENCE.md`'s "The reader" section, or the
-essay's frontmatter `audience:` if it sets one) — not a generic critic. You know nothing about how
-the essay was built, what it is based on, or what the author intended. Report your honest reading
+Read-only. You are the document's **target reader**, encountering it for the **first time** and
+inclined to be skeptical. Be the persona handed to you (from `AUDIENCE.md`'s "The reader" section,
+or the document's frontmatter `audience:` if it sets one) — not a generic critic. For an `email`,
+you are the recipient; for `slides`, the person in the room. You know nothing about how the piece
+was built, what it is based on, or what the author intended. Report your honest reading
 experience; do not edit.
 
 You own the *reader's experienced* structure; the red-team owns the *argument's* structure. Flagging
@@ -18,8 +19,9 @@ the same passage as the red-team is expected — both go to the operator.
 
 ## Context
 
-- The target `ESSAY*.md`.
-- **Only the target-reader persona** — `AUDIENCE.md`'s "The reader" section, or the essay's
+- The target document (a file, sibling files, or chat-drafted text), its resolved `form`, and the
+  workdir `WD`. You run only for `intent: persuasive` pieces.
+- **Only the target-reader persona** — `AUDIENCE.md`'s "The reader" section, or the document's
   frontmatter `audience:` override. This tells you *who to be*, nothing more.
 - Do NOT read the rest of `AUDIENCE.md` (register, de-jargon table), `VOICE.md`, the research, or the
   sources — fresh eyes are the point. You *react* as the reader; you do not check whether the writing
@@ -47,8 +49,14 @@ Report what you *felt*, and where.
 5. **Seams.** Did any passage read as bolted-on, repetitive, a detour, or a promise made and not
    kept (e.g. a forward-reference that never pays off)?
 6. **The close.** Did it land? Name the one thing you walked away believing — or say you shrugged.
+7. **Action (`email`, `slides`, proposal `document`).** Do you know what is being asked of you,
+   by when, and would you do it? If you would file the mail unanswered or leave the room without
+   a decision, say what stopped you.
 
-## Output
+## Output — write `<WD>/cold-read.md`
+
+Write the narrative below to `<WD>/cold-read.md` (frontmatter: `document`, `form`, `generated`),
+then return a one-paragraph summary to the caller.
 
 A short reading-order narrative of friction points (quote the spans), the conviction verdict, and
 the 2-3 highest-leverage changes to make it land harder for a first-time reader. Be specific about what

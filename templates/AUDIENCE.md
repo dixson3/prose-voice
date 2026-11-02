@@ -1,13 +1,16 @@
 # Audience
 
-Who the essays (`Incubator/<slug>/ESSAY*.md`) are for, and how to keep the prose readable for
-that reader. The `blog-voice` skill reads this file from the git root. It is **required**: absent
-or empty, the skill is a silent no-op. How the author argues lives in [`VOICE.md`](VOICE.md).
+Who the prose is for, and how to keep it readable for that reader. The `prose-voice` skill reads
+this file from the git root (or `~/.config/prose-voice/AUDIENCE.md` for prose drafted outside a
+repo). It is **required**: absent or empty, the skill is a silent no-op. How the author writes
+lives in [`VOICE.md`](VOICE.md).
 
-A copy at `Incubator/<slug>/AUDIENCE.md` **wholly replaces** this file for that incubator's
-essays. Use one when a piece targets a different reader.
+A copy of this file in a document's **own directory** wholly replaces this one for the documents
+there. Use one when a folder targets a different reader — a customer deck, a post series for a
+different audience, mail to a specific team. A single document can override the reader persona
+alone with a frontmatter `audience:` line.
 
-<!-- Keep the section headings below. blog-voice agents look up "The reader" and the
+<!-- Keep the section headings below. prose-voice agents look up "The reader" and the
 de-jargon table by name. Delete the HTML comments when done. -->
 
 ## The reader
@@ -37,8 +40,8 @@ The voice-stylist auto-applies a row **only** when the match is exact and the re
 grammatical in the sentence. Everything else is surfaced.
 
 | Insider term | Plain replacement |
-| :-- | :-- |
-| _term_ | _replacement_ |
+| :----------- | :---------------- |
+| _term_       | _replacement_     |
 
 ## Figure text (accessibility vs. print)
 

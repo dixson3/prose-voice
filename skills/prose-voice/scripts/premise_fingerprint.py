@@ -2,17 +2,17 @@
 # requires-python = ">=3.11"
 # dependencies = []
 # ///
-"""Compute the deterministic premise fingerprint of an essay.
+"""Compute the deterministic premise fingerprint of a document.
 
-The `blog-voice` curmudgeon/steelman adversarial pass is *gated*: it fires once per essay and is
-skipped when the essay's premise is unchanged since the last run. This script produces the stable
+The `prose-voice` curmudgeon/steelman adversarial pass is *gated*: it fires once per document and is
+skipped when the document's premise is unchanged since the last run. This script produces the stable
 token that decides "changed or not." It is deterministic and reproducible — a normalized-text hash
-over a DECLARED thesis region, so ordinary body-prose edits do not move it; only the essay's
+over a DECLARED thesis region, so ordinary body-prose edits do not move it; only the document's
 title or its declared thesis does.
 
 The declared thesis region is:
 
-  * the essay `title` frontmatter field, PLUS
+  * the document `title` frontmatter field, PLUS
   * the `thesis:` frontmatter field if present;
   * else (no `thesis:` field) a MECHANICAL fallback — the first body paragraph after the
     frontmatter. "First body paragraph" is defined mechanically (first non-blank run of lines
@@ -24,8 +24,8 @@ the reported fingerprint is the first 16 hex chars (64 bits — ample for change
 
 stdlib-only, uv-run. Usage:
 
-    uv run premise_fingerprint.py path/to/ESSAY.md            # prints the 16-char fingerprint
-    uv run premise_fingerprint.py path/to/ESSAY.md --json     # {fingerprint, region, title, ...}
+    uv run premise_fingerprint.py path/to/post.md            # prints the 16-char fingerprint
+    uv run premise_fingerprint.py path/to/post.md --json     # {fingerprint, region, title, ...}
 """
 
 from __future__ import annotations
@@ -138,15 +138,15 @@ def fingerprint(path: Path) -> dict[str, str]:
 
 
 def main(argv: list[str]) -> int:
-    ap = argparse.ArgumentParser(description="Deterministic premise fingerprint of an essay.")
-    ap.add_argument("essay", type=Path, help="path to ESSAY*.md")
+    ap = argparse.ArgumentParser(description="Deterministic premise fingerprint of a document.")
+    ap.add_argument("doc", type=Path, help="path to the document (.md)")
     ap.add_argument("--json", action="store_true", help="emit the full result as JSON")
     args = ap.parse_args(argv)
 
-    if not args.essay.is_file():
-        print(f"error: not a file: {args.essay}", file=sys.stderr)
+    if not args.doc.is_file():
+        print(f"error: not a file: {args.doc}", file=sys.stderr)
         return 2
-    result = fingerprint(args.essay)
+    result = fingerprint(args.doc)
     if args.json:
         print(json.dumps(result))
     else:

@@ -1,15 +1,15 @@
 #!/usr/bin/env bash
-# Install the blog-voice skill and its always-loaded companion rule into one or more agent
+# Install the prose-voice skill and its always-loaded companion rule into one or more agent
 # harnesses (claude-code, pi, codex, opencode), at user or project scope.
 #
 #   ./install.sh [--harness H]... [--scope user|project] [--project-root DIR]
 #                [--link] [--templates] [--uninstall] [--dry-run]
 #
 # Harness layout:
-#   claude-code  skill -> <base>/.claude/skills/blog-voice
-#                rule  -> <base>/.claude/rules/BLOG_VOICE.md
+#   claude-code  skill -> <base>/.claude/skills/prose-voice
+#                rule  -> <base>/.claude/rules/PROSE_VOICE.md
 #   pi|codex|opencode
-#                skill -> <base>/.agents/skills/blog-voice   (shared; read by all three)
+#                skill -> <base>/.agents/skills/prose-voice   (shared; read by all three)
 #                rule  -> managed block in the harness AGENTS.md:
 #                           user:    pi ~/.pi/agent/AGENTS.md, codex ~/.codex/AGENTS.md,
 #                                    opencode ~/.config/opencode/AGENTS.md
@@ -18,11 +18,16 @@
 set -euo pipefail
 
 REPO_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
-SKILL_NAME="blog-voice"
+SKILL_NAME="prose-voice"
 SRC_SKILL="$REPO_DIR/skills/$SKILL_NAME"
-SRC_RULE="$SRC_SKILL/protocols/BLOG_VOICE.md"
-BEGIN_MARK="<!-- BEGIN blog-voice rule (managed by blog-voice/install.sh; edits are overwritten) -->"
-END_MARK="<!-- END blog-voice rule -->"
+SRC_RULE="$SRC_SKILL/protocols/PROSE_VOICE.md"
+BEGIN_MARK="<!-- BEGIN prose-voice rule (managed by prose-voice/install.sh; edits are overwritten) -->"
+END_MARK="<!-- END prose-voice rule -->"
+# Legacy (pre-rename) install, removed on install and uninstall.
+LEGACY_NAME="blog-voice"
+LEGACY_RULE="BLOG_VOICE.md"
+LEGACY_BEGIN="<!-- BEGIN blog-voice rule (managed by blog-voice/install.sh; edits are overwritten) -->"
+LEGACY_END="<!-- END blog-voice rule -->"
 
 harnesses=()
 scope="user"
@@ -66,7 +71,7 @@ case "$scope" in
         || { echo "--scope project needs --project-root or a git working directory" >&2; exit 2; }
     fi
     base="$(cd "$project_root" && pwd)"
-    [ "$base" = "$REPO_DIR" ] && { echo "refusing to install into the blog-voice source repo" >&2; exit 2; }
+    [ "$base" = "$REPO_DIR" ] && { echo "refusing to install into the prose-voice source repo" >&2; exit 2; }
     ;;
   *) echo "--scope must be user or project" >&2; exit 2 ;;
 esac
@@ -89,7 +94,7 @@ add_unique() { # array-name value
 for h in "${expanded[@]}"; do
   if [ "$h" = "claude-code" ]; then
     add_unique skill_dests "$base/.claude/skills/$SKILL_NAME"
-    add_unique rule_files "$base/.claude/rules/BLOG_VOICE.md"
+    add_unique rule_files "$base/.claude/rules/PROSE_VOICE.md"
   else
     add_unique skill_dests "$base/.agents/skills/$SKILL_NAME"
     if [ "$scope" = "project" ]; then
@@ -104,11 +109,18 @@ for h in "${expanded[@]}"; do
   fi
 done
 
-strip_block() { # file -> prints file without the managed block
-  awk -v b="$BEGIN_MARK" -v e="$END_MARK" '
-    $0 == b {skip=1; next}
-    $0 == e {skip=0; next}
+strip_block() { # file -> prints file without the managed block (current or legacy markers)
+  awk -v b="$BEGIN_MARK" -v e="$END_MARK" -v lb="$LEGACY_BEGIN" -v le="$LEGACY_END" '
+    $0 == b || $0 == lb {skip=1; next}
+    $0 == e || $0 == le {skip=0; next}
     !skip' "$1"
+}
+
+remove_legacy() { # dest-dir-of-skill rule-file-or-empty
+  local d="${1%/*}/$LEGACY_NAME" r="$2"
+  [ -e "$d" ] && { echo "remove legacy $d"; run rm -rf "$d"; }
+  [ -n "$r" ] && [ -e "${r%/*}/$LEGACY_RULE" ] && { echo "remove legacy ${r%/*}/$LEGACY_RULE"; run rm -f "${r%/*}/$LEGACY_RULE"; }
+  return 0
 }
 
 write_block() { # file
@@ -128,7 +140,7 @@ write_block() { # file
 
 remove_block() { # file
   local f="$1" tmp
-  [ -f "$f" ] && grep -qF "$BEGIN_MARK" "$f" || return 0
+  [ -f "$f" ] && grep -qF -e "$BEGIN_MARK" -e "$LEGACY_BEGIN" "$f" || return 0
   [ $dry -eq 1 ] && { echo "[dry-run] remove managed block from $f"; return; }
   tmp="$(mktemp)"
   strip_block "$f" | awk 'NF{n=NR} {l[NR]=$0} END{for(i=1;i<=n;i++)print l[i]}' > "$tmp"
@@ -154,13 +166,14 @@ install_skill() { # dest
 }
 
 if [ $uninstall -eq 1 ]; then
-  for d in "${skill_dests[@]}"; do echo "remove skill  $d"; run rm -rf "$d"; done
-  for f in "${rule_files[@]+"${rule_files[@]}"}"; do echo "remove rule   $f"; run rm -f "$f"; done
+  for d in "${skill_dests[@]}"; do echo "remove skill  $d"; run rm -rf "$d"; remove_legacy "$d" ""; done
+  for f in "${rule_files[@]+"${rule_files[@]}"}"; do echo "remove rule   $f"; run rm -f "$f"; remove_legacy "$f" "$f"; done
   for f in "${block_files[@]+"${block_files[@]}"}"; do echo "remove block  $f"; remove_block "$f"; done
   exit 0
 fi
 
-for d in "${skill_dests[@]}"; do echo "skill  -> $d"; install_skill "$d"; done
+for d in "${skill_dests[@]}"; do remove_legacy "$d" ""; echo "skill  -> $d"; install_skill "$d"; done
+for f in "${rule_files[@]+"${rule_files[@]}"}"; do remove_legacy "$f" "$f"; done
 for f in "${rule_files[@]+"${rule_files[@]}"}"; do
   echo "rule   -> $f"; run mkdir -p "$(dirname "$f")"; run cp -f "$SRC_RULE" "$f"
 done
@@ -170,12 +183,11 @@ if [ $templates -eq 1 ]; then
   if [ "$scope" != "project" ]; then
     echo "--templates applies only to --scope project; skipped" >&2
   else
-    for t in VOICE.md AUDIENCE.md ILLUSTRATIONS.md; do
+    for t in VOICE.md AUDIENCE.md; do
       if [ -e "$base/$t" ]; then echo "template $t exists; kept"
       else echo "template -> $base/$t"; run cp "$REPO_DIR/templates/$t" "$base/$t"; fi
     done
   fi
 fi
 
-command -v harper-cli >/dev/null 2>&1 || echo "note: harper-cli not found; grammar-check will be skipped (brew install harper)"
 command -v uv >/dev/null 2>&1 || echo "note: uv not found; the skill's helper scripts need it"

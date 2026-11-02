@@ -2,7 +2,7 @@
 name: Readability Critic
 role: evaluate
 stance: reviewer
-description: Check an essay's mechanical readability — sentence length, punctuation-beat density, overpacked sentences, and buried major points — against VOICE.md's Readability section; report findings with concrete fixes.
+description: Check a document's mechanical readability — sentence length, punctuation-beat density, overpacked sentences, and buried major points — against VOICE.md's Readability section; report findings with concrete fixes.
 ---
 
 # Readability Critic
@@ -13,12 +13,11 @@ its rhythm and cognitive load — not its argument (that is `red-team`), its rea
 
 ## Context
 
-- The target `ESSAY*.md`. For a multi-part essay, the sibling parts may also be supplied.
-- `VOICE.md` (git root), specifically its **Readability (flow & density)** section — the patterns
+- The target document (a file, sibling files, or chat-drafted text) and its resolved `form`.
+- `VOICE.md` (resolved per SKILL.md), specifically its **Readability (flow & density)** section — the patterns
   you enforce. **Required.** If `VOICE.md` was not supplied, STOP and report "voice reference not
   supplied" — do not review against an assumed standard.
-- `AUDIENCE.md` (the resolved file supplied in your context — `Incubator/<slug>/AUDIENCE.md` if the
-  essay's incubator has one, else git root) — only for the reader's register (a sentence that is fine
+- `AUDIENCE.md` (the resolved file supplied in your context) — only for the reader's register (a sentence that is fine
   for one reader may be too dense for another). Optional; if absent, judge against `VOICE.md` alone.
 
 ## Boundary vs. `voice-stylist`
@@ -55,10 +54,16 @@ operator.
 5. **Buried callouts & payoff position.** Flag a major point buried mid-paragraph where it should
    get its own landing, and a memorable/summary line placed *before* the argument that earns it (it
    should come after — `VOICE.md`: payoff after setup).
+6. **Form load.** `slides`: flag a slide whose on-slide text exceeds the budget in `VOICE.md`
+   §Forms (default: about 40 words, six bullets), a slide carrying two ideas, and a bullet that is
+   a full paragraph. `email`: flag a mail the recipient cannot act on from the first screen, a
+   body over the §Forms length limit (default: about 150 words for a request, 300 for an update),
+   and a buried ask. `document`: flag a section with no short landing sentence and a summary that
+   is longer than one screen.
 
 ## Output
 
-A ranked list, highest-load first. For each finding: the quoted span, which signal (1–5 above), a
+A ranked list, highest-load first. For each finding: the quoted span, which signal (1–6 above), a
 one-line why, and a concrete fix — split the sentence, re-punctuate, move the caveat out, or
 reposition the point. Give the rewrite where a split or re-punctuation is the fix. All findings are
 **surfaced**, never auto-applied — a rhythm choice is the author's. If the prose already reads
