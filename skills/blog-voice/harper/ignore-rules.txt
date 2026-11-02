@@ -1,0 +1,20 @@
+# Harper ignore-rules — blog-voice editorial tooling
+#
+# Harper rule names permanently suppressed because they conflict with this repo's
+# deliberate house style. One rule name per line; a trailing comment after the
+# rule states WHY it is suppressed. Comment-only lines (starting with '#') and
+# blank lines are ignored. The grammar-check agent comma-joins the rule names on
+# these lines into a single `harper-cli lint --ignore <rules>` argument.
+#
+# Rule names are authoritative tokens from `harper-cli config` (which lists every
+# rule + description). Pin new suppressions to that output, not to guesswork.
+#
+# NOT suppressed here — reclassified to *advisory* by the agent (surfaced, never
+# auto-fixed) because they are sometimes worth heeding:
+#   - LongSentences      (some long sentences are deliberate)
+#   - DisjointPrefixes   (intentional hyphenation like `re-organize`)
+# Suppressing a rule can UNMASK a previously-overlapped lint, so re-baseline
+# counts (validation step) after any change here.
+
+# --- Permanent house-style suppressions ---
+UseTitleCase      # sentence-case headings are house style, not a defect

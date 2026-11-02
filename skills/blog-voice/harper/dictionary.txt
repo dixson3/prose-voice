@@ -1,0 +1,17 @@
+# Harper user dictionary — blog-voice editorial tooling
+#
+# Custom words Harper's spell-checker would otherwise flag. These are repo-wide
+# editorial choices: deliberate coinages and recurring proper nouns used across
+# essays. One word per line. Comment lines (starting with '#') and blank lines
+# are ignored by the merge step.
+#
+# Scope: GLOBAL to the repo's essays. Essay-LOCAL proper nouns (citation author
+# names, one-off names) belong in the per-incubator sidecar
+# Incubator/<slug>/.harper-words, NOT here. The grammar-check agent merges this
+# file with that sidecar at runtime into a single --user-dict-path.
+#
+# Harper's dictionary match is case-sensitive on capitalized tokens; list a
+# proper noun exactly as it appears in prose.
+
+# --- Deliberate coinages / house vocabulary ---
+accelerant
