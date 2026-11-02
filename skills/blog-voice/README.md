@@ -53,6 +53,8 @@ agents/
   illustrator.md                 GENERATE/writer — candidate art via naba + ESSAY*.illustrations.md sidecar (confirmed explicit step)
   curmudgeon.md                  GENERATE/red-team — writes ESSAY*.curmudgeon.md counter-essay (gated)
   steelman-response.md           GENERATE/reviewer — writes ESSAY*.steelman.md recommendations (gated)
+protocols/
+  BLOG_VOICE.md                  always-loaded companion rule (deployed by the repo's install.sh)
 harper/
   dictionary.txt                 global custom words (coinages, recurring proper nouns)
   ignore-rules.txt               permanently suppressed Harper rule names (house style)
