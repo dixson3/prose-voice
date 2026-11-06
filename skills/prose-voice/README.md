@@ -17,10 +17,12 @@ The checks are mapped onto an optional frontmatter `status:` as **stage-gates**.
 no `status:` is treated as `draft`:
 
 - **`draft` → DRAFT gate** (both intents) — voice (`VOICE.md` Do / Don't, generative-cadence
-  tells, form rules) and readability, then the footnoter, then the copy-editor. Fires
+  tells, form rules) and readability, then the footnoter, then the copy-editor (a Harper
+  spelling/grammar pass, then its own read). Fires
   **report-only on edit** and as a **pre-surface auto-clean** before an agent shows prose it
   wrote — including an email or slide text drafted in chat.
-- **`review` → REVIEW gate** — the intent's agent set.
+- **`review` → REVIEW gate** — a report-only Harper spelling/grammar pass, then the intent's agent
+  set.
 - **`ready` → READY gate** — no unresolved `[needs-source]`, then the DRAFT evaluators plus the
   intent's REVIEW set; for posts, an offer to run `blog-artifacts` when installed.
 - **`idea`** — silent no-op.
@@ -54,7 +56,7 @@ agents/
   voice-stylist.md               DRAFT — voice, register, de-jargon, AI-slop, form rules
   readability-critic.md          DRAFT — mechanical readability, per-form load
   footnoter.md                   DRAFT — sources load-bearing claims (form-shaped citations)
-  copy-editor.md                 DRAFT — spelling, agreement, punctuation, consistency
+  copy-editor.md                 DRAFT — Harper spelling/grammar pass, agreement, punctuation, consistency
   fact-checker.md                REVIEW lean — verifies citations and claims
   provenance.md                  REVIEW lean — claim origins, internal-material safety, reproducibility
   red-team.md                    REVIEW persuasive — the argument
@@ -67,13 +69,17 @@ scripts/
   workdir.py                     resolve .prosevoice/<doc-key>/ for a document or chat draft
   premise_fingerprint.py         deterministic premise hash (gates the curmudgeon/steelman pair)
   ready_preconditions.py         READY-gate [needs-source] residue check
+  harper_lint.py                 harper-cli spelling/grammar pass: dedup, bucket, fix candidates
 ```
 
 Writer-owned content (read, not vendored): `VOICE.md`, `AUDIENCE.md`, and optionally `QUOTES.md`,
-`RENDER.md`, and a sibling `research/` or `sources/` directory. Add a step by writing
+`RENDER.md`, `harper-dictionary.txt`, `harper-ignore.txt`, and a sibling `research/` or
+`sources/` directory. Add a step by writing
 `agents/<step>.md` and listing it in `SKILL.md` under the gate and intent it belongs to.
 
 ## Requirements
 
-`uv` for the helper scripts. No other CLI. Web search/fetch tools improve the footnoter,
+`uv` for the helper scripts. `harper-cli` (`brew install harper`, optional) for the
+spelling/grammar pass; absent, the copy-editor's own read runs alone. Web search/fetch tools
+improve the footnoter,
 fact-checker and provenance agents; without them, external claims are flagged `[needs-source]`.

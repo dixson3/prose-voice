@@ -2,7 +2,8 @@
 
 An agent skill that keeps written prose — blog posts, documents, slide decks and emails — in a
 consistent house voice and runs a multi-agent editorial pipeline over it. Every document gets
-voice and AI-slop checks, mechanical readability, claim sourcing and a copy-edit; review depth
+voice and AI-slop checks, mechanical readability, claim sourcing and a copy-edit with a Harper
+spelling/grammar pass (also run on edit and at review); review depth
 then follows **intent**: persuasive pieces (arguments, proposals, pitches) get fact-check,
 provenance, red-team, cold-read and a curmudgeon / steelman adversarial pair; informational
 pieces (updates, how-tos, reference, minutes) get fact-check and provenance only. Generated
@@ -63,6 +64,10 @@ show the skill twice.
 ## Requirements
 
 - `uv` — runs the helper scripts.
+- `harper-cli` (`brew install harper`, optional) — the spelling/grammar pass; absent, it is
+  skipped and the copy-editor's own read runs alone. Accepted words go in `harper-dictionary.txt`
+  and suppressed rules in `harper-ignore.txt` (repo root, document dir or
+  `~/.config/prose-voice/`).
 - Web search/fetch tools — footnoter gap-filling and fact-checking; absent, claims are flagged
   `[needs-source]`.
 - `blog-artifacts` (separate skill, optional) — offered at the READY gate for posts when installed.

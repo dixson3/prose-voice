@@ -20,7 +20,8 @@ are stated, preferred analogy sources, how hedges are owned, how pieces open and
 ## Register / mechanics
 
 <!-- Person and tense, sentence length, contractions, punctuation habits (dashes, serial comma),
-heading case, numbers, lists vs prose. The copy-editor enforces these. -->
+heading case, numbers, lists vs prose, and spelling dialect (us / uk / au / ca / in — passed to
+Harper). The copy-editor enforces these. -->
 
 - _Rule_.
 

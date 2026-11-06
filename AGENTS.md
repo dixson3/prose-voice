@@ -25,9 +25,9 @@ files in this repo.
 
 - Paths inside the skill are relative to the skill directory and resolved through the
   `SKILL_DIR` block in `SKILL.md`. Do not hard-code `.claude/skills/...` paths.
-- Helper scripts are stdlib-only PEP 723 scripts run with `uv run`. The skill has no other
-  external dependency; do not reintroduce a required CLI (the former Harper and naba steps were
-  removed deliberately).
+- Helper scripts are stdlib-only PEP 723 scripts run with `uv run`. `harper-cli` is the one
+  external CLI, and it is optional: `scripts/harper_lint.py` exits 4 when it is absent and the
+  gates degrade to the copy-editor's own read. Do not add a required CLI.
 - The skill must stay harness-neutral: no Claude-only frontmatter is relied on for behaviour.
 - The skill is form-neutral: nothing in it may assume a directory layout, filename pattern or
   single document kind.

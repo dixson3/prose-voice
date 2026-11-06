@@ -24,8 +24,10 @@ the operator, and anything under `.prosevoice/`.
 On a create or modify of an in-scope document, run the gate for its `status:`:
 
 - **`draft` or absent** → DRAFT gate, **report-only** (voice, AI-slop, readability, sourcing
-  findings in chat; never rewrites; no copy-editor; no workdir writes).
-- **`review`** → REVIEW gate: `fact-checker` + `provenance` for every document; `persuasive`
+  findings in chat, plus the Harper spelling/grammar pass when `harper-cli` is installed; never
+  rewrites; no copy-editor; no workdir writes).
+- **`review`** → REVIEW gate: the Harper pass (report-only), `fact-checker` + `provenance` for
+  every document; `persuasive`
   pieces add `red-team`, `cold-read` and the gated curmudgeon → steelman pair.
 - **`ready`** → READY gate (`[needs-source]` precondition, DRAFT evaluators + the intent's REVIEW
   set, `blog-artifacts` offer for `post` when installed and an `artifacts.yaml` exists).

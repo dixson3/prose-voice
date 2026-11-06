@@ -191,3 +191,4 @@ if [ $templates -eq 1 ]; then
 fi
 
 command -v uv >/dev/null 2>&1 || echo "note: uv not found; the skill's helper scripts need it"
+command -v harper-cli >/dev/null 2>&1 || echo "note: harper-cli not found; the spelling/grammar pass will be skipped (brew install harper)"

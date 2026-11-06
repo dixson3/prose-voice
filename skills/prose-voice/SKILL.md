@@ -4,8 +4,8 @@ description: >-
   House voice and editorial review for written prose — blog posts, documents, slide decks and
   emails — judged against VOICE.md and AUDIENCE.md (document dir → git root →
   ~/.config/prose-voice). Three gates: DRAFT (voice Do/Don't, AI-slop scan, readability,
-  footnoter, copy-edit), REVIEW and READY. The REVIEW/READY agent set follows the document's
-  intent: persuasive pieces get the full suite (red-team, cold-read, fact-checker, provenance,
+  footnoter, copy-edit with a Harper spelling/grammar pass), REVIEW and READY; the Harper pass
+  also runs on edit and at REVIEW. The REVIEW/READY agent set follows the document's intent: persuasive pieces get the full suite (red-team, cold-read, fact-checker, provenance,
   gated curmudgeon/steelman pair); informational pieces get fact-checker + provenance only. All
   generated artifacts go under .prosevoice/<doc-key>/, never beside the document. TRIGGER on
   /prose-voice; on a prose-document edit, run the gate for its frontmatter status (absent =
@@ -120,6 +120,10 @@ Frontmatter `audience:` (one line) overrides the reader persona only.
 
 Optional references at the same locations: `QUOTES.md` (verbatim exemplars), `RENDER.md`
 (image alt/title convention), a sibling `research/` or `sources/` directory (citation pool).
+Harper word lists — `harper-dictionary.txt` (accepted words: coinages, names) and
+`harper-ignore.txt` (suppressed rule names from `harper-cli config`) — are **unioned** across all
+three locations rather than first-hit, so a word accepted at the git root holds everywhere below
+it.
 
 ## Gate
 
@@ -132,7 +136,24 @@ Optional references at the same locations: `QUOTES.md` (verbatim exemplars), `RE
 - Web search/fetch tools absent → `footnoter`, `fact-checker` and `provenance` run against local
   sources only and flag web-needed claims `[needs-source]`.
 
-No external CLI is required. `uv` runs the three helper scripts.
+- `harper-cli` absent (`brew install harper`) → the spelling/grammar pass is skipped and the
+  report says so; `copy-editor` still does its own read.
+
+`uv` runs the helper scripts. `harper-cli` is the one optional external CLI; nothing else is
+required.
+
+## Spelling and grammar: `harper_lint.py`
+
+```bash
+uv run "$SKILL_DIR/scripts/harper_lint.py" <paths> --dialect <d> [--json]   # 0 ran, 2 error, 4 harper-cli absent
+```
+
+Runs Harper over each document, collapses overlapping lints to one per span (most specific rule
+wins), and buckets each finding `error` / `spelling` / `name` / `advisory`. It never edits;
+`fixable: true` marks an auto-fix candidate that the bounded write authority below still governs.
+Dialect comes from `VOICE.md` §Register (default `us`). Chat-drafted prose is linted from
+`<WD>/source.md`. Proposed additions to the word lists are surfaced for the operator; the skill
+never writes them.
 
 ## Working directory: `.prosevoice/<doc-key>/`
 
@@ -183,7 +204,10 @@ exists to protect.
   sentence, bounded by the same authorship/region rule — on operator prose it is
   **propose-on-confirm**, with the list written to `<WD>/footnoter.md`.
 - **Copy-edit is surface-only** except unambiguous spelling/agreement fixes inside the
-  pre-surface auto-clean of agent-authored regions.
+  pre-surface auto-clean of agent-authored regions (or operator prose under `/prose-voice
+  clean`). A Harper finding qualifies only when it is `fixable` and the caller agrees with the
+  replacement in context; `advisory` and `name` findings are always surfaced. The REVIEW-gate
+  Harper pass and the on-edit pass are report-only.
 - **Agents write only into the workdir.** `curmudgeon`, `steelman-response`, `fact-checker`,
   `provenance`, `red-team`, `cold-read` each write exactly one named file under
   `.prosevoice/<doc-key>/` and never touch the document or each other's file.
@@ -194,12 +218,12 @@ Lifecycle lives in optional frontmatter `status:` — `idea` / `draft` / `review
 document with no `status:` is treated as `draft`.** Gates are cumulative in rigor; REVIEW and
 READY scale with intent.
 
-| `status:`           | Gate                                                                                                                     | Fires on                                                    |
-| :------------------ | :----------------------------------------------------------------------------------------------------------------------- | :---------------------------------------------------------- |
-| `idea`              | none (silent no-op)                                                                                                      | —                                                           |
-| `draft` (or absent) | **DRAFT** — `voice-stylist` ‖ `readability-critic` → `footnoter` → `copy-editor`                                         | report-only on edit; pre-surface auto-clean; `/prose-voice` |
-| `review`            | **REVIEW** — the intent's agent set (lean: `fact-checker` + `provenance`; full: + `red-team` + `cold-read` + gated pair) | on edit; `/prose-voice`                                     |
-| `ready`             | **READY** — source precondition, DRAFT evaluators + the intent's REVIEW set, `blog-artifacts` offer for `post`           | on edit; `/prose-voice`; before sending/publishing          |
+| `status:`           | Gate                                                                                                                                   | Fires on                                                    |
+| :------------------ | :------------------------------------------------------------------------------------------------------------------------------------- | :---------------------------------------------------------- |
+| `idea`              | none (silent no-op)                                                                                                                    | —                                                           |
+| `draft` (or absent) | **DRAFT** — `voice-stylist` ‖ `readability-critic` → `footnoter` → `copy-editor` (Harper + read)                                       | report-only on edit; pre-surface auto-clean; `/prose-voice` |
+| `review`            | **REVIEW** — Harper pass + the intent's agent set (lean: `fact-checker` + `provenance`; full: + `red-team` + `cold-read` + gated pair) | on edit; `/prose-voice`                                     |
+| `ready`             | **READY** — source precondition, DRAFT evaluators + the intent's REVIEW set, `blog-artifacts` offer for `post`                         | on edit; `/prose-voice`; before sending/publishing          |
 
 `/prose-voice review <path>` and `/prose-voice ready <path>` run that gate regardless of the
 file's `status:` — the normal path for emails and decks, which rarely carry frontmatter.
@@ -214,7 +238,8 @@ resolved form's rules from `VOICE.md` §Forms.
 1. **Report-only on edit** (mechanical). On a document edit at `status: draft` (or absent),
    surface every finding in chat; **never rewrite under a writer mid-thought**; write nothing to
    the workdir. Once per operator edit. Cost-scoped: `footnoter` runs local-only and
-   `copy-editor` is skipped.
+   `copy-editor` is skipped, but `harper_lint.py` runs (mechanical and fast) and its `error`,
+   `spelling` and `name` findings are surfaced; `advisory` findings are left for the full gate.
 2. **Pre-surface auto-clean** (behavioral). **Before presenting prose you authored or rewrote
    this turn** — a file, or an email/slide text drafted in chat — run the gate through a
    fresh-eyes subagent and clean your own violations within the bounds above, then surface the
@@ -224,6 +249,12 @@ Why a dispatched gate and not a checklist: authors are blind to their own meta-n
 cadence; a separate fresh-eyes read catches what self-monitoring does not.
 
 ### REVIEW gate — scaled by intent
+
+**Spelling and grammar (both intents).** Run `harper_lint.py` over the document before the agent
+set and put its findings in a *Spelling and grammar* section of `<WD>/review.md`. Report-only: a
+document at `review` is the operator's text, so nothing is auto-fixed here; the fixes are applied
+by the operator, or by `/prose-voice clean` within its bounds. Harper skipped → say so in the
+section.
 
 **Informational (lean).** Two agents, parallel, read-only:
 
@@ -280,15 +311,15 @@ the drafted text written to `<WD>/source.md`.
 
 ## Modes
 
-| Invocation                                                      | Runs                                                                                     |
-| :-------------------------------------------------------------- | :--------------------------------------------------------------------------------------- |
-| document edit, `status` draft/absent                            | DRAFT, report-only in chat (no `copy-editor`, `footnoter` local-only, no workdir writes) |
-| pre-surface of agent-authored prose                             | DRAFT, auto-clean agent regions, web-enabled `footnoter`, report → `<WD>/draft.md`       |
-| `/prose-voice [<path>...]`                                      | the gate for the document's `status:` (absent = DRAFT, web-enabled)                      |
-| `/prose-voice review [--persuasive\|--informational] <path>...` | REVIEW regardless of `status:`; the flag overrides intent for this run                   |
-| `/prose-voice ready [--persuasive\|--informational] <path>...`  | READY regardless of `status:`                                                            |
-| `/prose-voice clean <path>...`                                  | DRAFT with auto-clean over **operator** prose too. Protected patterns still surfaced.    |
-| `/prose-voice` with no path                                     | the prose most recently drafted or discussed in this conversation; refuse if none        |
+| Invocation                                                      | Runs                                                                                                       |
+| :-------------------------------------------------------------- | :--------------------------------------------------------------------------------------------------------- |
+| document edit, `status` draft/absent                            | DRAFT, report-only in chat (Harper pass only, no `copy-editor`, `footnoter` local-only, no workdir writes) |
+| pre-surface of agent-authored prose                             | DRAFT, auto-clean agent regions, web-enabled `footnoter`, report → `<WD>/draft.md`                         |
+| `/prose-voice [<path>...]`                                      | the gate for the document's `status:` (absent = DRAFT, web-enabled)                                        |
+| `/prose-voice review [--persuasive\|--informational] <path>...` | REVIEW regardless of `status:`; the flag overrides intent for this run                                     |
+| `/prose-voice ready [--persuasive\|--informational] <path>...`  | READY regardless of `status:`                                                                              |
+| `/prose-voice clean <path>...`                                  | DRAFT with auto-clean over **operator** prose too. Protected patterns still surfaced.                      |
+| `/prose-voice` with no path                                     | the prose most recently drafted or discussed in this conversation; refuse if none                          |
 
 `/prose-voice <path>` refuses out-of-scope files and says why.
 
@@ -306,7 +337,8 @@ agent receives the resolved `form`, `intent`, and `WD`.
    per-form load.
 3. [`agents/footnoter.md`](agents/footnoter.md) — sources load-bearing claims; proposal list →
    `footnoter.md`.
-4. [`agents/copy-editor.md`](agents/copy-editor.md) — spelling, agreement, punctuation, consistency.
+4. [`agents/copy-editor.md`](agents/copy-editor.md) — Harper spelling/grammar pass, then
+   agreement, punctuation, consistency.
 
 **REVIEW / READY — lean set (both intents)**
 
