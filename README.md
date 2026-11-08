@@ -1,5 +1,7 @@
 # prose-voice
 
+[![skills.sh](https://skills.sh/b/dixson3/prose-voice)](https://skills.sh/dixson3/prose-voice)
+
 Version: **[1.1.0](VERSION)**. The repository uses semantic versioning (`MAJOR.MINOR.PATCH`); `VERSION` is the version source of truth, and release tags use the form `v1.1.0`.
 
 Write and review persuasive or explanatory essays with an AI agent while preserving the author's voice and addressing a defined reader. prose-voice coordinates checks for clarity, evidence, grammar, argument and reader experience. Optional visuals support the explanation, and final exports can be Markdown, HTML, PDF, a document or a slide deck.
@@ -17,21 +19,27 @@ Install both skills together:
 | `pv-prosevoice` | Drafting and editorial review: voice, readability, sources, grammar, provenance, argument, reader experience and optional visuals.                      |
 | `pv-preflight`  | Setup and checks: finds guidance, checks tool availability, seeds templates, resolves review-file locations and installs the small activation reminder. |
 
-These are instructions and helper scripts for an AI coding agent, not a standalone writing application. They are packaged for installation through [`skills`](https://github.com/vercel-labs/skills). The commands below target Claude Code, pi, Codex and OpenCode.
+These are instructions and helper scripts for an AI coding agent, not a standalone writing application. They are packaged for installation through [`skills`](https://github.com/vercel-labs/skills), which supports Claude Code, pi, Codex, OpenCode and other agents.
 
 ## Install and set up
 
 ### 1. Install the skills
 
-The installer requires Node.js 22.20 or newer. The helpers require `uv` and `git`. Run project installation from the Git repository where you write, or choose user scope to make the skills available across projects.
+The installer requires Node.js 22.20 or newer. The helpers require `uv` and `git`. Install all prose-voice skills at user scope so they are available across projects:
 
 ```bash
-# Project scope
-npx skills add dixson3/prose-voice -s pv-prosevoice -s pv-preflight -a claude-code -a pi -a codex -a opencode
+# Recommended: current version from the repository's default branch
+npx skills@latest add dixson3/prose-voice --skill '*' -g -y
 
-# Alternatively, user scope
-npx skills add dixson3/prose-voice -s pv-prosevoice -s pv-preflight -g -a claude-code -a pi -a codex -a opencode
+# Alternatively: install the tagged v1.1.0 release
+npx skills@latest add dixson3/prose-voice@v1.1.0 --skill '*' -g -y
 ```
+
+`skills@latest` selects the latest installer. The first command installs from the repository's default branch, not the newest GitHub Release; the second selects the specific Git tag. Do not use `dixson3/prose-voice@latest`: that suffix is interpreted as a skill name, not a latest-release selector.
+
+The quoted `--skill '*'` selects every skill in this repository, currently `pv-prosevoice` and `pv-preflight`. Keep the quotes so your shell passes the wildcard to the installer. `-g` selects user scope and `-y` skips confirmation prompts. The installer selects agents based on context: ordinarily detected agents, or the current agent plus shared universal agents when run inside a recognized AI agent. Use `-a <agent>` to select an agent explicitly, or omit `-y` to allow interactive selection in an ordinary terminal.
+
+For project scope, omit `-g` and run the command from your writing repository.
 
 The installer uses `.agents/skills/` as a shared location and creates harness-specific links where needed. Use `--copy` if you prefer copies to symlinks.
 
@@ -42,11 +50,11 @@ Ask your agent to run `pv-preflight`, or invoke `/pv-preflight` where the harnes
 For direct setup, run these commands from your writing repository:
 
 ```bash
-# Use this path for project-installed skills:
-PF=".agents/skills/pv-preflight/scripts/preflight.py"
+# Use this path for the recommended user-scope installation:
+PF="$HOME/.agents/skills/pv-preflight/scripts/preflight.py"
 
-# For user-installed skills, use this instead:
-# PF="$HOME/.agents/skills/pv-preflight/scripts/preflight.py"
+# For project-installed skills, use this instead:
+# PF=".agents/skills/pv-preflight/scripts/preflight.py"
 
 uv run "$PF" seed --scope project --apply
 uv run "$PF" rule --apply
