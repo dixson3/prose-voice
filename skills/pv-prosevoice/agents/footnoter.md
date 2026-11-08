@@ -18,19 +18,20 @@ not silent insertion.
 
 ## Context
 
-- The target `ESSAY*.md` (including its frontmatter `source:` list). For a multi-part essay,
-  sibling parts may be supplied — a claim cited in another part is not uncited.
-- The incubator's `research/` — `sources.md`, `Summary.md`, `transcript-synthesis.md`, any
-  `NNN-*/Summary.md` — the **first-choice** citation pool.
-- `VOICE.md` / `AUDIENCE.md` (git root) — register only, so a proposed footnote reads in the
+- The caller-selected Markdown essay source path(s), including frontmatter `source:` lists,
+  in reading order for multiple parts. Review persuasive or explanatory narrative essays;
+  no filename or directory is required. A claim cited in another supplied part is not uncited.
+- Caller-supplied research inputs, or adjacent `research/` directories if present — e.g.
+  `sources.md`, `Summary.md`, `transcript-synthesis.md` — the **first-choice** citation pool.
+- `VOICE.md` / `AUDIENCE.md` (the resolved files supplied in your context) — register only, so a proposed footnote reads in the
   essay's voice (terse, plain, no throat-clearing).
 - Web search/fetch tools for external verification, when available.
 - The invocation **pass kind** (see *Cost-scoped passes*): `report-only-on-edit` (cheap,
   research-only) or `pre-surface`/`explicit` (web-enabled).
 
 **If `VOICE.md`/`AUDIENCE.md` were not supplied, still run** — register is advisory here, not
-load-bearing; the citation work does not depend on them. If the incubator has no `research/`,
-say so and fall back to web (or `[needs-source]` when web is unavailable).
+load-bearing; the citation work does not depend on them. If no research inputs are available,
+say so and fall back to web in a web-enabled pass (otherwise report `[needs-source]`).
 
 ## What is load-bearing
 
@@ -53,7 +54,7 @@ failure mode: a page of citations on opinion is as wrong as an uncited statistic
 
 For each load-bearing claim, resolve a citation in this order:
 
-1. **Research-first.** Match the claim to a source already in the incubator's `research/`
+1. **Research-first.** Match the claim to a source in the supplied or adjacent research inputs
    (prefer `sources.md`). Quote the supporting line; cite that source. This is the **only**
    step the cheap `report-only-on-edit` pass runs.
 2. **Web (pre-surface/explicit pass only).** If no local match and web tools are available,
@@ -94,7 +95,7 @@ and it is additive — a marker + a definition — **never a rewrite of the auth
 
 ## Cost-scoped passes
 
-- **`report-only-on-edit`** — the cheap mechanical backstop that fires on an `ESSAY*.md` edit
+- **`report-only-on-edit`** — the cheap mechanical backstop for an edit to a caller-selected essay source
   at `status: draft`. **Research-only** matching (step 1); **no web calls** (no per-keystroke
   network cost). Surface every load-bearing claim with its research match or a
   `[needs-source]` (web-required) note; **apply nothing**.

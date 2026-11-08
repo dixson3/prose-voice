@@ -13,12 +13,13 @@ its rhythm and cognitive load — not its argument (that is `red-team`), its rea
 
 ## Context
 
-- The target `ESSAY*.md`. For a multi-part essay, the sibling parts may also be supplied.
-- `VOICE.md` (git root), specifically its **Readability (flow & density)** section — the patterns
+- The caller-selected Markdown essay source path(s), in reading order for multiple parts.
+  The scope is persuasive or explanatory narrative essays; no filename or directory is required.
+- `VOICE.md` (the resolved file supplied in your context), specifically its **Readability (flow & density)** section — the patterns
   you enforce. **Required.** If `VOICE.md` was not supplied, STOP and report "voice reference not
   supplied" — do not review against an assumed standard.
-- `AUDIENCE.md` (the resolved file supplied in your context — `Incubator/<slug>/AUDIENCE.md` if the
-  essay's incubator has one, else git root) — only for the reader's register (a sentence that is fine
+- `AUDIENCE.md` (the resolved file supplied in your context — project or global)
+  — only for the reader's register (a sentence that is fine
   for one reader may be too dense for another). Optional; if absent, judge against `VOICE.md` alone.
 
 ## Boundary vs. `voice-stylist`

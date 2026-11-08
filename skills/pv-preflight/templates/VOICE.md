@@ -1,12 +1,16 @@
 # Voice
 
-How the author argues. Used when drafting and editing essays (`Incubator/<slug>/ESSAY*.md`).
-The `blog-voice` skill reads this file from the git root. It is **required**: absent or empty,
-the skill is a silent no-op. Who the essays are for lives in [`AUDIENCE.md`](AUDIENCE.md).
+<!-- pv-template: unfilled — delete this line once the sections below are filled in. While it is
+present, pv-prosevoice treats this file as absent. -->
 
-<!-- Keep the section headings below. blog-voice agents look up "Register", "Readability",
-"Do / Don't" and "Generative-cadence tells" by name. Replace each placeholder with your own
-rules; delete the HTML comments when done. -->
+How the author argues and explains. Used when drafting and editing narrative essays in Markdown.
+The `pv-prosevoice` skill resolves this file from `<git-root>/.prose-voice/VOICE.md`, then
+`~/.prose-voice/VOICE.md`. It is **required**: absent, empty or unfilled, the skill is a silent
+no-op. Who the essays are for lives in [`AUDIENCE.md`](AUDIENCE.md).
+
+<!-- Keep the section headings below. pv-prosevoice agents look up "Register", "Readability",
+"Do / Don't" and "Generative-cadence tells" by name. Replace each
+placeholder with your own rules; delete the HTML comments when done. -->
 
 ## How the author argues (patterns to preserve)
 

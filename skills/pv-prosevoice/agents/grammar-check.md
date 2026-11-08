@@ -7,7 +7,7 @@ description: Run Harper (harper-cli) over an essay under a repo-owned filter pol
 
 # Grammar Check
 
-The fifth blog-voice agent. Unlike the other four pure-read reviewers, this one **runs a
+The fifth pv-prosevoice agent. Unlike the other four pure-read reviewers, this one **runs a
 tool** (`harper-cli`, via Bash) and may apply a **narrowly bounded** auto-fix. It reports a
 classified grammar/spelling report; the caller applies fixes only within the bounds below.
 
@@ -16,38 +16,50 @@ readability — only unambiguous spelling typos, and only when a hard write-guar
 
 ## Context
 
-- The target `ESSAY*.md` (one path, or sibling parts of a multi-part essay).
+- The caller-selected Markdown essay source path(s), in reading order for multiple parts.
+  The scope is persuasive or explanatory narrative essays; no filename or directory is required.
 - The repo-committed Harper policy under this skill dir:
-  - `harper/dictionary.txt` — global custom words.
-  - `harper/ignore-rules.txt` — permanently suppressed rule names (one per line; trailing
+  - `harper/dictionary.txt` — bundled custom words.
+  - `harper/ignore-rules.txt` — bundled suppressed rule names (one per line; trailing
     `#` comment per line).
-- The per-incubator sidecar `Incubator/<slug>/.harper-words` if it exists (essay-local
-  proper nouns). Optional — absence is fine.
+- User policy at `~/.pv/dictionary.txt` and `~/.pv/ignore-rules.txt`, and project policy at
+  `<git-root>/.pv/dictionary.txt` and `<git-root>/.pv/ignore-rules.txt` (all optional).
+  Merge all layers; project policy adds entries, never replaces user policy. Additional user
+  files outside `~/.pv/` can be passed with repeatable `--user-dict` and `--user-ignore`.
+- The optional adjacent `<essay-dir>/.harper-words` sidecar (essay-local proper nouns).
+  Absence is fine.
 - Helper scripts in this skill dir (`uv`-run, stdlib only, **no new CLI dep**):
-  - `scripts/build_user_dict.py` — unions the global dictionary with the sidecar.
+  - `scripts/build_user_dict.py` — unions bundled, user, project and essay-local policy.
   - `scripts/extract_prose.py` — the §supplemental-pass extractor.
 
 **If `harper-cli` is not on PATH, STOP and report `grammar-check skipped (harper-cli not
-found — brew install harper)`.** Do not error — blog-voice's preflight degrades gracefully;
+found — brew install harper)`.** Do not error — pv-prosevoice's preflight degrades gracefully;
 the other four agents still run.
 
 ## Procedure
 
-### 1. Build the merged dictionary
+### 1. Build merged policy
 
-Resolve the incubator slug from the essay path (`Incubator/<slug>/ESSAY*.md`). Then:
+Use the selected essay's parent directory for `--cwd`, which discovers its git root. For parts
+in different directories, build policy per part so project and essay-local words do not leak
+between scopes. Missing optional files are tolerated. Inputs are read-only.
 
 ```bash
-SK="$SKILL_DIR"   # resolved per SKILL.md § SKILL_DIR
-DICT=$(env -u VIRTUAL_ENV uv run "$SK/scripts/build_user_dict.py" \
-  --global "$SK/harper/dictionary.txt" \
-  --sidecar "Incubator/<slug>/.harper-words")   # --sidecar may name a missing file; tolerated
+SK="$SKILL_DIR"
+POLICY=$(uv run "$SK/scripts/build_user_dict.py" \
+  --cwd "<essay-dir>" --sidecar "<essay-dir>/.harper-words" --json)
+DICT=$(printf '%s' "$POLICY" | uv run python -c 'import json,sys; print(json.load(sys.stdin)["dictionary"])')
+IGNORE=$(printf '%s' "$POLICY" | uv run python -c 'import json,sys; print(json.load(sys.stdin)["ignore_rules"])')
 ```
+
+Check the helper exit code before invoking Harper. `sources` in the JSON reports the files
+actually merged. Dictionary words are deduplicated case-sensitively; rule names are deduplicated
+and returned comma-separated, with blank lines and comments removed. An empty `IGNORE` means
+omit the `--ignore` option. Remove the temporary dictionary after all Harper passes finish.
 
 ### 2. Primary run (body prose)
 
-Comma-join the rule names in `ignore-rules.txt` (skip `#`-comment and blank lines) into
-`$IGNORE`. Pass essay **file paths, never stdin** — Harper's markdown awareness is keyed off
+Use the merged `$IGNORE` from step 1, not just the bundled rule file. Pass essay **file paths, never stdin** — Harper's markdown awareness is keyed off
 the `.md` extension; on stdin it would wrongly lint frontmatter and code. Discard stderr
 explicitly (do not rely on `--quiet` to clean JSON); read JSON from stdout.
 
@@ -102,12 +114,14 @@ Sort each surviving (deduped) lint into exactly one bucket:
 
 - **`real`** — a true defect. Body-prose `kind: Spelling` typos and genuine grammar errors.
 - **`advisory`** — surface, never auto-fix. `LongSentences`, `DisjointPrefixes`, and other
-  readability/style rules that are *sometimes* worth heeding (these are NOT in
-  `ignore-rules.txt`; they are deliberately reclassified here, not suppressed).
+  readability/style rules that are *sometimes* worth heeding (the bundled policy does not
+  suppress these; explicit user/project ignore rules are still honored).
 - **`proper-noun`** — a spell-check hit on a capitalized token that looks like a name. Do
   **not** flag as an error and do **not** silently edit. Emit a `proper-noun` finding that
-  **proposes** appending the token to `Incubator/<slug>/.harper-words`; the operator appends
-  on approval. `.harper-words` is committed editorial policy, not a build artifact.
+  **proposes** adding the token to project `.pv/dictionary.txt` for project-wide vocabulary,
+  or `<essay-dir>/.harper-words` for essay-only names; user-wide words belong in
+  `~/.pv/dictionary.txt`. Apply dictionary or ignore-rule additions only with approval,
+  identifying the intended scope. Never write to the installed bundled policy.
 
 ### 6. Auto-fix candidates (bounded)
 
@@ -129,7 +143,7 @@ Harper's char column; it diverges from byte offsets on the em-dash/curly-quote-h
 
 Everything that is not an auto-fix candidate — advisory, proper-noun, supplemental, any
 multi-suggestion or guard-failing spelling lint — is **surfaced**, consistent with
-blog-voice's preserve-wins rule.
+pv-prosevoice's preserve-wins rule.
 
 ## Output
 

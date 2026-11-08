@@ -1,4 +1,4 @@
-# Harper ignore-rules — blog-voice editorial tooling
+# Harper ignore-rules — pv-prosevoice editorial tooling
 #
 # Harper rule names permanently suppressed because they conflict with this repo's
 # deliberate house style. One rule name per line; a trailing comment after the

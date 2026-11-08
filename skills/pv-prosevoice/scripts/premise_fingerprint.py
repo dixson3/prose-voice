@@ -4,7 +4,7 @@
 # ///
 """Compute the deterministic premise fingerprint of an essay.
 
-The `blog-voice` curmudgeon/steelman adversarial pass is *gated*: it fires once per essay and is
+The `pv-prosevoice` curmudgeon/steelman adversarial pass is *gated*: it fires once per essay and is
 skipped when the essay's premise is unchanged since the last run. This script produces the stable
 token that decides "changed or not." It is deterministic and reproducible — a normalized-text hash
 over a DECLARED thesis region, so ordinary body-prose edits do not move it; only the essay's
@@ -98,7 +98,7 @@ def first_body_paragraph(body: str) -> str:
     for line in lines:
         s = line.strip()
         if not started:
-            if s == "" or s.startswith("#") or s.startswith("![") or s.startswith("<!--"):
+            if s == "" or s.startswith(("#", "![", "<!--")):
                 continue
             started = True
             para.append(s)
@@ -139,7 +139,7 @@ def fingerprint(path: Path) -> dict[str, str]:
 
 def main(argv: list[str]) -> int:
     ap = argparse.ArgumentParser(description="Deterministic premise fingerprint of an essay.")
-    ap.add_argument("essay", type=Path, help="path to ESSAY*.md")
+    ap.add_argument("essay", type=Path, help="path to a Markdown essay source")
     ap.add_argument("--json", action="store_true", help="emit the full result as JSON")
     args = ap.parse_args(argv)
 

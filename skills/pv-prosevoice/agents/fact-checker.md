@@ -29,16 +29,18 @@ the verdict and the correction.
 
 ## Context
 
-- The target `ESSAY*.md` (including its frontmatter `source:` list). For a multi-part essay, sibling
-  parts may also be supplied — a claim supported or cited in another part is not uncited.
-- The incubator's `research/` (Summary, sources, transcript synthesis) if present.
+- The caller-selected Markdown essay source path(s), including frontmatter `source:` lists,
+  in reading order for multiple parts. Review persuasive or explanatory narrative essays;
+  no filename or directory is required. A claim supported or cited in another supplied part is not uncited.
+- Caller-supplied research inputs, or adjacent `research/` directories if present
+  (summaries, sources, transcript synthesis). Research directories are optional.
 - Web search/fetch tools for external verification.
 
 ## Check
 
 1. **Uncited assertions.** Flag every factual claim — figures, named studies, dates, "research
    shows…", attributed quotes — that has no citation in the frontmatter `source:` list, the
-   incubator's `research/`, or inline.
+   available research inputs, or inline.
 2. **Accuracy.** For each external figure or named result, verify it against the cited primary
    source. Confirm the number, the attribution, and the framing match (e.g. a "skills, not jobs"
    study cited for a skills claim, not a jobs claim). Quote the source line.

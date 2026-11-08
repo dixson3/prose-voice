@@ -64,7 +64,7 @@ COMMENT_MARKERS = ("#", "//", "--", ";")
 class Snippet:
     """One extracted prose snippet and its back-map to the source."""
 
-    __slots__ = ("text", "orig_line", "orig_col_offset", "region", "coarse")
+    __slots__ = ("coarse", "orig_col_offset", "orig_line", "region", "text")
 
     def __init__(self, text: str, orig_line: int, orig_col_offset: int, region: str, coarse: bool = False):
         self.text = text
@@ -111,7 +111,7 @@ def extract_frontmatter(lines: list[str]) -> list[Snippet]:
             key = key.strip()
             if key in FRONTMATTER_PROSE_KEYS:
                 value = rest.strip()
-                if value.startswith(">") or value.startswith("|"):
+                if value.startswith((">", "|")):
                     # Block/folded scalar: collapse following more-indented lines into
                     # one coarse snippet mapped to the KEY's line (never char-precise).
                     block: list[str] = []
@@ -173,7 +173,7 @@ def scan_images(line: str, lineno: int) -> list[Snippet]:
         while p < n and line[p] not in (" ", "\t", ")"):
             p += 1
         title_text = None
-        title_col = None
+        title_col = 0  # meaningful only when title_text is set
         # Optional whitespace then a title.
         q = p
         while q < n and line[q] in (" ", "\t"):
@@ -234,7 +234,7 @@ def extract_body(lines: list[str], body_start: int) -> list[Snippet]:
         stripped = line.strip()
 
         # Fence open/close detection.
-        if not in_fence and (stripped.startswith("```") or stripped.startswith("~~~")):
+        if not in_fence and stripped.startswith(("```", "~~~")):
             marker = "```" if stripped.startswith("```") else "~~~"
             info = stripped[len(marker):].strip()
             in_fence = True
@@ -296,9 +296,8 @@ def main(argv: list[str] | None = None) -> int:
     if args.out_md:
         out_md = Path(args.out_md)
     else:
-        fd = tempfile.NamedTemporaryFile(mode="w", suffix=".prose.md", delete=False, encoding="utf-8")
-        fd.close()
-        out_md = Path(fd.name)
+        with tempfile.NamedTemporaryFile(mode="w", suffix=".prose.md", delete=False, encoding="utf-8") as fd:
+            out_md = Path(fd.name)
 
     # One snippet per line; temp line number is 1-based.
     out_md.write_text("\n".join(s.text for s in snippets) + ("\n" if snippets else ""), encoding="utf-8")

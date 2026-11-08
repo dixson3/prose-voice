@@ -5,28 +5,34 @@ repository. `CLAUDE.md` is a thin `@`-include of this file; put no content there
 
 ## What this repo is
 
-The source of truth for the `blog-voice` skill, packaged for installation into several harnesses.
-It is not a writing repo: there are no essays here, and the skill's triggers do not apply to files
-in this repo.
+The source of truth for the `pv-prosevoice` and `pv-preflight` skills for Markdown-first narrative
+essays, installed into agent harnesses with `npx skills add dixson3/prose-voice`. It is not a writing
+repo: there are no essays here, and the skills' triggers do not apply to files in this repo.
 
 ## Layout
 
-- `skills/blog-voice/` — the skill. Edit here; never edit an installed copy.
-- `skills/blog-voice/protocols/BLOG_VOICE.md` — the always-loaded companion rule. `install.sh`
-  deploys it as a rule file (Claude Code) or as a managed block in `AGENTS.md` (pi, Codex,
-  opencode).
-- `templates/` — blank `VOICE.md` / `AUDIENCE.md` / `ILLUSTRATIONS.md`. Keep their section
-  headings in sync with the names the agents look up (`Register`, `Readability`, `Do / Don't`,
-  `Generative-cadence tells`, `The reader`, `De-jargon table`, `Style block`, `Aspect`).
-- `install.sh` — multi-harness installer. Must stay compatible with macOS `/bin/bash` 3.2.
+- `skills/pv-prosevoice/` — the editorial pipeline. Edit here; never edit an installed copy.
+- `skills/pv-preflight/` — dependency checks, voice-file resolution and seeding, rule install.
+  - `PV-PROTOCOL.md` — the always-loaded companion rule. `scripts/preflight.py rule` deploys it
+    as `.claude/rules/PV-PROTOCOL.md` or as a managed block in an `AGENTS.md`.
+  - `templates/` — blank `VOICE.md` / `AUDIENCE.md`. Keep their section headings in sync with the
+    names the agents look up (`Register`, `Readability`, `Do / Don't`,
+    `Generative-cadence tells`, `The reader`,
+    `De-jargon table`, `Figure text`), and keep the `pv-template: unfilled` marker line.
 
 ## Conventions
 
-- Paths inside the skill are relative to the skill directory and resolved through the
-  `SKILL_DIR` block in `SKILL.md`. Do not hard-code `.claude/skills/...` paths.
+- Guidance resolves per file: optional configured `.pv/config.json` paths → project `.prose-voice/` →
+  `~/.prose-voice/`. `pv-preflight/scripts/pv_config.py` owns configuration and artifact paths;
+  agents receive resolved content and output paths. Intermediate files default to gitignored
+  `.pv/cache/`, with optional adjacent placement. Final assets stay with the Markdown essay.
+- Paths inside a skill are relative to that skill's directory, resolved through the `SKILL_DIR`
+  block in its `SKILL.md`. `pv-prosevoice` reaches `pv-preflight` as the sibling directory. Do not
+  hard-code `.claude/skills/...` paths.
 - Helper scripts are stdlib-only PEP 723 scripts run with `uv run`.
-- The skill must stay harness-neutral: no Claude-only frontmatter is relied on for behaviour.
-- After changing the skill, smoke-test with
-  `./install.sh --scope project --project-root "$(mktemp -d)" --harness all --dry-run`.
+- The skills must stay harness-neutral: no Claude-only frontmatter is relied on for behaviour.
+- After changing a skill, install both skills from the absolute source repo path into a scratch
+  git repo with `npx skills add <source-repo> -s pv-prosevoice -s pv-preflight -a claude-code -a pi -y`.
+  Run the installed preflight and `uv run python -m unittest discover -s tests` in the source repo.
 - All markdown is valid GFM.
 - Task tracking uses `bd` (beads). Never markdown TODOs.

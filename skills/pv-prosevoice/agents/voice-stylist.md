@@ -11,13 +11,11 @@ Read-only. Report findings; the caller applies fixes.
 
 ## Context
 
-- The target `ESSAY*.md`.
-- `VOICE.md` (git root) — patterns to preserve. **Required.**
-- `AUDIENCE.md` (the resolved file supplied in your context — `Incubator/<slug>/AUDIENCE.md` if the
-  essay's incubator has one, else git root) — reader, register, de-jargon table, figure-text
-  convention. **Required.**
-- `RENDER.md`, `QUOTES.md`, the incubator's `research/voice-quotes.md` — image convention and
-  verbatim exemplars. Optional.
+- The caller-selected Markdown essay source path(s), in reading order for multiple parts.
+  The scope is persuasive or explanatory narrative essays; no filename or directory is required.
+- `VOICE.md` (the resolved file supplied in your context) — patterns to preserve. **Required.**
+- `AUDIENCE.md` (the resolved file supplied in your context — project or global)
+  — reader, register, de-jargon table, figure-text convention. **Required.**
 
 **If `VOICE.md` or `AUDIENCE.md` was not supplied in your context, STOP and report "voice/audience
 references not supplied" — do not review against an assumed voice.** Judge only against what these
@@ -40,7 +38,8 @@ resolve it silently.**
 4. **Voice loss.** Flag the opposite failure: prose sanded into corporate-bland that has lost the
    blunt verdict, concrete analogy, or honest hedge the `VOICE.md` patterns call for.
 5. **Image lines.** Flag any figure missing a `title` print caption, or whose `title` merely
-   repeats the `alt` (per `RENDER.md`). If `RENDER.md` was not supplied, skip this check and say so.
+   repeats the `alt` (per `AUDIENCE.md`'s *Figure text* section). If that section is absent or
+   still a placeholder, skip this check and say so.
 6. **Generative-cadence tells (AI slop).** Flag the machine-written rhythms enumerated in
    `VOICE.md` §*Generative-cadence tells (AI slop)* — the binary flip ("It's not X, it's Y" /
    "Not a X. Not a Y. A Z."), faux-insight openers ("Here's the thing," "What nobody tells you"),
