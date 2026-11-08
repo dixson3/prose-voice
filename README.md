@@ -66,7 +66,7 @@ file's `pv-template: unfilled` line; until then the skill is a silent no-op.
 | :-- | :-- |
 | `.claude/skills/` (project or `~`) | `.claude/rules/PV-PROTOCOL.md` |
 | `<root>/.agents/skills/` | managed block in `<root>/AGENTS.md` |
-| `~/.agents/skills/` | managed block in `~/.pi/agent/AGENTS.md` and `~/.codex/AGENTS.md` (each only if that harness is present) |
+| `~/.agents/skills/` | managed block in `~/.pi/agent/AGENTS.md`, `~/.codex/AGENTS.md` and `~/.config/opencode/AGENTS.md` (each only if that harness is present) |
 | `~/.config/opencode/skills/` | managed block in `~/.config/opencode/AGENTS.md` |
 
 `rule --apply` also removes rule files and `AGENTS.md` blocks left by the old `blog-voice`

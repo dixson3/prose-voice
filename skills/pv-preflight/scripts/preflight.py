@@ -29,8 +29,8 @@ A file is usable when it exists, is non-empty, and no longer carries the
 Rule targets follow where pv-prosevoice is installed (project = git root, global = $HOME):
   .claude/skills/pv-prosevoice             -> .claude/rules/PV-PROTOCOL.md
   <root>/.agents/skills/pv-prosevoice      -> managed block in <root>/AGENTS.md
-  ~/.agents/skills/pv-prosevoice           -> managed block in ~/.pi/agent/AGENTS.md (if ~/.pi
-                                              exists) and ~/.codex/AGENTS.md (if ~/.codex exists)
+  ~/.agents/skills/pv-prosevoice           -> managed blocks in existing pi, Codex and OpenCode
+                                              harness AGENTS.md files
   ~/.config/opencode/skills/pv-prosevoice  -> managed block in ~/.config/opencode/AGENTS.md
 Legacy blog-voice rule artifacts in those locations are reported and removed by `rule --apply`.
 """
@@ -157,7 +157,8 @@ def rule_targets(root: Path | None) -> list[dict]:
             if agents_installed and (home / ".codex").is_dir():
                 targets.append({"scope": scope, "harness": "codex", "kind": "block",
                                 "path": home / ".codex/AGENTS.md"})
-            if (home / ".config/opencode/skills" / SKILL).exists():
+            if ((agents_installed and (home / ".config/opencode").is_dir())
+                    or (home / ".config/opencode/skills" / SKILL).exists()):
                 targets.append({"scope": scope, "harness": "opencode", "kind": "block",
                                 "path": home / ".config/opencode/AGENTS.md"})
     return targets

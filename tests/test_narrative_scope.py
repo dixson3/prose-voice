@@ -118,6 +118,14 @@ class NarrativeScopeTests(unittest.TestCase):
         with self.assertRaises(ValueError):
             preflight.artifact_paths(essay, self.root)
 
+    def test_shared_global_install_targets_opencode_once(self):
+        (self.home / ".agents/skills/pv-prosevoice").mkdir(parents=True)
+        (self.home / ".config/opencode").mkdir(parents=True)
+        targets = preflight.rule_targets(None)
+        self.assertEqual([t["harness"] for t in targets], ["opencode"])
+        (self.home / ".config/opencode/skills/pv-prosevoice").mkdir(parents=True)
+        self.assertEqual(len(preflight.rule_targets(None)), 1)
+
     def test_source_flags_still_block_any_part(self):
         first = self.write("one.md", "An explanation.")
         second = self.write("two.md", "---\nstatus: ready\n---\nClaim [needs-source]\n")

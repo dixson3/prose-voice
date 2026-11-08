@@ -103,7 +103,7 @@ root, global = `$HOME`):
 | :-- | :-- |
 | `.claude/skills/pv-prosevoice` | `.claude/rules/PV-PROTOCOL.md` |
 | `<root>/.agents/skills/pv-prosevoice` | managed block in `<root>/AGENTS.md` |
-| `~/.agents/skills/pv-prosevoice` | managed block in `~/.pi/agent/AGENTS.md` and `~/.codex/AGENTS.md` (each only if that harness dir exists) |
+| `~/.agents/skills/pv-prosevoice` | managed block in `~/.pi/agent/AGENTS.md`, `~/.codex/AGENTS.md` and `~/.config/opencode/AGENTS.md` (each only if that harness dir exists) |
 | `~/.config/opencode/skills/pv-prosevoice` | managed block in `~/.config/opencode/AGENTS.md` |
 
 The managed block is delimited by `<!-- BEGIN pv-protocol … -->` / `<!-- END pv-protocol -->`;
