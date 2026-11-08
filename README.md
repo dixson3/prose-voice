@@ -1,97 +1,205 @@
 # prose-voice
 
-Agent skills for writing and reviewing persuasive or explanatory narrative essays: voice and readability checks, claim sourcing, grammar, argument and reader-experience review, and optional visual aids. Draft and revise in Markdown, then export to HTML, DOCX, PowerPoint, PDF or another requested format as the final step. Blog posts are supported without assuming a publishing channel. Installed with [`skills`](https://github.com/vercel-labs/skills) into Claude Code, pi, Codex, opencode and any other agent that CLI supports.
+Version: **[1.1.0](VERSION)**. The repository uses semantic versioning (`MAJOR.MINOR.PATCH`); `VERSION` is the version source of truth, and release tags use the form `v1.1.0`.
 
-The voice is not in this repo. The skills read `VOICE.md` and `AUDIENCE.md` from `.prose-voice/` in the writing repo, falling back per file to `~/.prose-voice/`.
+Write and review persuasive or explanatory essays with an AI agent while preserving the author's voice and addressing a defined reader. prose-voice coordinates checks for clarity, evidence, grammar, argument and reader experience. Optional visuals support the explanation, and final exports can be Markdown, HTML, PDF, a document or a slide deck.
 
-## Skills
+You define the editorial direction in three guidance files: **`VOICE.md` describes how the author writes, `AUDIENCE.md` describes who they are writing for, and optional `ILLUSTRATIONS.md` describes how visuals should look.** The skills read these guides before reviewing an essay; they do not assume a universal house style.
 
-| Skill | Purpose |
-| :-- | :-- |
-| `pv-prosevoice` | The editorial pipeline: DRAFT / REVIEW / READY stage gates, agents, helper scripts. |
-| `pv-preflight` | Called by `pv-prosevoice` before every gate. Checks dependencies, resolves the voice files, seeds blank templates, and installs the always-loaded `PV-PROTOCOL.md` rule. |
+Drafts and revisions stay in Markdown, using one file or an explicitly ordered set of parts. Other formats are final exports. Blog posts are supported, but no publishing channel, filename or directory layout is required.
 
-## Layout
+## What is included
 
-```text
-skills/pv-prosevoice/      the pipeline
-  SKILL.md                 router, stage gates, write authority
-  agents/                  one prompt per editorial step
-  harper/                  Harper dictionary + suppressed rules
-  scripts/                 uv-run helpers (stdlib only)
-skills/pv-preflight/       setup and checks
-  SKILL.md
-  PV-PROTOCOL.md           always-loaded companion rule (triggers + pre-surface rule)
-  scripts/preflight.py     check | resolve | seed | artifacts | rule
-  scripts/pv_config.py     shared guidance and intermediate-path configuration
-  templates/               blank VOICE.md, AUDIENCE.md, ILLUSTRATIONS.md
-examples/                  filled, generic examples of all three guides
-```
+Install both skills together:
 
-## Install
+| Skill           | Role                                                                                                                                                    |
+| :-------------- | :------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| `pv-prosevoice` | Drafting and editorial review: voice, readability, sources, grammar, provenance, argument, reader experience and optional visuals.                      |
+| `pv-preflight`  | Setup and checks: finds guidance, checks tool availability, seeds templates, resolves review-file locations and installs the small activation reminder. |
 
-Requires Node.js 22.20+ for `npx skills`. Install both skills together.
+These are instructions and helper scripts for an AI coding agent, not a standalone writing application. They are packaged for installation through [`skills`](https://github.com/vercel-labs/skills). The commands below target Claude Code, pi, Codex and OpenCode.
+
+## Install and set up
+
+### 1. Install the skills
+
+The installer requires Node.js 22.20 or newer. The helpers require `uv` and `git`. Run project installation from the Git repository where you write, or choose user scope to make the skills available across projects.
 
 ```bash
-# Project scope (run from the writing repo)
+# Project scope
 npx skills add dixson3/prose-voice -s pv-prosevoice -s pv-preflight -a claude-code -a pi -a codex -a opencode
 
-# User scope
+# Alternatively, user scope
 npx skills add dixson3/prose-voice -s pv-prosevoice -s pv-preflight -g -a claude-code -a pi -a codex -a opencode
 ```
 
-`skills` writes one canonical copy under `.agents/skills/` and symlinks it into the other agents' skill directories. Use `--copy` if symlinks are not wanted. Update with `npx skills update`.
+The installer uses `.agents/skills/` as a shared location and creates harness-specific links where needed. Use `--copy` if you prefer copies to symlinks.
 
-Then set up, from the writing repo, either by invoking `/pv-preflight` in an agent or directly:
+### 2. Set up guidance
 
-```bash
-PF="uv run .agents/skills/pv-preflight/scripts/preflight.py"   # ~/.agents/... at user scope
-$PF check                                  # report deps, voice files, rule state
-$PF seed --scope project --apply           # .prose-voice/{VOICE,AUDIENCE}.md (or --scope global)
-$PF rule --apply                           # install PV-PROTOCOL.md where pv-prosevoice is installed
-```
+Ask your agent to run `pv-preflight`, or invoke `/pv-preflight` where the harness supports slash commands. Choose project or user scope for the guidance files. Skill installation scope and guidance scope are independent: a user-installed skill can use project-specific guidance.
 
-`seed` and `rule` are dry runs without `--apply`. Fill in both voice files and delete each file's `pv-template: unfilled` line; until then the skill is a silent no-op.
-
-### Where the rule goes
-
-| `pv-prosevoice` found at | `PV-PROTOCOL.md` installed to |
-| :-- | :-- |
-| `.claude/skills/` (project or `~`) | `.claude/rules/PV-PROTOCOL.md` |
-| `<root>/.agents/skills/` | managed block in `<root>/AGENTS.md` |
-| `~/.agents/skills/` | managed block in `~/.pi/agent/AGENTS.md`, `~/.codex/AGENTS.md` and `~/.config/opencode/AGENTS.md` (each only if that harness is present) |
-| `~/.config/opencode/skills/` | managed block in `~/.config/opencode/AGENTS.md` |
-
-`rule --apply` also removes rule files and `AGENTS.md` blocks left by the old `blog-voice` `install.sh`.
-
-### Uninstall
+For direct setup, run these commands from your writing repository:
 
 ```bash
-$PF rule --remove --apply
-npx skills remove pv-prosevoice pv-preflight      # add -g for user scope
+# Use this path for project-installed skills:
+PF=".agents/skills/pv-preflight/scripts/preflight.py"
+
+# For user-installed skills, use this instead:
+# PF="$HOME/.agents/skills/pv-preflight/scripts/preflight.py"
+
+uv run "$PF" seed --scope project --apply
+uv run "$PF" rule --apply
 ```
 
-## Voice files
+Use `--scope global` with `seed` to create guidance in `~/.prose-voice/`. Without `--apply`, `seed` and `rule` preview their changes. Seeding never overwrites an existing guide and creates only the required `VOICE.md` and `AUDIENCE.md` templates.
 
-Resolved per file, first usable match wins: `<git-root>/.prose-voice/<file>` → `~/.prose-voice/<file>`. A project can override one file and inherit the other. The image alt/title convention is the `## Figure text` section in `AUDIENCE.md`.
+Fill in both files and remove their `pv-template: unfilled` comment. You can adapt the [filled examples](examples/) instead of starting from blank templates. Illustration guidance is optional; copy the [ILLUSTRATIONS template](skills/pv-preflight/templates/ILLUSTRATIONS.md) into the same guidance directory when you want it, without overwriting an existing guide.
 
-Optional `ILLUSTRATIONS.md` resolves through the same project/global paths. Supply it when you want consistent visual style, tool preferences, palette, typography or aspect ratios. It is not required or seeded by setup; missing guidance never blocks prose review or useful visual work. Visuals are chosen for the explanation: Mermaid diagrams, Pikchr drawings, evidence-based charts, or raster illustrations from GPT-image, Nano Banana or another available tool. Preserve editable sources/prompts and inspect results. Unillustrated essays need no visual-selection bookkeeping.
+### 3. Check and start writing
 
-### Templates and examples
+```bash
+uv run "$PF" check
+```
 
-The [ILLUSTRATIONS template](skills/pv-preflight/templates/ILLUSTRATIONS.md) provides an optional visual brief with `Style block`, `Aspect`, and accuracy/accessibility sections. Copy it from the installed preflight skill's `templates/` directory to `.prose-voice/ILLUSTRATIONS.md` (or `~/.prose-voice/ILLUSTRATIONS.md`), fill it in and remove the `pv-template: unfilled` marker. Check for an existing guide before copying. `seed` continues to create only the two required guides.
+The check reports required tools, resolved guides and companion-rule status. Empty files and files still marked `pv-template: unfilled` are not usable guidance. If a required guide is missing, an explicit skill request reports the setup needed; automatic edit checks quietly skip editorial work. Missing illustration guidance does not block review or visual work.
 
-The repository's [`examples/`](examples/) directory contains filled, vendor-neutral starting points:
+## Start an essay or request a review
 
-- [VOICE.md](examples/VOICE.md): plain language, evidence, uncertainty and prose mechanics.
-- [AUDIENCE.md](examples/AUDIENCE.md): a general professional reader, jargon and accessible figures.
-- [ILLUSTRATIONS.md](examples/ILLUSTRATIONS.md): restrained pen-and-ink illustration, legible diagrams and optional aspect preferences.
+Use `pv-prosevoice` explicitly, or ask for essay writing or review in ordinary language. For example:
 
-Adapt these examples to the actual author and reader before using them. They contain no company or personal names, and are not installed as active guidance or seeded automatically.
+> Use pv-prosevoice to draft an explanatory essay in `essays/shared-queues.md` about why shared work queues sometimes reduce delays. Use our guidance files, distinguish evidence from assumptions, and leave unsupported factual claims visible.
 
-## Project configuration
+> Review `essays/shared-queues.md` for clarity and evidence. Treat it as an explanation rather than a persuasive argument. Report proposed changes before rewriting my prose.
 
-Optional `.prose-voice/config.json` adds guidance locations and selects where intermediate files go:
+> Review `opening.md`, `mechanism.md` and `conclusion.md` as one essay, in that order. Check for repetition and gaps between the parts.
+
+> Prepare this essay for a final PDF. Complete the readiness checks, report unresolved issues, then export when they are resolved or explicitly accepted.
+
+When useful, add a request such as “Propose a diagram of the process using our illustration guidance.” Visuals are created only when requested or agreed, not as an automatic consequence of editing an essay.
+
+The skill description and a small companion rule remind the agent to invoke review after edits to an identified essay and before presenting prose it authored or rewrote. These are agent instructions, not a filesystem watcher or an enforced save hook. Explicit invocation is useful when you want to ensure the agent loads the workflow. Unrelated notes, code, review reports and exports are outside automatic essay review.
+
+## The guidance files
+
+### `VOICE.md`: how the author writes
+
+This required guide defines the author's voice and editorial preferences. It is used during drafting and by the voice and readability reviewers. Record concrete rules and examples rather than adjectives alone: “state the condition alongside the claim” gives a reviewer more direction than “be thoughtful.”
+
+| Section                                      | How it is used                                                                                              |
+| :------------------------------------------- | :---------------------------------------------------------------------------------------------------------- |
+| How the author argues / patterns to preserve | Identifies distinctive moves, verdicts, analogies and qualifications that must not be silently edited away. |
+| Register / mechanics                         | Sets tone, person, tense, punctuation and other prose conventions.                                          |
+| Readability                                  | Guides checks for sentence length, clause density, paragraph focus and placement of the main point.         |
+| Do / Don't                                   | Supplies concrete preferences for drafting and review.                                                      |
+| Generative-cadence tells                     | Identifies repetitive or formulaic constructions the author wants flagged.                                  |
+| Forms, optional                              | Adapts the voice to requested forms, such as slide titles and speaker notes.                                |
+
+Protected voice patterns take precedence over routine cleanup. A reviewer may raise a concern about one, but must not silently replace it. Keep visual style in `ILLUSTRATIONS.md`, rather than mixing it into prose guidance.
+
+[Blank VOICE template](skills/pv-preflight/templates/VOICE.md) · [Filled VOICE example](examples/VOICE.md)
+
+### `AUDIENCE.md`: who the essay is for
+
+This required guide describes the actual reader: what they already understand, what needs explanation, why they are reading and what they should be able to understand or decide afterwards. It shapes terminology, context, examples and the amount of detail the essay needs.
+
+| Section               | How it is used                                                                                                                                   |
+| :-------------------- | :----------------------------------------------------------------------------------------------------------------------------------------------- |
+| The reader            | Supplies the target persona. The cold-read reviewer encounters the essay as this reader, without the author's voice instructions.                |
+| Register              | Describes the tone and assumed background appropriate for that reader.                                                                           |
+| Loosen for the reader | Guides how much to unpack, when to define terms and when to add examples.                                                                        |
+| De-jargon table       | Provides specific replacements. Automatic replacement is allowed only for an exact match that remains grammatical and preserves protected voice. |
+| Figure text           | Defines accessible alt text, captions and title conventions.                                                                                     |
+
+For example, a voice guide might favor direct, compact prose while an audience guide asks for an unfamiliar process to be explained step by step. The result should retain that voice while supplying the missing context. The two guides address different questions and are used together.
+
+An essay's optional frontmatter `audience:` can override the reader persona for that essay. It does not replace the rest of `AUDIENCE.md` or remove the requirement for the guide.
+
+[Blank AUDIENCE template](skills/pv-preflight/templates/AUDIENCE.md) · [Filled AUDIENCE example](examples/AUDIENCE.md)
+
+### `ILLUSTRATIONS.md`: how optional visuals should look
+
+This optional guide supplies a visual brief: medium, palette, typography, composition, accessibility, aspect ratios and any tool preferences. Its **Style block** should stand alone as a usable brief; **Aspect** gives sizing preferences for visuals that are actually requested.
+
+The illustrator combines that guidance with the point the visual needs to explain. A process may suit a diagram, a comparison may suit a chart, and a conceptual idea may suit a raster illustration. Tool choice follows the content and available capabilities; no image vendor is required.
+
+The guide does not impose a cover image, a visual for every section or any image quota. Without it, the agent can still propose useful visuals using the user's instructions. `AUDIENCE.md` supplies reader-facing figure-text conventions; `ILLUSTRATIONS.md` supplies visual treatment. Final assets and editable sources stay with the essay.
+
+[Blank ILLUSTRATIONS template](skills/pv-preflight/templates/ILLUSTRATIONS.md) · [Filled ILLUSTRATIONS example](examples/ILLUSTRATIONS.md)
+
+The filled examples are generic, vendor-neutral starting points without company or personal names. Adapt them to your own author and audience. They are not installed as active guidance automatically.
+
+### Where guides are found
+
+Each guide resolves independently, taking the first usable file:
+
+1. Additional paths configured for that filename in the project's `.prose-voice/config.json`.
+2. `<git-root>/.prose-voice/<filename>`.
+3. `~/.prose-voice/<filename>`.
+
+For example, you can keep a personal `VOICE.md` at user scope and a project-specific `AUDIENCE.md` in the writing repository. A project guide replaces the user guide for that file; their contents are not merged. The resolved contents are passed to reviewers so they use the same references.
+
+Use `uv run "$PF" resolve` to inspect which files are selected. The project directory is the Git root, not necessarily the directory containing the essay. Configuration paths are described below.
+
+## How editorial review works
+
+The workflow separates developing prose, examining its claims and preparing a final deliverable. A stage selects the applicable checks; it is not a guarantee that the essay is correct or ready to publish.
+
+| Stage    | Main work                                                                                                                                                      |
+| :------- | :------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `idea`   | No automatic editorial pass until you ask to develop the idea.                                                                                                 |
+| `draft`  | Voice and readability, source gaps and grammar. Explicit drafting and review before presenting agent-authored prose also include a copy-editor pass.           |
+| `review` | Evidence, source accuracy, provenance and grammar. Persuasive essays also receive argument and reader-experience checks plus a premise challenge and response. |
+| `ready`  | Source-gap and planned-visual checks, the full applicable editorial review, then the requested final export after issues are resolved or accepted.             |
+
+You can select a stage in your request or use optional frontmatter. Missing `status:` defaults to `draft`; an explicit review or readiness request selects the corresponding stage.
+
+```yaml
+---
+status: draft
+intent: explanatory
+thesis: Clear ownership matters more than the choice of queue.
+audience: Team members evaluating how to handle incoming requests.
+---
+```
+
+**Intent determines the depth of argument review.** Persuasive essays aim to change a belief or support a decision. Explanatory essays aim to make an account or process understandable; `informational` is also accepted as an intent value. Your explicit intent takes precedence over frontmatter. If neither the request nor frontmatter specifies intent, the agent infers it from the narrative and reports the choice. A `thesis:` field alone does not make an essay persuasive.
+
+Argument review includes a red-team pass for weaknesses, a cold read from the target reader's perspective, and a curmudgeon/steelman pair that challenges the premise and develops a response. Explanatory essays add these checks when requested or when a contested explanation warrants them. The premise pair may reuse prior reports when the relevant fingerprints and reviewed parts still match.
+
+Fact-checking asks whether claims and citations are accurate. Provenance review asks where claims came from, whether the reader can trace the evidence, and whether actual internal material is suitable for the intended audience. The agent reports unavailable checks and unresolved findings rather than treating them as passes. Unsupported claims remain marked `[needs-source]`; readiness requires resolving them or an explicit, reported user override. A script passing does not establish factual accuracy.
+
+### What the agent may change
+
+Review findings generally remain proposals. Routine exceptions are narrowly defined: exact, grammatical de-jargon substitutions and guarded, unambiguous spelling corrections in body prose. Meaning-level changes, protected voice patterns and uncertain cases are surfaced for a decision.
+
+Before presenting prose it authored or rewrote during the current turn, the agent may clean voice and readability violations within those authored regions and add supporting footnotes. Existing user prose and uncertain authorship do not receive that cleanup automatically. On-edit review reports findings without automatically cleaning the essay. Citation and visual insertions into user prose are proposed for confirmation.
+
+The workflow does not authorize committing, publishing or distributing an essay. It does not automatically generate social posts, newsletters or promotional material.
+
+### Markdown and final exports
+
+Use any Markdown filenames, or provide an explicit reading order for multiple files. Existing non-Markdown inputs are converted to Markdown before editorial work, preserving the original and reporting extraction limitations. For a presentation, settle the narrative and slide sequence in Markdown first.
+
+After readiness review, export only to the requested format using an appropriate available tool. Check the result for completeness, reading order, citations, links, visuals and layout. Retain Markdown and editable visual sources; later revisions start there and regenerate the export. If Markdown is the deliverable, no conversion is needed.
+
+## Configuration and review files
+
+A typical project uses one helper directory:
+
+```text
+.prose-voice/
+  VOICE.md
+  AUDIENCE.md
+  ILLUSTRATIONS.md       optional
+  config.json           optional project settings
+  dictionary.txt        optional Harper vocabulary
+  ignore-rules.txt      optional Harper rule exclusions
+  .gitignore            ignores /cache/
+  cache/                intermediate reviews and visual history
+```
+
+Optional project configuration can add guide locations and choose where intermediate files go:
 
 ```json
 {
@@ -99,41 +207,71 @@ Optional `.prose-voice/config.json` adds guidance locations and selects where in
     "AUDIENCE.md": ["guides/readers.md"],
     "ILLUSTRATIONS.md": ["guides/visuals.md"]
   },
-  "artifacts": {"location": "cache"}
+  "artifacts": { "location": "cache" }
 }
 ```
 
-Configured paths are tried in order before the usual project/global `.prose-voice/` locations. Relative paths are relative to the git root; absolute and `~` paths also work. Each reference falls back independently. External tools can seed this configuration without coupling the skill to their directory layout. See [preflight configuration](skills/pv-preflight/SKILL.md#project-configuration-and-intermediate-files).
+Configured paths are tried in order before the standard locations. Relative paths resolve from the Git root; absolute paths and `~` are supported. Invalid configuration is reported as an error. The configuration file itself is project-scoped; user-scoped guidance and Harper policy do not require one.
 
-Intermediate `*.curmudgeon.md`, `*.steelman.md` and `*.illustrations.md` default to `.prose-voice/cache/<essay-relative-directory>/`. Preflight prepares this location and adds `/cache/` to `.prose-voice/.gitignore`. Set `artifacts.location` to `adjacent` to place them beside the essay instead. Switching modes does not move existing files. Final visual assets and editable diagram sources stay with the essay so exports do not depend on disposable cache contents.
-
-When upgrading from `.pv/`, move its `config.json`, `dictionary.txt` and `ignore-rules.txt` into `.prose-voice/` at the same scope, merging any existing files rather than overwriting them. The old cache can be moved or regenerated. Helpers use only the new paths; they do not migrate existing files automatically.
+Review reports and visual iteration history default to `.prose-voice/cache/<essay-relative-directory>/`. Preflight creates the cache ignore rule without replacing existing rules. Guidance and policy files remain versionable. Outside a Git repository, the cache is placed in `.prose-voice/cache/` beside the essay.
 
 ```bash
-$PF artifacts path/to/essay.md          # preview paths
-$PF artifacts path/to/essay.md --apply  # prepare directory and cache ignore rule
+uv run "$PF" artifacts path/to/essay.md          # preview paths
+uv run "$PF" artifacts path/to/essay.md --apply  # prepare directories and cache ignore rule
 ```
 
-## Harper dictionaries and ignored rules
+Set `artifacts.location` to `adjacent` to put intermediate files beside the essay instead. Changing this setting does not move existing files. On-edit findings are surfaced in chat; explicit and pre-surface reviews may save reports. Final visual assets and editable sources are kept with the essay, so exports do not depend on the disposable cache.
 
-Project `.prose-voice/dictionary.txt` and `.prose-voice/ignore-rules.txt` are merged with user-scoped `~/.prose-voice/dictionary.txt` and `~/.prose-voice/ignore-rules.txt`, bundled policy, and optional essay-local `.harper-words`. All layers are additive unions; project files do not replace user policy. Only `.prose-voice/cache/` is ignored, so project policy files can be versioned.
+## Optional tools and grammar policy
 
-Dictionary files contain one word per line (case preserved). Rule files contain one Harper rule name per line. Both ignore blank lines and full-line `#` comments; rule files also allow trailing comments. Missing optional files are fine. No existing policy file is rewritten by the merge.
+| Capability                  | Availability and fallback                                                                                                                                                                                                   |
+| :-------------------------- | :-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Harper spelling and grammar | Uses `harper-cli` (for example, `brew install harper` on macOS). If absent, the Harper pass is reported as skipped; the copy-editor still runs where applicable.                                                            |
+| Web search and retrieval    | Used for source discovery and verification when the agent has these tools. Without them, use supplied evidence and report unverified claims or `[needs-source]` gaps. Routine edit checks do not launch fresh web searches. |
+| Visual tools                | Selected only when visuals are requested. Diagrams, charts and raster illustrations can use different tools; no provider is mandatory.                                                                                      |
+| Export tools                | Depend on the requested format. Missing tools or rendering limitations are reported rather than claiming an unverified export.                                                                                              |
 
-The grammar agent uses `build_user_dict.py --cwd <essay-dir> --json` to obtain both the merged dictionary and ignored rules. Repeatable `--user-dict <path>` / `--user-ignore <path>` options include user policy stored elsewhere. Additions require approval at the appropriate scope.
+Harper combines bundled policy with user files at `~/.prose-voice/dictionary.txt` and `~/.prose-voice/ignore-rules.txt`, the corresponding project files, and optional essay-local `.harper-words`. Unlike guidance-file resolution, **Harper policy is merged additively**: project entries do not remove user vocabulary or re-enable suppressed rules.
 
-## Requirements
+Dictionary files contain one word per line, preserving case. Ignore files contain one Harper rule name per line. Both support blank lines and full-line `#` comments; rule files also support trailing comments. Policy additions require approval, and merging does not rewrite the inputs. Advanced callers can supply additional policy paths through the helpers' repeatable `--user-dict` and `--user-ignore` options.
 
-- `uv` and `git` — required.
-- `harper-cli` (`brew install harper`) — grammar step; absent, it is skipped.
-- Visual and export tools — selected for the requested content and final format; no mandatory image provider.
-- Web search/fetch tools — footnoter gap-filling; absent, claims are flagged `[needs-source]`.
+## Activation reminder, updates and removal
 
-## Essay workflow
+`pv-preflight rule --apply` installs the short `PV-PROTOCOL.md` reminder. It tells the agent when to load the skill; the full workflow remains in `SKILL.md`.
 
-Use one Markdown source or an explicitly ordered set of Markdown parts, with any filenames. `ESSAY.md` / `ESSAY-<n>.md` remain supported conventions; no particular directory layout is required. Existing non-Markdown inputs are converted to Markdown before editorial work. The frontmatter `status:` can be `idea`, `draft`, `review` or `ready`; missing status defaults to draft, and an explicit review/export request selects the appropriate gate. Optional `thesis:` states the main claim or explanation.
+| Installation detected                          | Rule destination                                                                                                                                       |
+| :--------------------------------------------- | :----------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Project or user `.claude/skills/pv-prosevoice` | Corresponding `.claude/rules/PV-PROTOCOL.md`                                                                                                           |
+| Project `.agents/skills/pv-prosevoice`         | Managed block in the project's `AGENTS.md`                                                                                                             |
+| User `.agents/skills/pv-prosevoice`            | Managed blocks in existing pi, Codex and OpenCode harness configuration: `~/.pi/agent/AGENTS.md`, `~/.codex/AGENTS.md`, `~/.config/opencode/AGENTS.md` |
+| User `.config/opencode/skills/pv-prosevoice`   | Managed block in `~/.config/opencode/AGENTS.md`                                                                                                        |
 
-DRAFT checks voice, readability, sourcing and grammar, with a copy-editing pass for explicit and pre-surface drafts. REVIEW checks evidence and provenance for both intents; persuasive essays also receive argument/reader checks and the adversarial pair. Explanatory essays add those when warranted or requested. READY runs the full applicable pass and checks source gaps and planned visuals. Then export the settled Markdown to the requested format and verify the result. Keep Markdown and visual sources for later revisions. No automatic social, newsletter or SEO artifacts are part of this workflow. See [the pipeline guide](skills/pv-prosevoice/README.md) and [skill instructions](skills/pv-prosevoice/SKILL.md).
+Missing or stale reminders produce a setup note but do not block an explicit editorial pass.
+
+```bash
+# Update skills, then refresh the reminder:
+npx skills update
+uv run "$PF" rule --apply
+
+# To uninstall, remove the reminder before removing the skills:
+uv run "$PF" rule --remove --apply
+npx skills remove pv-prosevoice pv-preflight  # add -g for user scope
+```
+
+Rule commands operate on all detected installations in the current project and at user scope. If you remove only one installation scope, the removal command also clears reminders for any detected installation you retain. After removing the unwanted skills, point `PF` at the retained preflight helper and run `uv run "$PF" rule --apply` from the writing repository to restore its reminders.
+
+## Repository reference
+
+This README is the public guide. The [pipeline reference](skills/pv-prosevoice/README.md), [editorial skill instructions](skills/pv-prosevoice/SKILL.md) and [preflight instructions](skills/pv-preflight/SKILL.md) provide implementation details and exact operating rules.
+
+```text
+skills/pv-prosevoice/     editorial instructions, reviewer prompts and helpers
+skills/pv-preflight/      setup helper, companion rule and blank templates
+examples/                filled, generic guidance examples
+tests/                   helper regression tests
+```
+
+Repository Markdown uses one source line per prose paragraph, with editor soft wrapping. Structural formatting and intentional hard breaks are preserved.
 
 ## License
 
