@@ -4,8 +4,8 @@
 # ///
 """Merge bundled, user, project and essay-local Harper policy without modifying inputs.
 
-Default user files: ~/.pv/dictionary.txt and ~/.pv/ignore-rules.txt.
-Project files: <git-root>/.pv/dictionary.txt and .pv/ignore-rules.txt, discovered
+Default user files: ~/.prose-voice/dictionary.txt and ~/.prose-voice/ignore-rules.txt.
+Project files: <git-root>/.prose-voice/dictionary.txt and .prose-voice/ignore-rules.txt, discovered
 from --cwd (default current directory). Missing optional files are tolerated.
 Additional user files can be supplied with repeatable --user-dict / --user-ignore.
 
@@ -66,11 +66,11 @@ def project_root(start: Path) -> Path | None:
 
 
 def policy_sources(root: Path | None, user_dicts=(), user_ignores=()) -> tuple[list[Path], list[Path]]:
-    dictionaries = [Path.home() / ".pv/dictionary.txt", *user_dicts]
-    ignores = [Path.home() / ".pv/ignore-rules.txt", *user_ignores]
+    dictionaries = [Path.home() / ".prose-voice/dictionary.txt", *user_dicts]
+    ignores = [Path.home() / ".prose-voice/ignore-rules.txt", *user_ignores]
     if root is not None:
-        dictionaries.append(root / ".pv/dictionary.txt")
-        ignores.append(root / ".pv/ignore-rules.txt")
+        dictionaries.append(root / ".prose-voice/dictionary.txt")
+        ignores.append(root / ".prose-voice/ignore-rules.txt")
     return dictionaries, ignores
 
 

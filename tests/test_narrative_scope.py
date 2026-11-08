@@ -89,7 +89,7 @@ class NarrativeScopeTests(unittest.TestCase):
         self.assertTrue(ready.check_image(essay)["resolved"])
 
     def test_configured_guidance_precedes_standard_locations(self):
-        self.write(".pv/config.json", '{"guidance":{"AUDIENCE.md":["guides/reader.md"]}}')
+        self.write(".prose-voice/config.json", '{"guidance":{"AUDIENCE.md":["guides/reader.md"]}}')
         custom = self.write("guides/reader.md", "Specialized audience")
         self.write(".prose-voice/AUDIENCE.md", "Default audience")
         self.assertEqual(preflight.resolve(self.root)["AUDIENCE.md"]["resolved"]["path"], str(custom))
@@ -99,18 +99,25 @@ class NarrativeScopeTests(unittest.TestCase):
     def test_cache_paths_are_isolated_ignored_and_idempotent(self):
         essay = self.write("chapters/one.md", "Text")
         other = self.write("appendix/one.md", "More text")
+        self.write(".prose-voice/.gitignore", "/scratch/\n")
+        voice = self.write(".prose-voice/VOICE.md", "Keep the voice guidance")
+        config = self.write(".prose-voice/config.json", "{}")
         paths = preflight.prepare_artifacts(essay, self.root)
         self.assertNotEqual(paths, preflight.artifact_paths(other, self.root))
-        self.assertEqual(paths["illustrations"], self.root / ".pv/cache/chapters/one.illustrations.md")
+        self.assertEqual(paths["illustrations"], self.root / ".prose-voice/cache/chapters/one.illustrations.md")
         paths["curmudgeon"].write_text("Review", encoding="utf-8")
         preflight.prepare_artifacts(essay, self.root)
-        self.assertEqual((self.root / ".pv/.gitignore").read_text(), "/cache/\n")
+        self.assertEqual((self.root / ".prose-voice/.gitignore").read_text(), "/scratch/\n/cache/\n")
+        self.assertFalse((self.root / ".pv").exists())
+        self.assertEqual(voice.read_text(), "Keep the voice guidance")
+        versionable = subprocess.run(["git", "-C", str(self.root), "check-ignore", str(voice), str(config)], capture_output=True, check=False)
+        self.assertEqual(versionable.returncode, 1)
         ignored = subprocess.run(["git", "-C", str(self.root), "check-ignore", str(paths["curmudgeon"])], capture_output=True, check=False)
         self.assertEqual(ignored.returncode, 0)
 
     def test_adjacent_mode_and_invalid_config(self):
         essay = self.write("essay.md", "<!-- illus:one -->")
-        config = self.write(".pv/config.json", '{"artifacts":{"location":"adjacent"}}')
+        config = self.write(".prose-voice/config.json", '{"artifacts":{"location":"adjacent"}}')
         self.assertEqual(ready.sidecar_path(essay), self.root / "essay.illustrations.md")
         self.write("essay.illustrations.md", "## illus:one\nselected: oneSvg\n")
         self.assertTrue(ready.check_image(essay)["resolved"])

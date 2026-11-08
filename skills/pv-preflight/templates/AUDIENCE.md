@@ -3,10 +3,7 @@
 <!-- pv-template: unfilled — delete this line once the sections below are filled in. While it is
 present, pv-prosevoice treats this file as absent. -->
 
-Who the narrative essays are for, and how to keep the prose readable for
-that reader. The `pv-prosevoice` skill resolves this file from
-`<git-root>/.prose-voice/AUDIENCE.md`, then `~/.prose-voice/AUDIENCE.md`. It is **required**: absent, empty or unfilled, the skill is a silent no-op. How the author argues
-lives in [`VOICE.md`](VOICE.md).
+Who the narrative essays are for, and how to keep the prose readable for that reader. The `pv-prosevoice` skill resolves this file from `<git-root>/.prose-voice/AUDIENCE.md`, then `~/.prose-voice/AUDIENCE.md`. It is **required**: absent, empty or unfilled, the skill is a silent no-op. How the author argues lives in [`VOICE.md`](VOICE.md).
 
 <!-- Keep the section headings below. pv-prosevoice agents look up "The reader", the de-jargon
 table and "Figure text" by name. Delete the HTML comments when done. -->
@@ -34,8 +31,7 @@ much argument per paragraph they can absorb. -->
 
 ## De-jargon table
 
-The voice-stylist auto-applies a row **only** when the match is exact and the replacement is
-grammatical in the sentence. Everything else is surfaced.
+The voice-stylist auto-applies a row **only** when the match is exact and the replacement is grammatical in the sentence. Everything else is surfaced.
 
 | Insider term | Plain replacement |
 | :-- | :-- |

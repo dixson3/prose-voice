@@ -1,14 +1,8 @@
 # prose-voice
 
-Agent skills for writing and reviewing persuasive or explanatory narrative essays: voice and
-readability checks, claim sourcing, grammar, argument and reader-experience review, and optional
-visual aids. Draft and revise in Markdown, then export to HTML, DOCX, PowerPoint, PDF or another
-requested format as the final step. Blog posts are supported without assuming a publishing channel.
-Installed with [`skills`](https://github.com/vercel-labs/skills) into Claude Code, pi,
-Codex, opencode and any other agent that CLI supports.
+Agent skills for writing and reviewing persuasive or explanatory narrative essays: voice and readability checks, claim sourcing, grammar, argument and reader-experience review, and optional visual aids. Draft and revise in Markdown, then export to HTML, DOCX, PowerPoint, PDF or another requested format as the final step. Blog posts are supported without assuming a publishing channel. Installed with [`skills`](https://github.com/vercel-labs/skills) into Claude Code, pi, Codex, opencode and any other agent that CLI supports.
 
-The voice is not in this repo. The skills read `VOICE.md` and `AUDIENCE.md` from
-`.prose-voice/` in the writing repo, falling back per file to `~/.prose-voice/`.
+The voice is not in this repo. The skills read `VOICE.md` and `AUDIENCE.md` from `.prose-voice/` in the writing repo, falling back per file to `~/.prose-voice/`.
 
 ## Skills
 
@@ -30,7 +24,8 @@ skills/pv-preflight/       setup and checks
   PV-PROTOCOL.md           always-loaded companion rule (triggers + pre-surface rule)
   scripts/preflight.py     check | resolve | seed | artifacts | rule
   scripts/pv_config.py     shared guidance and intermediate-path configuration
-  templates/               blank VOICE.md, AUDIENCE.md
+  templates/               blank VOICE.md, AUDIENCE.md, ILLUSTRATIONS.md
+examples/                  filled, generic examples of all three guides
 ```
 
 ## Install
@@ -45,8 +40,7 @@ npx skills add dixson3/prose-voice -s pv-prosevoice -s pv-preflight -a claude-co
 npx skills add dixson3/prose-voice -s pv-prosevoice -s pv-preflight -g -a claude-code -a pi -a codex -a opencode
 ```
 
-`skills` writes one canonical copy under `.agents/skills/` and symlinks it into the other agents'
-skill directories. Use `--copy` if symlinks are not wanted. Update with `npx skills update`.
+`skills` writes one canonical copy under `.agents/skills/` and symlinks it into the other agents' skill directories. Use `--copy` if symlinks are not wanted. Update with `npx skills update`.
 
 Then set up, from the writing repo, either by invoking `/pv-preflight` in an agent or directly:
 
@@ -57,8 +51,7 @@ $PF seed --scope project --apply           # .prose-voice/{VOICE,AUDIENCE}.md (o
 $PF rule --apply                           # install PV-PROTOCOL.md where pv-prosevoice is installed
 ```
 
-`seed` and `rule` are dry runs without `--apply`. Fill in both voice files and delete each
-file's `pv-template: unfilled` line; until then the skill is a silent no-op.
+`seed` and `rule` are dry runs without `--apply`. Fill in both voice files and delete each file's `pv-template: unfilled` line; until then the skill is a silent no-op.
 
 ### Where the rule goes
 
@@ -69,8 +62,7 @@ file's `pv-template: unfilled` line; until then the skill is a silent no-op.
 | `~/.agents/skills/` | managed block in `~/.pi/agent/AGENTS.md`, `~/.codex/AGENTS.md` and `~/.config/opencode/AGENTS.md` (each only if that harness is present) |
 | `~/.config/opencode/skills/` | managed block in `~/.config/opencode/AGENTS.md` |
 
-`rule --apply` also removes rule files and `AGENTS.md` blocks left by the old `blog-voice`
-`install.sh`.
+`rule --apply` also removes rule files and `AGENTS.md` blocks left by the old `blog-voice` `install.sh`.
 
 ### Uninstall
 
@@ -81,20 +73,25 @@ npx skills remove pv-prosevoice pv-preflight      # add -g for user scope
 
 ## Voice files
 
-Resolved per file, first usable match wins: `<git-root>/.prose-voice/<file>` →
-`~/.prose-voice/<file>`. A project can override one file and inherit the other. The image
-alt/title convention is the `## Figure text` section in `AUDIENCE.md`.
+Resolved per file, first usable match wins: `<git-root>/.prose-voice/<file>` → `~/.prose-voice/<file>`. A project can override one file and inherit the other. The image alt/title convention is the `## Figure text` section in `AUDIENCE.md`.
 
-Optional `ILLUSTRATIONS.md` resolves through the same project/global paths. Supply it when you
-want consistent visual style, tool preferences, palette, typography or aspect ratios. It is not
-required or seeded by setup; missing guidance never blocks prose review or useful visual work.
-Visuals are chosen for the explanation: Mermaid diagrams, Pikchr drawings, evidence-based charts,
-or raster illustrations from GPT-image, Nano Banana or another available tool. Preserve editable
-sources/prompts and inspect results. Unillustrated essays need no visual-selection bookkeeping.
+Optional `ILLUSTRATIONS.md` resolves through the same project/global paths. Supply it when you want consistent visual style, tool preferences, palette, typography or aspect ratios. It is not required or seeded by setup; missing guidance never blocks prose review or useful visual work. Visuals are chosen for the explanation: Mermaid diagrams, Pikchr drawings, evidence-based charts, or raster illustrations from GPT-image, Nano Banana or another available tool. Preserve editable sources/prompts and inspect results. Unillustrated essays need no visual-selection bookkeeping.
+
+### Templates and examples
+
+The [ILLUSTRATIONS template](skills/pv-preflight/templates/ILLUSTRATIONS.md) provides an optional visual brief with `Style block`, `Aspect`, and accuracy/accessibility sections. Copy it from the installed preflight skill's `templates/` directory to `.prose-voice/ILLUSTRATIONS.md` (or `~/.prose-voice/ILLUSTRATIONS.md`), fill it in and remove the `pv-template: unfilled` marker. Check for an existing guide before copying. `seed` continues to create only the two required guides.
+
+The repository's [`examples/`](examples/) directory contains filled, vendor-neutral starting points:
+
+- [VOICE.md](examples/VOICE.md): plain language, evidence, uncertainty and prose mechanics.
+- [AUDIENCE.md](examples/AUDIENCE.md): a general professional reader, jargon and accessible figures.
+- [ILLUSTRATIONS.md](examples/ILLUSTRATIONS.md): restrained pen-and-ink illustration, legible diagrams and optional aspect preferences.
+
+Adapt these examples to the actual author and reader before using them. They contain no company or personal names, and are not installed as active guidance or seeded automatically.
 
 ## Project configuration
 
-Optional `.pv/config.json` adds guidance locations and selects where intermediate files go:
+Optional `.prose-voice/config.json` adds guidance locations and selects where intermediate files go:
 
 ```json
 {
@@ -106,16 +103,11 @@ Optional `.pv/config.json` adds guidance locations and selects where intermediat
 }
 ```
 
-Configured paths are tried in order before the usual project/global `.prose-voice/` locations.
-Relative paths are relative to the git root; absolute and `~` paths also work. Each reference
-falls back independently. External tools can seed this configuration without coupling the skill
-to their directory layout. See [preflight configuration](skills/pv-preflight/SKILL.md#project-configuration-and-intermediate-files).
+Configured paths are tried in order before the usual project/global `.prose-voice/` locations. Relative paths are relative to the git root; absolute and `~` paths also work. Each reference falls back independently. External tools can seed this configuration without coupling the skill to their directory layout. See [preflight configuration](skills/pv-preflight/SKILL.md#project-configuration-and-intermediate-files).
 
-Intermediate `*.curmudgeon.md`, `*.steelman.md` and `*.illustrations.md` default to
-`.pv/cache/<essay-relative-directory>/`. Preflight prepares this location and adds `/cache/` to
-`.pv/.gitignore`. Set `artifacts.location` to `adjacent` to place them beside the essay instead.
-Switching modes does not move existing files. Final visual assets and editable diagram sources
-stay with the essay so exports do not depend on disposable cache contents.
+Intermediate `*.curmudgeon.md`, `*.steelman.md` and `*.illustrations.md` default to `.prose-voice/cache/<essay-relative-directory>/`. Preflight prepares this location and adds `/cache/` to `.prose-voice/.gitignore`. Set `artifacts.location` to `adjacent` to place them beside the essay instead. Switching modes does not move existing files. Final visual assets and editable diagram sources stay with the essay so exports do not depend on disposable cache contents.
+
+When upgrading from `.pv/`, move its `config.json`, `dictionary.txt` and `ignore-rules.txt` into `.prose-voice/` at the same scope, merging any existing files rather than overwriting them. The old cache can be moved or regenerated. Helpers use only the new paths; they do not migrate existing files automatically.
 
 ```bash
 $PF artifacts path/to/essay.md          # preview paths
@@ -124,18 +116,11 @@ $PF artifacts path/to/essay.md --apply  # prepare directory and cache ignore rul
 
 ## Harper dictionaries and ignored rules
 
-Project `.pv/dictionary.txt` and `.pv/ignore-rules.txt` are merged with user-scoped
-`~/.pv/dictionary.txt` and `~/.pv/ignore-rules.txt`, bundled policy, and optional essay-local
-`.harper-words`. All layers are additive unions; project files do not replace user policy.
-Only `.pv/cache/` is ignored, so project policy files can be versioned.
+Project `.prose-voice/dictionary.txt` and `.prose-voice/ignore-rules.txt` are merged with user-scoped `~/.prose-voice/dictionary.txt` and `~/.prose-voice/ignore-rules.txt`, bundled policy, and optional essay-local `.harper-words`. All layers are additive unions; project files do not replace user policy. Only `.prose-voice/cache/` is ignored, so project policy files can be versioned.
 
-Dictionary files contain one word per line (case preserved). Rule files contain one Harper rule
-name per line. Both ignore blank lines and full-line `#` comments; rule files also allow trailing
-comments. Missing optional files are fine. No existing policy file is rewritten by the merge.
+Dictionary files contain one word per line (case preserved). Rule files contain one Harper rule name per line. Both ignore blank lines and full-line `#` comments; rule files also allow trailing comments. Missing optional files are fine. No existing policy file is rewritten by the merge.
 
-The grammar agent uses `build_user_dict.py --cwd <essay-dir> --json` to obtain both the merged
-dictionary and ignored rules. Repeatable `--user-dict <path>` / `--user-ignore <path>` options
-include user policy stored elsewhere. Additions require approval at the appropriate scope.
+The grammar agent uses `build_user_dict.py --cwd <essay-dir> --json` to obtain both the merged dictionary and ignored rules. Repeatable `--user-dict <path>` / `--user-ignore <path>` options include user policy stored elsewhere. Additions require approval at the appropriate scope.
 
 ## Requirements
 
@@ -146,21 +131,9 @@ include user policy stored elsewhere. Additions require approval at the appropri
 
 ## Essay workflow
 
-Use one Markdown source or an explicitly ordered set of Markdown parts, with any filenames.
-`ESSAY.md` / `ESSAY-<n>.md` remain supported conventions; no particular directory layout is required.
-Existing non-Markdown inputs are converted to Markdown before editorial work. The frontmatter
-`status:` can be `idea`, `draft`, `review` or `ready`; missing status defaults to draft, and an
-explicit review/export request selects the appropriate gate. Optional `thesis:` states the
-main claim or explanation.
+Use one Markdown source or an explicitly ordered set of Markdown parts, with any filenames. `ESSAY.md` / `ESSAY-<n>.md` remain supported conventions; no particular directory layout is required. Existing non-Markdown inputs are converted to Markdown before editorial work. The frontmatter `status:` can be `idea`, `draft`, `review` or `ready`; missing status defaults to draft, and an explicit review/export request selects the appropriate gate. Optional `thesis:` states the main claim or explanation.
 
-DRAFT checks voice, readability, sourcing and grammar, with a copy-editing pass for explicit and
-pre-surface drafts. REVIEW checks evidence and provenance for both intents; persuasive essays
-also receive argument/reader checks and the adversarial pair. Explanatory essays add those when
-warranted or requested. READY runs the full applicable pass and checks source gaps and planned visuals.
-Then export the settled Markdown to the requested format and verify the result. Keep Markdown
-and visual sources for later revisions. No automatic social, newsletter or SEO artifacts are
-part of this workflow. See [the pipeline guide](skills/pv-prosevoice/README.md) and
-[skill instructions](skills/pv-prosevoice/SKILL.md).
+DRAFT checks voice, readability, sourcing and grammar, with a copy-editing pass for explicit and pre-surface drafts. REVIEW checks evidence and provenance for both intents; persuasive essays also receive argument/reader checks and the adversarial pair. Explanatory essays add those when warranted or requested. READY runs the full applicable pass and checks source gaps and planned visuals. Then export the settled Markdown to the requested format and verify the result. Keep Markdown and visual sources for later revisions. No automatic social, newsletter or SEO artifacts are part of this workflow. See [the pipeline guide](skills/pv-prosevoice/README.md) and [skill instructions](skills/pv-prosevoice/SKILL.md).
 
 ## License
 

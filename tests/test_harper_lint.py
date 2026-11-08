@@ -102,12 +102,12 @@ class HarperTests(unittest.TestCase):
             bundled = root / "bundled"
             write("bundled/dictionary.txt", "base\n")
             write("bundled/ignore-rules.txt", "BaseRule\n")
-            write("home/.pv/dictionary.txt", "user\n")
-            write("home/.pv/ignore-rules.txt", "UserRule\n")
+            write("home/.prose-voice/dictionary.txt", "user\n")
+            write("home/.prose-voice/ignore-rules.txt", "UserRule\n")
             for project in ("one", "two"):
                 subprocess.run(["git", "init", "-q", str(root / project)], check=True)
-                write(f"{project}/.pv/dictionary.txt", f"{project}\n")
-                write(f"{project}/.pv/ignore-rules.txt", f"{project}Rule\n")
+                write(f"{project}/.prose-voice/dictionary.txt", f"{project}\n")
+                write(f"{project}/.prose-voice/ignore-rules.txt", f"{project}Rule\n")
             doc1 = write("one/chapter/doc.md", "alot")
             doc2 = write("two/chapter/doc.md", "alot")
             doc3 = write("one/another/doc.md", "alot")

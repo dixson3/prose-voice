@@ -35,8 +35,8 @@ class HarperPolicyTests(unittest.TestCase):
 
     def test_all_dictionary_layers_merge_without_case_folding_or_input_writes(self):
         bundled = self.write(self.root / "bundled.txt", "# defaults\nShared\nBase\n")
-        user = self.write(self.home / ".pv/dictionary.txt", "Shared\nUserWord\n")
-        project = self.write(self.project / ".pv/dictionary.txt", "ProjectWord\nshared\n")
+        user = self.write(self.home / ".prose-voice/dictionary.txt", "Shared\nUserWord\n")
+        project = self.write(self.project / ".prose-voice/dictionary.txt", "ProjectWord\nshared\n")
         explicit = self.write(self.root / "custom-user.txt", "ExternalWord\n")
         local = self.write(self.project / "chapter/.harper-words", "LocalWord\nShared\n")
         before = {p: p.read_bytes() for p in (bundled, user, project, explicit, local)}
@@ -47,8 +47,8 @@ class HarperPolicyTests(unittest.TestCase):
 
     def test_ignore_rules_merge_with_comments_and_duplicates(self):
         bundled = self.write(self.root / "rules.txt", "UseTitleCase # bundled\n\n# comment\n")
-        self.write(self.home / ".pv/ignore-rules.txt", "LongSentences\nUseTitleCase\n")
-        self.write(self.project / ".pv/ignore-rules.txt", "DisjointPrefixes # project choice\n")
+        self.write(self.home / ".prose-voice/ignore-rules.txt", "LongSentences\nUseTitleCase\n")
+        self.write(self.project / ".prose-voice/ignore-rules.txt", "DisjointPrefixes # project choice\n")
         explicit = self.write(self.root / "other-rules.txt", "SpellCheck\n")
         _, ignores = policy.policy_sources(self.project, user_ignores=[explicit])
         self.assertEqual(policy.merge_rules(bundled, ignores),
@@ -60,7 +60,7 @@ class HarperPolicyTests(unittest.TestCase):
         self.assertEqual(policy.build(bundled, self.root / "missing", dictionaries), ["Base"])
         rules = self.write(self.root / "base-rules.txt", "")
         self.assertEqual(policy.merge_rules(rules, ignores), [])
-        bad = self.project / ".pv/dictionary.txt"
+        bad = self.project / ".prose-voice/dictionary.txt"
         bad.mkdir(parents=True)
         with self.assertRaises(OSError):
             policy.build(bundled, None, dictionaries)
@@ -68,8 +68,8 @@ class HarperPolicyTests(unittest.TestCase):
     def test_cli_finds_project_from_nested_essay_directory(self):
         essay_dir = self.project / "chapters"
         essay_dir.mkdir()
-        self.write(self.project / ".pv/dictionary.txt", "ProjectToken\n")
-        self.write(self.project / ".pv/ignore-rules.txt", "UseTitleCase\n")
+        self.write(self.project / ".prose-voice/dictionary.txt", "ProjectToken\n")
+        self.write(self.project / ".prose-voice/ignore-rules.txt", "UseTitleCase\n")
         output = self.root / "merged.txt"
         result = subprocess.run([sys.executable, str(SCRIPT), "--cwd", str(essay_dir),
                                  "--out", str(output), "--json"], capture_output=True, text=True, check=True)
@@ -77,7 +77,7 @@ class HarperPolicyTests(unittest.TestCase):
         self.assertEqual(report["dictionary"], str(output))
         self.assertIn("ProjectToken", output.read_text().splitlines())
         self.assertIn("UseTitleCase", report["ignore_rules"].split(","))
-        self.assertIn(str(self.project / ".pv/dictionary.txt"), report["sources"]["dictionary"])
+        self.assertIn(str(self.project / ".prose-voice/dictionary.txt"), report["sources"]["dictionary"])
 
 
 if __name__ == "__main__":

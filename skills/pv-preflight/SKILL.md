@@ -10,8 +10,7 @@ description: >-
 
 # pv-preflight
 
-Checks and setup that `pv-prosevoice` depends on. `pv-prosevoice` runs `check` before every gate;
-the operator runs `seed` and `rule` once per project (or once globally).
+Checks and setup that `pv-prosevoice` depends on. `pv-prosevoice` runs `check` before every gate; the operator runs `seed` and `rule` once per project (or once globally).
 
 ## SKILL_DIR
 
@@ -49,18 +48,15 @@ Every subcommand prints JSON. Run from inside the writing repo (or pass `--cwd D
 
 ## Voice-file resolution
 
-Per file, first usable match wins. Optional configured paths are checked first. Usable = exists, non-empty, and free of the
-`pv-template: unfilled` marker the templates ship with.
+Per file, first usable match wins. Optional configured paths are checked first. Usable = exists, non-empty, and free of the `pv-template: unfilled` marker the templates ship with.
 
-`<git-root>/.prose-voice/<file>` → `~/.prose-voice/<file>`, for required `VOICE.md` and
-`AUDIENCE.md`, and optional `ILLUSTRATIONS.md` visual guidance.
+`<git-root>/.prose-voice/<file>` → `~/.prose-voice/<file>`, for required `VOICE.md` and `AUDIENCE.md`, and optional `ILLUSTRATIONS.md` visual guidance.
 
-A project can override each file independently. Missing optional guidance does not affect `ready`.
-`seed` still creates only VOICE and AUDIENCE templates; ILLUSTRATIONS is user-supplied when desired.
+A project can override each file independently. Missing optional guidance does not affect `ready`. `seed` creates only VOICE and AUDIENCE templates. For optional visual guidance, offer [`templates/ILLUSTRATIONS.md`](templates/ILLUSTRATIONS.md): copy it to the selected scope's `.prose-voice/ILLUSTRATIONS.md` only when requested, without overwriting an existing guide. Fill its `Style block` and `Aspect` sections and remove the unfilled marker. The template sets preferences, not a requirement to create visuals.
 
 ## Project configuration and intermediate files
 
-Optional `<git-root>/.pv/config.json`:
+Optional `<git-root>/.prose-voice/config.json`:
 
 ```json
 {
@@ -75,29 +71,15 @@ Optional `<git-root>/.pv/config.json`:
 }
 ```
 
-All keys are optional. `guidance` values are ordered lists of **file paths**, tried before the
-standard `.prose-voice/` project/global candidates. Relative paths resolve from the git root;
-absolute paths and `~` are accepted. Missing/empty/unfilled candidates fall through; optional
-ILLUSTRATIONS never blocks readiness. Unknown keys, malformed JSON and invalid value types fail
-with an error. External workflows may seed this file; no integration-specific paths are built in.
+All keys are optional. `guidance` values are ordered lists of **file paths**, tried before the standard `.prose-voice/` project/global candidates. Relative paths resolve from the git root; absolute paths and `~` are accepted. Missing/empty/unfilled candidates fall through; optional ILLUSTRATIONS never blocks readiness. Unknown keys, malformed JSON and invalid value types fail with an error. External workflows may seed this file; no integration-specific paths are built in.
 
-`artifacts.location` is `cache` (default) or `adjacent`. The `artifacts` command returns explicit
-paths for visual history, the adversarial pair, gate reports (`draft`, `review`, `ready`) and
-review reports (`copyedit`, `provenance`, `fact-check`, `footnoter`, `red-team`, `cold-read`). Cache placement is
-`<git-root>/.pv/cache/<essay-relative-directory>/<essay-stem>.<purpose>.md`; outside git it uses
-`<essay-dir>/.pv/cache/`. `--apply` creates the chosen directory and adds `/cache/` to
-`.pv/.gitignore` without overwriting existing rules. Adjacent mode uses the essay's directory.
-Neither mode moves or deletes existing files; after changing modes regenerate or explicitly
-migrate old intermediates. Final assets and editable diagram sources stay with the essay.
+`artifacts.location` is `cache` (default) or `adjacent`. The `artifacts` command returns explicit paths for visual history, the adversarial pair, gate reports (`draft`, `review`, `ready`) and review reports (`copyedit`, `provenance`, `fact-check`, `footnoter`, `red-team`, `cold-read`). Cache placement is `<git-root>/.prose-voice/cache/<essay-relative-directory>/<essay-stem>.<purpose>.md`; outside git it uses `<essay-dir>/.prose-voice/cache/`. `--apply` creates the chosen directory and adds `/cache/` to `.prose-voice/.gitignore` without overwriting existing rules. Adjacent mode uses the essay's directory. Neither mode moves or deletes existing files; after changing modes regenerate or explicitly migrate old intermediates. Final assets and editable diagram sources stay with the essay.
 
-Run `artifacts <essay.md> --apply` before dispatching writers; pass returned paths rather than
-letting agents infer placement. Config and the ignore rule can be versioned; cache content is
-ignored. `artifacts` without `--apply` is a read-only preview.
+Run `artifacts <essay.md> --apply` before dispatching writers; pass returned paths rather than letting agents infer placement. Config and the ignore rule can be versioned; cache content is ignored. `artifacts` without `--apply` is a read-only preview.
 
 ## Rule targets
 
-`rule` installs `PV-PROTOCOL.md` next to each `pv-prosevoice` install it finds (project = git
-root, global = `$HOME`):
+`rule` installs `PV-PROTOCOL.md` next to each `pv-prosevoice` install it finds (project = git root, global = `$HOME`):
 
 | Skill found at | Rule written to |
 | :-- | :-- |
@@ -106,9 +88,7 @@ root, global = `$HOME`):
 | `~/.agents/skills/pv-prosevoice` | managed block in `~/.pi/agent/AGENTS.md`, `~/.codex/AGENTS.md` and `~/.config/opencode/AGENTS.md` (each only if that harness dir exists) |
 | `~/.config/opencode/skills/pv-prosevoice` | managed block in `~/.config/opencode/AGENTS.md` |
 
-The managed block is delimited by `<!-- BEGIN pv-protocol … -->` / `<!-- END pv-protocol -->`;
-everything outside it is preserved. `rule --apply` also removes legacy `blog-voice` rule files
-and blocks.
+The managed block is delimited by `<!-- BEGIN pv-protocol … -->` / `<!-- END pv-protocol -->`; everything outside it is preserved. `rule --apply` also removes legacy `blog-voice` rule files and blocks.
 
 ## Procedure
 
@@ -118,19 +98,13 @@ and blocks.
 2. `ready: false` because voice files are unresolved:
    - on an **edit trigger** → silent no-op (end the gate, say nothing);
    - on an **explicit `/pv-prosevoice`** → report the `actions` and offer the setup flow below.
-3. `ready: true` → hand all resolved reference paths (including optional ILLUSTRATIONS) and the `deps` map to
-   `pv-prosevoice`. A rule target in state `missing`/`stale`, or a legacy hit, is reported once as
-   a one-line note with the `rule --apply` command; it does not block the gate.
+3. `ready: true` → hand all resolved reference paths (including optional ILLUSTRATIONS) and the `deps` map to `pv-prosevoice`. A rule target in state `missing`/`stale`, or a legacy hit, is reported once as a one-line note with the `rule --apply` command; it does not block the gate.
 
 ### Setup (explicit `/pv-preflight`, or offered from `/pv-prosevoice`)
 
 1. Run `$PF check` and show the report.
-2. Voice files: ask project or global scope, show `seed --scope <s>` (dry run), apply on confirm.
-   Then tell the operator to fill in each file and delete its `pv-template: unfilled` line. On
-   request, draft the sections from the repo's existing essays for operator approval.
+2. Voice files: ask project or global scope, show `seed --scope <s>` (dry run), apply on confirm. Then tell the operator to fill in each file and delete its `pv-template: unfilled` line. On request, draft the sections from the repo's existing essays for operator approval.
 3. Rule: show `rule` (dry run), apply on confirm.
-4. Missing `uv` or `git` → report; the skill cannot run. Missing `harper-cli` skips grammar.
-   `naba` is one optional raster tool; absence does not disable diagrams or other image tools.
-   Select and check visual capabilities only when visual work is requested.
+4. Missing `uv` or `git` → report; the skill cannot run. Missing `harper-cli` skips grammar. `naba` is one optional raster tool; absence does not disable diagrams or other image tools. Select and check visual capabilities only when visual work is requested.
 
 To uninstall the rule before `npx skills remove`, run `$PF rule --remove --apply`.

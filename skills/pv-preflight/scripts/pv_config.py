@@ -23,13 +23,13 @@ def project_root(start: Path) -> Path | None:
 
 def load_config(root: Path | None) -> dict:
     """Validate optional project config; never silently ignore invalid settings."""
-    path = root / ".pv/config.json" if root else None
+    path = root / ".prose-voice/config.json" if root else None
     try:
         config = json.loads(path.read_text(encoding="utf-8")) if path and path.is_file() else {}
     except (OSError, json.JSONDecodeError) as error:
-        raise ValueError(f"cannot read .pv/config.json: {error}") from error
+        raise ValueError(f"cannot read .prose-voice/config.json: {error}") from error
     if not isinstance(config, dict) or set(config) - {"guidance", "artifacts"}:
-        raise ValueError(".pv/config.json must contain only guidance and artifacts objects")
+        raise ValueError(".prose-voice/config.json must contain only guidance and artifacts objects")
     guidance = config.get("guidance", {})
     if not isinstance(guidance, dict) or set(guidance) - set(GUIDANCE):
         raise ValueError("guidance keys must be VOICE.md, AUDIENCE.md or ILLUSTRATIONS.md")
@@ -69,7 +69,7 @@ def artifact_paths(essay: Path, root: Path | None = None) -> dict[str, Path]:
             relative = essay.relative_to(base)
         except ValueError as error:
             raise ValueError("essay must be inside the selected project") from error
-        directory = base / ".pv/cache" / relative.parent
+        directory = base / ".prose-voice/cache" / relative.parent
     return {kind: directory / f"{essay.stem}.{kind}.md"
             for kind in ("curmudgeon", "steelman", "illustrations", "draft", "review", "ready",
                          "copyedit", "provenance", "fact-check", "footnoter", "red-team", "cold-read")}
@@ -81,7 +81,7 @@ def prepare_artifacts(essay: Path, root: Path | None = None) -> dict[str, Path]:
     root = root.resolve() if root else project_root(essay.parent)
     paths = artifact_paths(essay, root)
     if load_config(root).get("artifacts", {}).get("location", "cache") == "cache":
-        pv = (root or essay.parent) / ".pv"
+        pv = (root or essay.parent) / ".prose-voice"
         pv.mkdir(parents=True, exist_ok=True)
         ignore = pv / ".gitignore"
         text = ignore.read_text(encoding="utf-8") if ignore.exists() else ""

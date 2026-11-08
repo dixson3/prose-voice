@@ -20,9 +20,9 @@ Subcommands (all print JSON on stdout):
 `seed` and `rule` are dry runs unless `--apply` is given.
 
 Voice-file resolution is per file, first usable match wins:
-  configured .pv/config.json guidance paths -> <git-root>/.prose-voice/<file>
+  configured .prose-voice/config.json guidance paths -> <git-root>/.prose-voice/<file>
   -> ~/.prose-voice/<file>
-Intermediate artifact placement is controlled by .pv/config.json; default .pv/cache/.
+Intermediate artifact placement is controlled by .prose-voice/config.json; default .prose-voice/cache/.
 A file is usable when it exists, is non-empty, and no longer carries the
 `pv-template: unfilled` marker.
 

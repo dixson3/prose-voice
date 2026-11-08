@@ -6,7 +6,7 @@
 
 Only <!-- illus:ID --> anchors opt into visual-selection checks. Every active anchor
 needs a matching ## illus:ID block at the configured illustrations artifact path
-(default .pv/cache/, optional adjacent mode) with a chosen
+(default .prose-voice/cache/, optional adjacent mode) with a chosen
 asset id or `selected: no-image`. Unanchored sections need no visual or sidecar;
 stale sidecar blocks without anchors are ignored. Anchors may occur anywhere.
 
