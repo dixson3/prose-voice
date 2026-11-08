@@ -57,6 +57,13 @@ operator.
    get its own landing, and a memorable/summary line placed *before* the argument that earns it (it
    should come after — `VOICE.md`: payoff after setup).
 
+## Form-specific load
+
+When the caller requests a slide narrative, evaluate each slide's word budget, one-idea focus,
+point-first title and split between visible text and speaker notes. Apply optional VOICE Forms
+limits when supplied; propose sensible limits otherwise, without pretending they are user policy.
+For prose essays, retain paragraph-level rhythm and explanation; slide brevity is not the default.
+
 ## Output
 
 A ranked list, highest-load first. For each finding: the quoted span, which signal (1–5 above), a

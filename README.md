@@ -153,8 +153,10 @@ Existing non-Markdown inputs are converted to Markdown before editorial work. Th
 explicit review/export request selects the appropriate gate. Optional `thesis:` states the
 main claim or explanation.
 
-DRAFT checks voice, readability, sourcing and grammar; REVIEW tests the argument and reader
-experience; READY runs the full pass and checks source gaps and any explicitly planned visuals.
+DRAFT checks voice, readability, sourcing and grammar, with a copy-editing pass for explicit and
+pre-surface drafts. REVIEW checks evidence and provenance for both intents; persuasive essays
+also receive argument/reader checks and the adversarial pair. Explanatory essays add those when
+warranted or requested. READY runs the full applicable pass and checks source gaps and planned visuals.
 Then export the settled Markdown to the requested format and verify the result. Keep Markdown
 and visual sources for later revisions. No automatic social, newsletter or SEO artifacts are
 part of this workflow. See [the pipeline guide](skills/pv-prosevoice/README.md) and

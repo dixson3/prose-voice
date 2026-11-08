@@ -14,10 +14,11 @@ keeps them beside the essay. Preflight resolves paths for agents. Final assets s
 ## Gates
 
 - **DRAFT:** voice and readability, then load-bearing claim sourcing and grammar. Report-only on
-  edits; bounded cleanup of agent-authored regions before presenting a draft.
-- **REVIEW:** argument, evidence and reader-experience checks, then a premise-gated
-  curmudgeon/steelman pair. Explanatory content is tested for accuracy and completeness without
-  forcing it into advocacy.
+  edits; bounded cleanup of agent-authored regions before presenting a draft. Explicit and
+  pre-surface drafts also receive a copy-editing pass that works without Harper.
+- **REVIEW:** grammar, evidence and provenance for both intents. Persuasive essays also get
+  argument/reader checks and the premise-gated curmudgeon/steelman pair; explanatory essays add
+  those when warranted or requested. Explanations are not forced into advocacy.
 - **READY:** resolve source flags and explicitly planned visual selections, run the full review,
   then perform and verify the requested final export. Plain essays need no visual sidecar,
   hero, section images or decline records.
@@ -43,6 +44,8 @@ agents/
   red-team.md                    argument and explanatory structure
   cold-read.md                   target-reader experience
   grammar-check.md               Harper spelling and grammar
+  copy-editor.md                 agreement, punctuation and consistency
+  provenance.md                  claim origins and traceability
   footnoter.md                   load-bearing claim sourcing
   illustrator.md                 optional visuals using appropriate tools
   curmudgeon.md                  premise critique sidecar
@@ -52,6 +55,7 @@ harper/
   ignore-rules.txt               house-style rule suppressions
 scripts/
   build_user_dict.py             merge shared and essay-local dictionaries
+  harper_lint.py                 validated, classified read-only Harper results
   extract_prose.py               recover Harper-skipped reader-facing prose
   premise_fingerprint.py         deterministic premise hash
   ready_preconditions.py         planned visual selections and source flags

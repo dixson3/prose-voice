@@ -30,6 +30,8 @@ readability — only unambiguous spelling typos, and only when a hard write-guar
   Absence is fine.
 - Helper scripts in this skill dir (`uv`-run, stdlib only, **no new CLI dep**):
   - `scripts/build_user_dict.py` — unions bundled, user, project and essay-local policy.
+  - `scripts/harper_lint.py` — read-only primary pass with policy merging, validated JSON,
+    identical-span deduplication and guarded candidate classification.
   - `scripts/extract_prose.py` — the §supplemental-pass extractor.
 
 **If `harper-cli` is not on PATH, STOP and report `grammar-check skipped (harper-cli not
@@ -64,19 +66,23 @@ the `.md` extension; on stdin it would wrongly lint frontmatter and code. Discar
 explicitly (do not rely on `--quiet` to clean JSON); read JSON from stdout.
 
 ```bash
-harper-cli lint --format json --keep-overlapping-lints --dialect us \
-  --user-dict-path "$DICT" --ignore "$IGNORE" <essay-paths.md> 2>/dev/null
+uv run "$SK/scripts/harper_lint.py" <essay-paths.md> --dialect us --json
 ```
+
+Use the dialect from VOICE when specified (default `us`). The wrapper merges policy per source,
+validates Harper's response, reports findings and never edits. Exit 0 means the check ran (not
+that the essay is clean), 2 means error, and 4 means Harper is unavailable. Pass any additional
+user-policy flags from step 1 to the wrapper too. Keep `$DICT` and `$IGNORE` for the supplemental
+pass below, which must use the original essay's policy rather than the temporary file's location.
 
 `-o/--keep-overlapping-lints` is **required**: suppressing a rule can *unmask* a
 previously-overlapped lint, so the filtered set is not a subset of the unfiltered set; keep
 overlaps and dedup deterministically (step 4).
 
-**Non-zero exit is normal.** `harper-cli` exits non-zero *when it finds lints*. Treat a
-non-zero exit with parseable JSON on stdout as success, not a tool failure. Only a parse
-failure (no JSON) or "command not found" is a real error.
+Raw Harper can exit nonzero when it finds lints. The wrapper accepts only structurally valid
+file/lint JSON, not arbitrary parseable error JSON. Do not treat tool errors as a clean pass.
 
-**JSON shape.** Output is a list of file objects, each `{file, lint_count, lints: [...]}`.
+**Raw Harper JSON shape (used for supplemental mapping).** Output is a list of file objects, each `{file, lint_count, lints: [...]}`.
 Each lint has: `rule`, `kind`, `span {char_start, char_end}` (0-based char offsets),
 `line` (1-based), `column` (1-based **char** column), `message`, `priority`, `suggestions`
 (strings like `Replace with: "the"` — parse the quoted word out, note curly quotes), and
@@ -102,15 +108,16 @@ claim char precision. Tag each back-mapped finding with its `region`
 
 ### 4. Span dedup / precedence
 
-With overlaps kept, one span can carry 2–3 lints with conflicting fixes (e.g. `teh` →
-`SpellCheck`+`The`; `capshun` → `SpellCheck "capstan"`+`SplitWords "cap shun"`). **Collapse
-to one lint per `(line, char_start, char_end)` span** before classification. Precedence:
-prefer `kind: Spelling` (the `SpellCheck` rule) over `Typo`/`SplitWords` for the same span,
-so the spelling suggestion is the auto-fix candidate. Auto-fix **at most one** lint per span.
+The wrapper groups **identical** character spans, selecting the lowest Harper priority and
+retaining alternative rules under `also`. Partially overlapping spans are not collapsed. Use the
+same policy when handling raw supplemental findings. Priority indicates the finding to surface,
+not permission to edit: a grammar/compound-word correction must not become an automatic spelling
+fix. Conflicting suggestions require contextual review; apply at most one accepted fix per span.
 
 ### 5. Classify
 
-Sort each surviving (deduped) lint into exactly one bucket:
+The wrapper's `error` / `spelling` buckets map to `real`, and `name` maps to `proper-noun`;
+`advisory` is unchanged. Contextual triage still applies. Sort each surviving lint into one bucket:
 
 - **`real`** — a true defect. Body-prose `kind: Spelling` typos and genuine grammar errors.
 - **`advisory`** — surface, never auto-fix. `LongSentences`, `DisjointPrefixes`, and other

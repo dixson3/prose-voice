@@ -32,10 +32,16 @@ Use frontmatter `status:` or the explicitly requested gate. Missing status defau
 Optional `thesis:` records the main claim or explanation for premise checking.
 
 - **`draft`**: voice, readability, sources and grammar; report-only on edits.
-- **`review`**: argument, reader and evidence review, then premise-gated curmudgeon/steelman pair.
+- **`review`**: grammar, evidence and provenance; persuasive intent adds argument/reader review
+  and the premise-gated curmudgeon/steelman pair. Explanatory intent adds those when requested or
+  warranted by a contested account.
 - **`ready`**: source flags and explicitly planned visual selections, full editorial pass, then
   the requested export. No automatic marketing or distribution artifacts.
 - **`idea`**: silent no-op until the user asks to develop a draft.
+
+Optional `intent:` is persuasive or explanatory (`informational` is an alias). Explicit user
+intent wins; a thesis alone does not imply advocacy. State the intent and checks run. Explicit
+and pre-surface drafts also get a copy-editor pass for mechanics, even when Harper is absent.
 
 ## Pre-surface rule
 

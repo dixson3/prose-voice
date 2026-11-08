@@ -71,7 +71,8 @@ def artifact_paths(essay: Path, root: Path | None = None) -> dict[str, Path]:
             raise ValueError("essay must be inside the selected project") from error
         directory = base / ".pv/cache" / relative.parent
     return {kind: directory / f"{essay.stem}.{kind}.md"
-            for kind in ("curmudgeon", "steelman", "illustrations")}
+            for kind in ("curmudgeon", "steelman", "illustrations", "draft", "review", "ready",
+                         "copyedit", "provenance", "fact-check", "footnoter", "red-team", "cold-read")}
 
 
 def prepare_artifacts(essay: Path, root: Path | None = None) -> dict[str, Path]:

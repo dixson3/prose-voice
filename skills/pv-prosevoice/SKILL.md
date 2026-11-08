@@ -44,6 +44,25 @@ regenerate. Check the final export for content completeness, reading order, head
 links, images, captions and layout. Report rendering limitations; do not claim an uninspected
 export is verified. If Markdown is the requested deliverable, no conversion is needed.
 
+## Review intent and requested form
+
+Use the user's explicit intent first, then optional frontmatter `intent:`. `persuasive` means
+changing a belief or winning a decision; `explanatory` (also accepted as `informational`) means
+helping the reader understand an account or process. Infer from the actual narrative when neither
+is stated, and report the chosen intent with the resolved audience. A `thesis:` field alone does
+not imply advocacy. Ask only if ambiguity would materially change the review needed.
+
+Both intents receive voice, readability, evidence, provenance and copy-editing checks.
+Persuasive essays also receive red-team, cold-read and the curmudgeon/steelman pair by default.
+Explanatory essays use the lean review set by default; include the argument/reader checks when
+the user requests them or a contested explanation warrants them, without inventing an opposing
+position. State which checks ran and why any were omitted.
+
+Optional `VOICE.md` **Forms** guidance can tune the requested output while Markdown remains the
+working source. For a slide narrative, check one idea per slide, point-first titles, appropriate
+word budgets, and separation of speaker notes from on-slide text. Do not impose slide brevity
+on prose essays or infer a publishing channel from a directory name.
+
 ## SKILL_DIR
 
 Every `agents/`, `scripts/` and `harper/` path below is relative to this skill's directory. Use the
@@ -108,7 +127,10 @@ Before creating intermediate artifacts, run:
 uv run "$SKILL_DIR/../pv-preflight/scripts/preflight.py" artifacts <essay.md> --apply
 ```
 
-Pass the returned `curmudgeon`, `steelman` and `illustrations` paths to agents. Default placement
+Pass the returned paths to agents. The resolver covers `curmudgeon`, `steelman`, `illustrations`,
+`draft`, `review`, `ready`, `copyedit`, `provenance`, `fact-check`, `footnoter`, `red-team` and
+`cold-read`. Save reports only for explicit or pre-surface work; on-edit reviews surface in chat
+without writing report files. Default placement
 is `.pv/cache/<essay-relative-directory>/<essay-stem>.<purpose>.md`; this avoids collisions
 between same-named files in different directories. The command creates the directory and an
 idempotent `.pv/.gitignore` entry for `/cache/`. Without a git root, use `.pv/cache/` beside the
@@ -141,8 +163,9 @@ Reviews report findings; the caller applies changes within these limits:
 - Grammar auto-fix is limited to an unambiguous spelling typo in body prose: Harper
   `kind: Spelling`, exactly one suggestion, no dictionary or protected-pattern match, and an
   exact `matched_text` span match. All supplemental regions and other findings are report-only.
-- `curmudgeon` and `steelman-response` write only their respective review sidecars. Keep these
-  artifacts at the configured paths; this instruction does not authorize a git commit or publishing.
+- `curmudgeon` and `steelman-response` write only their respective review sidecars. Other reviewers
+  report findings; the caller may save them at resolved report paths. Keep these artifacts at the
+  configured paths; this instruction does not authorize a git commit or publishing.
 
 ## Gates
 
@@ -150,7 +173,7 @@ Reviews report findings; the caller applies changes within these limits:
 | :-- | :-- | :-- |
 | `idea` | No gate | Silent no-op |
 | `draft` | Voice + readability → sources → grammar | Identified essay edit (report-only); before presenting agent-authored prose |
-| `review` | Red-team + cold-read + fact-checker → premise-gated adversarial pair | Review request or edit at this stage |
+| `review` | Grammar + evidence/provenance; persuasive adds argument/reader checks and the premise-gated pair | Review request or edit at this stage |
 | `ready` | Source and opted-in visual checks → full editorial pass → final export | Final-readiness/export request or edit at this stage |
 
 Visual generation is optional and separate from gate execution. No hero, section image, visual
@@ -174,20 +197,31 @@ Use the grammar policy in `agents/grammar-check.md`. Run `scripts/build_user_dic
 essay-local words. Both dictionary entries and ignore rules are additive unions. Use the returned
 dictionary path and comma-separated ignore rules for every Harper pass; optional explicit
 `--user-dict` / `--user-ignore` paths include policy stored elsewhere.
+Use `scripts/harper_lint.py <essay.md> --dialect <dialect> --json` for the read-only primary pass;
+it uses the same policy helper per essay and normalizes validated tool output. Honor VOICE dialect
+(default `us`). A `fixable` flag is only a candidate and does not authorize a write.
 `scripts/extract_prose.py` adds frontmatter, figure text and fenced prose that Harper may skip.
-Run tools inline for the draft pass; the full grammar agent is reserved for READY. Respect the
-matched-text guard and supplemental-region restrictions. Check Markdown validity after changes.
+Run tools inline for on-edit draft review; on explicit/pre-surface drafts, follow the tool pass
+with `agents/copy-editor.md` for agreement, punctuation, sentence boundaries and consistency.
+The copy-editor still reads when Harper is absent. It reports proposals and never broadens
+spelling auto-fix authority. Respect the matched-text guard and supplemental-region restrictions.
+Check Markdown validity after changes.
 
 For edits, surface findings without rewriting. Before presenting agent-authored prose, apply
 only the scoped pre-surface cleanup and surface the rest. Report skipped checks accurately.
 
 ### REVIEW gate
 
-Run `agents/red-team.md`, `agents/cold-read.md` and `agents/fact-checker.md` in parallel. Give the
-cold reader only the essay and target-reader persona, not the voice/register rules. Supply all
-parts in order for whole-argument checks. Red-team tests the argument; cold-read tests the reading
-experience; fact-checker tests evidence. Surface conflicting recommendations without silently
-choosing one. Then run the premise-gated pair below.
+Run a report-only Harper pass using the merged policy, then `agents/fact-checker.md` and
+`agents/provenance.md` in parallel for both intents. Fact-checker tests accuracy and citations;
+provenance tests claim origins, audience suitability of internal material, and whether the reader
+can trace or reproduce the evidence. Neither silently changes the essay or publishes anything.
+
+For persuasive essays, also run `agents/red-team.md` and `agents/cold-read.md` in parallel,
+then the premise-gated pair below. Give the cold reader only the essay and target-reader persona,
+not the voice/register rules. Supply all parts in order for whole-argument checks. Surface
+conflicting recommendations without silently choosing one. Explanatory essays add these checks
+only when requested or warranted by a contested account.
 
 ### Optional visual aids
 
@@ -223,12 +257,15 @@ visuals, retaining prior decisions. Remove obsolete anchors or resolve them as `
    Exit 3 means blocked. Only explicitly anchored visuals need resolved sidecar selections;
    unillustrated essays pass the visual check. No `[needs-source]` may remain without an explicit,
    reported user override. Resolve missing sources or qualify/remove the claim with approval.
-2. Run all seven evaluators: voice-stylist, readability-critic, red-team, cold-read, fact-checker,
-   grammar-check and web-enabled footnoter. Avoid concurrent writes: collect parallel findings,
-   apply allowed changes serially, then run grammar against the resulting text. Re-run mechanical
+2. Run voice-stylist, readability-critic, fact-checker, provenance, grammar-check, copy-editor and
+   web-enabled footnoter for both intents. Persuasive essays add red-team and cold-read; explanatory
+   essays add those when warranted or requested. Avoid concurrent writes: collect parallel
+   findings, apply allowed changes serially, then run grammar and copy-editing against the resulting
+   text. Re-run mechanical
    checks after source/visual changes. A clean script result alone does not prove factual accuracy
    or visual quality; inspect visuals, links, citations and their fit with the argument.
-3. Run or reuse the premise-gated pair. Resolve or surface remaining findings under the bounded
+3. For persuasive essays (or an explicitly requested explanatory pressure-test), run or reuse
+   the premise-gated pair. Resolve or surface remaining findings under the bounded
    write authority. Report unavailable checks and outstanding issues.
 4. Once editorial work is settled, export only to the requested format using its appropriate
    tools. Verify the output as described in *Working format and essay selection*. Keep the

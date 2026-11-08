@@ -50,3 +50,10 @@ rule: the essay does not announce what it is about to do or what it just did. --
 "It's not X, it's Y" pivots, stacked em-dash asides, summary closers, and so on. -->
 
 - _Tell_ — how to recognise it, and the fix.
+
+## Forms (optional)
+
+<!-- Rules for requested output forms, while drafts remain Markdown: e.g. slide word budgets,
+point-first titles and speaker-note separation. Omit this section if one register fits all forms. -->
+
+- _Form_ — constraints specific to that form.

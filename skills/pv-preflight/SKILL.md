@@ -42,7 +42,7 @@ Every subcommand prints JSON. Run from inside the writing repo (or pass `--cwd D
 | `$PF check` | nothing | deps, resolved voice files, rule state, `actions` list, `ready` flag |
 | `$PF resolve` | nothing | required voice and optional visual reference paths |
 | `$PF seed --scope project\|global [--apply]` | `.prose-voice/` | copy blank templates; never overwrites |
-| `$PF artifacts <essay.md> [--apply]` | with `--apply`: artifact directory and cache ignore rule | resolve curmudgeon, steelman and illustrations paths |
+| `$PF artifacts <essay.md> [--apply]` | with `--apply`: artifact directory and cache ignore rule | resolve visual history, agent and gate report paths |
 | `$PF rule [--remove] [--apply]` | rule files, `AGENTS.md` blocks | install or remove `PV-PROTOCOL.md` |
 
 `seed` and `rule` are dry runs without `--apply`.
@@ -82,7 +82,8 @@ ILLUSTRATIONS never blocks readiness. Unknown keys, malformed JSON and invalid v
 with an error. External workflows may seed this file; no integration-specific paths are built in.
 
 `artifacts.location` is `cache` (default) or `adjacent`. The `artifacts` command returns explicit
-paths for all three intermediate files. Cache placement is
+paths for visual history, the adversarial pair, gate reports (`draft`, `review`, `ready`) and
+review reports (`copyedit`, `provenance`, `fact-check`, `footnoter`, `red-team`, `cold-read`). Cache placement is
 `<git-root>/.pv/cache/<essay-relative-directory>/<essay-stem>.<purpose>.md`; outside git it uses
 `<essay-dir>/.pv/cache/`. `--apply` creates the chosen directory and adds `/cache/` to
 `.pv/.gitignore` without overwriting existing rules. Adjacent mode uses the essay's directory.
