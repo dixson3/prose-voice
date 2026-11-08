@@ -1,12 +1,12 @@
 ---
 name: pv-prosevoice
 description: >-
-  Write and review persuasive or explanatory narrative essays using VOICE.md and AUDIENCE.md.
-  Work in Markdown, including ordered multi-file essays, until final export to HTML, DOCX,
-  PowerPoint, PDF or another requested format. TRIGGER on /pv-prosevoice, essay writing or
-  review requests, and edits to an identified essay. Calls pv-preflight first. SKIP unrelated
-  notes, code, instruction files, generated review sidecars and exports; status idea; or
-  unresolved required voice references. Optional visual aids follow ILLUSTRATIONS.md.
+  Write and review persuasive or explanatory narrative essays in Markdown, with conversion
+  to other formats as the final step. TRIGGER on /pv-prosevoice; requests to draft, rewrite
+  or review an essay; edits to an identified essay; and before presenting essay prose you
+  authored or rewrote this turn. Load the skill and run pv-preflight to resolve guidance or
+  report setup needs. SKIP unrelated notes, code, instructions, generated sidecars and exports.
+  An idea stays inactive until the user asks to develop it.
 ---
 
 # pv-prosevoice
