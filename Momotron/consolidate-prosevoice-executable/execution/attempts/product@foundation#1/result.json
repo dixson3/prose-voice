@@ -1,0 +1,40 @@
+{
+  "status": "succeeded",
+  "summary": "Added skills/prosevoice with a thin PEP 723 launcher and the prosevoice_lib package (cwd-independent resource lookup that prefers packaged _skill/; strict layered config builtin<user<project<CLI with per-leaf provenance, XDG/home user dir, explicit/Git/cwd project selection, tier-relative anchors, per-filename guidance replacement; guide resolution; 12-kind cache/adjacent artifact paths; idempotent init and cache-ignore merge; JSON envelope with exit 0/1/2) exposing version, config, init, resolve and artifacts. Added a Hatchling pyproject (MIT, James Dixson, console entry prosevoice_lib.cli:main), seed templates, tests/test_prosevoice_config.py and tests/test_prosevoice_package.py. Both checks pass: prosevoice tests 50 OK, full suite 69 OK (the 19 original tests unmodified). Ruff is clean and the wheel builds. Legacy helpers and existing tests are byte-unchanged. Remaining commands (check, rule, policy, lint, extract, premise, ready, migrate) are deferred to later steps.",
+  "outputs": {
+    "checks": {
+      "Config and source package contracts": "50 tests OK, exit 0",
+      "Existing behavior remains covered": "69 tests OK, exit 0"
+    },
+    "baseline_tests": "19 tests OK",
+    "commands_implemented": ["version", "config", "init", "resolve", "artifacts"],
+    "commands_deferred": ["check", "rule", "policy", "lint", "extract", "premise", "ready", "migrate"],
+    "files_added": [
+      "pyproject.toml",
+      "uv.lock",
+      "skills/prosevoice/scripts/prosevoice.py",
+      "skills/prosevoice/scripts/prosevoice_lib/__init__.py",
+      "skills/prosevoice/scripts/prosevoice_lib/cli.py",
+      "skills/prosevoice/scripts/prosevoice_lib/config.py",
+      "skills/prosevoice/scripts/prosevoice_lib/errors.py",
+      "skills/prosevoice/templates/VOICE.md",
+      "skills/prosevoice/templates/AUDIENCE.md",
+      "skills/prosevoice/templates/ILLUSTRATIONS.md",
+      "tests/_prosevoice_path.py",
+      "tests/test_prosevoice_config.py",
+      "tests/test_prosevoice_package.py"
+    ],
+    "legacy_sources_unchanged": true,
+    "preserved_untracked": [".agents/", ".claude/", "skills-lock.json"],
+    "committed": false
+  },
+  "artifacts": [
+    "artifacts/evidence.md",
+    "artifacts/baseline-status.txt",
+    "artifacts/baseline-tests.log",
+    "artifacts/check-config-package.log",
+    "artifacts/check-full-suite.log",
+    "artifacts/wheel-build.log",
+    "artifacts/final-status.txt"
+  ]
+}

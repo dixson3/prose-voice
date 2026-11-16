@@ -1,0 +1,14 @@
+{
+  "decision": "accept",
+  "reason": "Worker status is succeeded. The controller packet's checks array is empty, so no runner acceptance check failed. The controller reran both checks named in the worker result and both passed. The foundation scope is implemented: a package skeleton, cwd-independent resource lookup, strict layered config with provenance, init, a JSON envelope with exits 0/1/2, a Hatchling MIT pyproject attributed to James Dixson, and the two required test modules mapped to every required case. The 19 original tests and the legacy helpers are byte-unchanged. Commands still unimplemented (check, rule, policy, lint, extract, premise, ready, migrate) belong to later steps, and nothing was committed.",
+  "evidence": [
+    "result.json status=succeeded; controller-packet checks=[] (no failed runner checks)",
+    "Controller rerun: `uv run python -m unittest discover -s tests -p 'test_prosevoice_*.py'` -> Ran 50 tests OK",
+    "Controller rerun: `uv run python -m unittest discover -s tests` -> Ran 69 tests OK (baseline-tests.log: 19 OK)",
+    "`git diff --quiet HEAD -- skills/pv-preflight skills/pv-prosevoice tests/test_*.py` succeeded: legacy helpers and existing tests unchanged",
+    "git status: only untracked additions (pyproject.toml, uv.lock, skills/prosevoice/, tests/_prosevoice_path.py, tests/test_prosevoice_{config,package}.py); .agents/, .claude/, skills-lock.json still present and untracked; only tracked change is momotron state.json",
+    "pyproject.toml: license MIT, LICENSE 'Copyright (c) 2026 James Dixson (dixson3), Yoshiko Studios LLC', current year 2026",
+    "wheel-build.log: prosevoice-1.1.0 wheel built with prosevoice_lib, _skill/templates, entry_points and the license; installation is deferred to the integration step",
+    "evidence.md coverage table maps tiers/provenance, XDG fallback/invalid, explicit/non-Git roots, relative anchors, duplicate/unknown keys, per-filename list replacement, empty/unfilled fallback, optional illustrations, idempotent init, custom cache ignores, resource lookup, unrelated cwd, and envelope/exit behavior to named tests"
+  ]
+}

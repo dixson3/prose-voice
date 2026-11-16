@@ -13,11 +13,116 @@
   }
  ],
  "attempts": {
+  "product:consolidate#1": {
+   "adapter": "acpx",
+   "claimant": "run:acpx",
+   "claimed_at": "2026-11-16T22:56:58.226667Z",
+   "decision": null,
+   "id": "product:consolidate#1",
+   "n": 1,
+   "node": "consolidate",
+   "packet": "execution/blobs/packets/cddaa3c867ecf86668fb6f0527b13a79324342ea3c576aafc286470453a45d61.json",
+   "receipt": {
+    "acpx_version": "0.22.0",
+    "adapter": "acpx",
+    "agent": "pi",
+    "cwd": "/Users/james/workspace/dixson3/blog-voice",
+    "deadline": 1794873425.8648262,
+    "effective": {
+     "agent": "pi",
+     "config": {},
+     "config_source": "project",
+     "model": "magpie/claude/claude-opus-5-5",
+     "permission": "approve-all",
+     "session_policy": "fresh-per-attempt",
+     "timeout": 3600
+    },
+    "identity": {
+     "attempt": "product:consolidate#1",
+     "bundle_uid": "caa4bb0e2178465197995adceda728b2",
+     "generation": 1,
+     "group": "attempt:product:consolidate#1",
+     "host": "d3-mbp-m5.local",
+     "location": "/Users/james/workspace/dixson3/blog-voice/Momotron/consolidate-prosevoice-executable",
+     "node": "consolidate",
+     "plan_id": "consolidate-prosevoice-executable",
+     "policy": "fresh-per-attempt",
+     "role": "processes/_roles/worker.md",
+     "run": "product",
+     "schema": "momotron-session-identity/1",
+     "session_name": "momo-consolidate-prosevoi-consolidate-9a5f38740e1c2f7fa38e",
+     "session_plan": {
+      "action": "fresh",
+      "generation": 1,
+      "key": null,
+      "problem": null,
+      "reason": "fresh-per-attempt"
+     }
+    },
+    "launched_at": "2026-11-16T22:57:05.864784Z",
+    "log": "execution/attempts/product@consolidate#1/adapter.log",
+    "native": {
+     "acp_session_id": "01a1e693-fa6d-72d4-942e-c865980891d0",
+     "acpx_record_id": "334a991e-d042-4b51-a7f1-643048edd3ce",
+     "agent_session_id": null,
+     "available": true,
+     "available_model_count": 652,
+     "closed": false,
+     "config_option_ids": [
+      "model",
+      "thought_level"
+     ],
+     "current_model_id": "magpie/claude/claude-opus-5-5",
+     "model_control": "config_option",
+     "usage_tokens": null
+    },
+    "phase": "launched",
+    "pid": 72286,
+    "process": {
+     "pgid": 72286,
+     "started": "Mon Nov 16 14:57:05 2026"
+    },
+    "recorded_at": "2026-11-16T22:56:58.499251Z",
+    "selection": {
+     "acknowledged": true,
+     "effective_model": "magpie/claude/claude-opus-5-5",
+     "options": {
+      "model": {
+       "acknowledged": true,
+       "effective": "magpie/claude/claude-opus-5-5",
+       "requested": "magpie/claude/claude-opus-5-5"
+      }
+     },
+     "requested_model": "magpie/claude/claude-opus-5-5"
+    },
+    "session": "momo-consolidate-prosevoi-consolidate-9a5f38740e1c2f7fa38e"
+   },
+   "result": null,
+   "run": "product",
+   "state": "running"
+  },
   "product:foundation#1": {
    "adapter": "acpx",
    "claimant": "run:acpx",
    "claimed_at": "2026-11-16T22:44:25.838534Z",
-   "decision": null,
+   "decision": {
+    "at": "2026-11-16T22:56:57.896164Z",
+    "controller": "agent-controller",
+    "decision": "accept",
+    "effect": "succeeded",
+    "evidence": [
+     "result.json status=succeeded; controller-packet checks=[] (no failed runner checks)",
+     "Controller rerun: `uv run python -m unittest discover -s tests -p 'test_prosevoice_*.py'` -> Ran 50 tests OK",
+     "Controller rerun: `uv run python -m unittest discover -s tests` -> Ran 69 tests OK (baseline-tests.log: 19 OK)",
+     "`git diff --quiet HEAD -- skills/pv-preflight skills/pv-prosevoice tests/test_*.py` succeeded: legacy helpers and existing tests unchanged",
+     "git status: only untracked additions (pyproject.toml, uv.lock, skills/prosevoice/, tests/_prosevoice_path.py, tests/test_prosevoice_{config,package}.py); .agents/, .claude/, skills-lock.json still present and untracked; only tracked change is momotron state.json",
+     "pyproject.toml: license MIT, LICENSE 'Copyright (c) 2026 James Dixson (dixson3), Yoshiko Studios LLC', current year 2026",
+     "wheel-build.log: prosevoice-1.1.0 wheel built with prosevoice_lib, _skill/templates, entry_points and the license; installation is deferred to the integration step",
+     "evidence.md coverage table maps tiers/provenance, XDG fallback/invalid, explicit/non-Git roots, relative anchors, duplicate/unknown keys, per-filename list replacement, empty/unfilled fallback, optional illustrations, idempotent init, custom cache ignores, resource lookup, unrelated cwd, and envelope/exit behavior to named tests"
+    ],
+    "reason": "Worker status is succeeded. The controller packet's checks array is empty, so no runner acceptance check failed. The controller reran both checks named in the worker result and both passed. The foundation scope is implemented: a package skeleton, cwd-independent resource lookup, strict layered config with provenance, init, a JSON envelope with exits 0/1/2, a Hatchling MIT pyproject attributed to James Dixson, and the two required test modules mapped to every required case. The 19 original tests and the legacy helpers are byte-unchanged. Commands still unimplemented (check, rule, policy, lint, extract, premise, ready, migrate) belong to later steps, and nothing was committed.",
+    "revision": 73
+   },
    "id": "product:foundation#1",
    "n": 1,
    "node": "foundation",
@@ -97,9 +202,9 @@
     },
     "session": "momo-consolidate-prosevoi-foundation-9bdcdf8f45864a4019dd"
    },
-   "result": null,
+   "result": "execution/blobs/results/5d1181f846b0dd9c19be9132439a9de05c45442e9adb0cdb091e5fa7de535022.json",
    "run": "product",
-   "state": "running"
+   "state": "decided"
   },
   "review-1:review/conformance#1": {
    "adapter": "internal",
@@ -301,6 +406,24 @@
   "repo": "/Users/james/workspace/dixson3/blog-voice"
  },
  "decisions": {
+  "product:foundation#1": {
+   "at": "2026-11-16T22:56:57.896164Z",
+   "controller": "agent-controller",
+   "decision": "accept",
+   "effect": "succeeded",
+   "evidence": [
+    "result.json status=succeeded; controller-packet checks=[] (no failed runner checks)",
+    "Controller rerun: `uv run python -m unittest discover -s tests -p 'test_prosevoice_*.py'` -> Ran 50 tests OK",
+    "Controller rerun: `uv run python -m unittest discover -s tests` -> Ran 69 tests OK (baseline-tests.log: 19 OK)",
+    "`git diff --quiet HEAD -- skills/pv-preflight skills/pv-prosevoice tests/test_*.py` succeeded: legacy helpers and existing tests unchanged",
+    "git status: only untracked additions (pyproject.toml, uv.lock, skills/prosevoice/, tests/_prosevoice_path.py, tests/test_prosevoice_{config,package}.py); .agents/, .claude/, skills-lock.json still present and untracked; only tracked change is momotron state.json",
+    "pyproject.toml: license MIT, LICENSE 'Copyright (c) 2026 James Dixson (dixson3), Yoshiko Studios LLC', current year 2026",
+    "wheel-build.log: prosevoice-1.1.0 wheel built with prosevoice_lib, _skill/templates, entry_points and the license; installation is deferred to the integration step",
+    "evidence.md coverage table maps tiers/provenance, XDG fallback/invalid, explicit/non-Git roots, relative anchors, duplicate/unknown keys, per-filename list replacement, empty/unfilled fallback, optional illustrations, idempotent init, custom cache ignores, resource lookup, unrelated cwd, and envelope/exit behavior to named tests"
+   ],
+   "reason": "Worker status is succeeded. The controller packet's checks array is empty, so no runner acceptance check failed. The controller reran both checks named in the worker result and both passed. The foundation scope is implemented: a package skeleton, cwd-independent resource lookup, strict layered config with provenance, init, a JSON envelope with exits 0/1/2, a Hatchling MIT pyproject attributed to James Dixson, and the two required test modules mapped to every required case. The 19 original tests and the legacy helpers are byte-unchanged. Commands still unimplemented (check, rule, policy, lint, extract, premise, ready, migrate) belong to later steps, and nothing was committed.",
+   "revision": 73
+  },
   "review-1:review/conformance#1": {
    "at": "2026-11-16T22:20:11.632987Z",
    "controller": "agent-controller",
@@ -676,6 +799,21 @@
    "at": "2026-11-16T22:55:48.272284Z",
    "event": "resume reconciliation",
    "revision": 71
+  },
+  {
+   "at": "2026-11-16T22:56:03.563495Z",
+   "event": "resume reconciliation",
+   "revision": 72
+  },
+  {
+   "at": "2026-11-16T22:56:57.896294Z",
+   "event": "decision for product:foundation#1",
+   "revision": 73
+  },
+  {
+   "at": "2026-11-16T22:56:58.251432Z",
+   "event": "claim",
+   "revision": 74
   }
  ],
  "identity": {
@@ -705,7 +843,7 @@
  ],
  "plan_id": "consolidate-prosevoice-executable",
  "planning": null,
- "revision": 71,
+ "revision": 77,
  "runs": {
   "product": {
    "created_at": "2026-11-16T22:44:19.682979Z",
@@ -719,16 +857,18 @@
      "state": "pending"
     },
     "consolidate": {
-     "attempts": [],
+     "attempts": [
+      "product:consolidate#1"
+     ],
      "cycles": 0,
-     "state": "pending"
+     "state": "running"
     },
     "foundation": {
      "attempts": [
       "product:foundation#1"
      ],
      "cycles": 0,
-     "state": "running"
+     "state": "succeeded"
     },
     "integration": {
      "attempts": [],
