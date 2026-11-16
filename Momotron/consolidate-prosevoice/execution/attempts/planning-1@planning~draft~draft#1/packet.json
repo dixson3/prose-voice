@@ -1,0 +1,175 @@
+{
+ "schema": "momotron-packet/1",
+ "plan_id": "consolidate-prosevoice",
+ "objective": "Consolidate pv-prosevoice and pv-preflight into one prosevoice skill; adopt momotron-style Python support package and configuration management; provide an explicit migration helper for older projects without retaining backward compatibility; validate and execute the approved plan.",
+ "definition_digest": "94335c0b749da97a3cb2f4364ad6908c346043687029ecabd2b0c61bbe9fd7b4",
+ "run": "planning-1",
+ "run_kind": "planning",
+ "phase": "planning",
+ "attempt": "planning-1:planning/draft/draft#1",
+ "node": {
+  "id": "planning/draft/draft",
+  "kind": "task",
+  "title": "Draft candidate",
+  "description": "",
+  "params": {},
+  "inputs": [],
+  "outputs": [],
+  "outcomes": [],
+  "process": "planning-draft",
+  "source": {
+   "process": "planning-draft",
+   "node": "draft"
+  }
+ },
+ "role": {
+  "path": "planning/workflow/planning-draft/agents/drafter.md",
+  "text": "# Drafter (planning-draft)\n\nTurn the objective, scope and investigation (dependency outputs, `references/`) into a candidate momotron plan. Edit **only** the staged copy in the packet's `candidate_dir`: `plan.yaml` and `plan-assets/`. The runner validates the copy when you submit and publishes it only through the runner-owned publish step.\n\n- steps with stable ids, `depends_on`, an `executor` (agent role or script argv) and acceptance `checks` that can fail;\n- finite `rework.max_cycles`; human `gate` steps before anything irreversible;\n- logical `bindings` instead of machine paths; long text in `plan-assets/` via `description_asset`;\n- catalog processes (for example `research`) as `process` steps rather than re-invented sequences.\n\nIf you need a decision only the operator can make, set `outputs.questions` to a list of strings and stop; the node waits for human answers and re-runs with them in `planning.questions`. Never answer your own questions.\n\nResult: `status: succeeded`, `outputs.summary` of the candidate.\n"
+ },
+ "bundle": "/Users/james/workspace/dixson3/blog-voice/Momotron/consolidate-prosevoice",
+ "process_dir": "/Users/james/workspace/dixson3/blog-voice/Momotron/consolidate-prosevoice/planning/workflow/planning-draft",
+ "dependency_outputs": {
+  "planning/scope/capture": {
+   "state": "succeeded",
+   "outputs": {
+    "request": "references/request.md"
+   },
+   "summary": "Verified the operator request is captured verbatim in references/request.md.",
+   "artifacts": [],
+   "artifact_dir": "/Users/james/workspace/dixson3/blog-voice/Momotron/consolidate-prosevoice/execution/attempts/planning-1@planning~scope~capture#1/artifacts"
+  },
+  "planning/scope/scope": {
+   "state": "succeeded",
+   "outputs": {
+    "scope": "references/scope.md"
+   },
+   "summary": "Defined the consolidation scope from the packet objective and captured operator request, including constraints, established decisions, exclusions, and investigation questions. No operator-only decision is needed to draft the scope; scope approval remains with the next human gate.",
+   "artifacts": [
+    "references/scope.md"
+   ],
+   "artifact_dir": "/Users/james/workspace/dixson3/blog-voice/Momotron/consolidate-prosevoice/execution/attempts/planning-1@planning~scope~scope#1/artifacts"
+  },
+  "planning/scope/scope-approval": {
+   "state": "succeeded",
+   "selection": "approve"
+  },
+  "planning/investigate/investigate": {
+   "state": "succeeded",
+   "outputs": {
+    "findings": "references/investigation.md"
+   },
+   "summary": "Investigated both repositories and answered all four approved scope questions. Documented momotron's package/resource/configuration patterns, consolidation dependencies and preserved editorial behavior, an explicit migration contract with scope/conflict/resume semantics, and installation/regression acceptance checks. All 19 existing unittest tests and isolated behavior probes pass. Confirmed the existing READY sibling import fails in a single-skill fixture and malformed legacy rule blocks require safer migration handling. No product edits, runner advancement or human-gate actions were performed.",
+   "artifacts": [
+    "references/investigation.md",
+    "execution/attempts/planning-1@planning~investigate~investigate#1/artifacts/investigate.py",
+    "execution/attempts/planning-1@planning~investigate~investigate#1/artifacts/probe-results.json",
+    "execution/attempts/planning-1@planning~investigate~investigate#1/artifacts/probe.log",
+    "execution/attempts/planning-1@planning~investigate~investigate#1/artifacts/unittest.log"
+   ],
+   "artifact_dir": "/Users/james/workspace/dixson3/blog-voice/Momotron/consolidate-prosevoice/execution/attempts/planning-1@planning~investigate~investigate#1/artifacts"
+  }
+ },
+ "working_dir": "/Users/james/workspace/dixson3/blog-voice/Momotron/consolidate-prosevoice",
+ "checks": [],
+ "allowed_operations": [
+  "read-bundle",
+  "write-references",
+  "write-reviews",
+  "write-artifacts",
+  "write-candidate"
+ ],
+ "session": null,
+ "independent": false,
+ "result_path": "/Users/james/workspace/dixson3/blog-voice/Momotron/consolidate-prosevoice/execution/attempts/planning-1@planning~draft~draft#1/result.json",
+ "artifact_dir": "/Users/james/workspace/dixson3/blog-voice/Momotron/consolidate-prosevoice/execution/attempts/planning-1@planning~draft~draft#1/artifacts",
+ "result_schema": {
+  "type": "object",
+  "required": [
+   "status"
+  ],
+  "additionalProperties": false,
+  "properties": {
+   "status": {
+    "enum": [
+     "succeeded",
+     "failed"
+    ]
+   },
+   "summary": {
+    "type": "string"
+   },
+   "outputs": {
+    "type": "object"
+   },
+   "artifacts": {
+    "type": "array",
+    "items": {
+     "type": "string"
+    }
+   }
+  }
+ },
+ "instructions": "Do only this node. Write the result JSON to result_path; put files in artifact_dir. Write permissions are exactly those in write_scope (allowed destinations; protected paths stay read-only), and never resolve a human gate. To ask the operator something, set outputs.questions to a list of strings: the node then waits for human answers and re-runs with them in planning.questions. Draft by editing the staged copy in candidate_dir (plan.yaml, plan-assets/); the runner validates it on submit and publishes it only through the publish-candidate operation.",
+ "planning": {
+  "status": "active",
+  "round": 1,
+  "round_kind": "planning",
+  "remaining_revision_rounds": 3,
+  "objective": "Consolidate pv-prosevoice and pv-preflight into one prosevoice skill; adopt momotron-style Python support package and configuration management; provide an explicit migration helper for older projects without retaining backward compatibility; validate and execute the approved plan.",
+  "params": {},
+  "candidate": {
+   "at": "2026-11-16T03:09:31.277961Z",
+   "digest": "94335c0b749da97a3cb2f4364ad6908c346043687029ecabd2b0c61bbe9fd7b4",
+   "revision": 0,
+   "source": "bootstrap"
+  },
+  "questions": [],
+  "rounds": [
+   {
+    "n": 1,
+    "kind": "planning",
+    "outcome": null,
+    "review_run": null,
+    "candidate_revision": 0
+   }
+  ],
+  "reviews": [],
+  "review_files": []
+ },
+ "candidate_dir": "/Users/james/workspace/dixson3/blog-voice/Momotron/consolidate-prosevoice/execution/attempts/planning-1@planning~draft~draft#1/candidate",
+ "bindings": {},
+ "write_scope": {
+  "allowed": [
+   {
+    "path": "/Users/james/workspace/dixson3/blog-voice/Momotron/consolidate-prosevoice/execution/attempts/planning-1@planning~draft~draft#1/result.json",
+    "what": "result JSON (this attempt)"
+   },
+   {
+    "path": "/Users/james/workspace/dixson3/blog-voice/Momotron/consolidate-prosevoice/execution/attempts/planning-1@planning~draft~draft#1/artifacts/",
+    "what": "files you produce (this attempt)"
+   },
+   {
+    "path": "/Users/james/workspace/dixson3/blog-voice/Momotron/consolidate-prosevoice/execution/attempts/planning-1@planning~draft~draft#1/candidate/",
+    "what": "staged candidate: edit its plan.yaml and plan-assets/"
+   },
+   {
+    "path": "/Users/james/workspace/dixson3/blog-voice/Momotron/consolidate-prosevoice/references/",
+    "what": "bundle references"
+   },
+   {
+    "path": "/Users/james/workspace/dixson3/blog-voice/Momotron/consolidate-prosevoice/reviews/",
+    "what": "bundle reviews"
+   }
+  ],
+  "protected": [
+   "/Users/james/workspace/dixson3/blog-voice/Momotron/consolidate-prosevoice/plan.yaml",
+   "/Users/james/workspace/dixson3/blog-voice/Momotron/consolidate-prosevoice/plan-assets/",
+   "/Users/james/workspace/dixson3/blog-voice/Momotron/consolidate-prosevoice/processes/",
+   "/Users/james/workspace/dixson3/blog-voice/Momotron/consolidate-prosevoice/planning/",
+   "/Users/james/workspace/dixson3/blog-voice/Momotron/consolidate-prosevoice/execution/state.json",
+   "/Users/james/workspace/dixson3/blog-voice/Momotron/consolidate-prosevoice/execution/blobs/",
+   "/Users/james/workspace/dixson3/blog-voice/Momotron/consolidate-prosevoice/execution/attempts/ (every other attempt, and this attempt's packet.json)"
+  ]
+ },
+ "permissions": "You may write only these destinations:\n- /Users/james/workspace/dixson3/blog-voice/Momotron/consolidate-prosevoice/execution/attempts/planning-1@planning~draft~draft#1/result.json \u2014 result JSON (this attempt)\n- /Users/james/workspace/dixson3/blog-voice/Momotron/consolidate-prosevoice/execution/attempts/planning-1@planning~draft~draft#1/artifacts/ \u2014 files you produce (this attempt)\n- /Users/james/workspace/dixson3/blog-voice/Momotron/consolidate-prosevoice/execution/attempts/planning-1@planning~draft~draft#1/candidate/ \u2014 staged candidate: edit its plan.yaml and plan-assets/\n- /Users/james/workspace/dixson3/blog-voice/Momotron/consolidate-prosevoice/references/ \u2014 bundle references\n- /Users/james/workspace/dixson3/blog-voice/Momotron/consolidate-prosevoice/reviews/ \u2014 bundle reviews\nThese are the only paths under execution/ you may write. Everything below stays read-only, even where it lies inside an allowed directory:\n- /Users/james/workspace/dixson3/blog-voice/Momotron/consolidate-prosevoice/plan.yaml\n- /Users/james/workspace/dixson3/blog-voice/Momotron/consolidate-prosevoice/plan-assets/\n- /Users/james/workspace/dixson3/blog-voice/Momotron/consolidate-prosevoice/processes/\n- /Users/james/workspace/dixson3/blog-voice/Momotron/consolidate-prosevoice/planning/\n- /Users/james/workspace/dixson3/blog-voice/Momotron/consolidate-prosevoice/execution/state.json\n- /Users/james/workspace/dixson3/blog-voice/Momotron/consolidate-prosevoice/execution/blobs/\n- /Users/james/workspace/dixson3/blog-voice/Momotron/consolidate-prosevoice/execution/attempts/ (every other attempt, and this attempt's packet.json)\nNever resolve a human gate or invent operator evidence."
+}

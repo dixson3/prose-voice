@@ -3,12 +3,158 @@ id: consolidate-prosevoice
 type: Plan
 okf_spec: MOMOTRON-PLAN
 title: Consolidate and modernize prosevoice
-objective: Consolidate pv-prosevoice and pv-preflight into one prosevoice skill; adopt momotron-style
-  Python support package and configuration management; provide an explicit migration helper for older
-  projects without retaining backward compatibility; validate and execute the approved plan.
-motivation: ''
+objective: >-
+  Consolidate pv-prosevoice and pv-preflight into one prosevoice skill with
+  shared Python support, strict layered configuration, explicit legacy
+  migration, and validated source and wheel installations.
+motivation: >-
+  Remove sibling-skill and duplicate resolver dependencies while preserving
+  editorial behavior and providing a safe explicit transition.
 review_process: planning-review
-bindings: {}
-epics: []
-steps: []
-criteria: []
+bindings:
+  repo:
+    description: >-
+      Product source checkout, bound to the source repository identified in
+      plan-assets/contract.md; the momotron reference is read-only.
+scope:
+  include:
+    - One skill, Python package and resource-aware launcher/console command.
+    - Strict shared configuration, independent guides and additive policy.
+    - Explicit migration, safe rule replacement and interruption recovery.
+    - Editorial regression, docs, scratch skill install and wheel checks.
+  exclude:
+    - Editorial redesign, new writing features and runtime compatibility.
+    - Changes to momotron, operator-installed tooling or frozen history.
+    - >-
+      Real-project migration, global installs, product commits, push
+      and publishing.
+environment:
+  tools: [uv, git, npx]
+  assumptions:
+    - Product execution requires planning-review approval and repo binding.
+    - Python stays stdlib-only and at least 3.11; builds are isolated.
+    - Optional services are fixture-tested; missing tools remain visible.
+inputs:
+  - references/request.md
+  - references/scope.md
+  - references/investigation.md
+outputs: [skills/prosevoice, pyproject.toml, tests, README.md]
+epics:
+  - id: consolidation
+    title: Consolidated runtime and explicit migration
+steps:
+  - id: foundation
+    title: Establish package, CLI and shared configuration
+    type: task
+    epic: consolidation
+    depends_on: []
+    description_asset: plan-assets/execution.md
+    attachments: [plan-assets/contract.md, plan-assets/migration.md]
+    executor: {kind: agent, role: worker, cwd: '{binding:repo}'}
+    rework: {max_cycles: 2}
+    checks:
+      - name: Config and source package contracts
+        argv: [uv, run, python, -m, unittest, discover, -s, tests,
+               -p, 'test_prosevoice_*.py']
+        cwd: '{binding:repo}'
+      - name: Existing behavior remains covered
+        argv: [uv, run, python, -m, unittest, discover, -s, tests]
+        cwd: '{binding:repo}'
+  - id: consolidate
+    title: Consolidate helpers, editorial callers and rule handling
+    type: task
+    epic: consolidation
+    depends_on: [foundation]
+    description_asset: plan-assets/execution.md
+    attachments: [plan-assets/contract.md, plan-assets/migration.md]
+    executor: {kind: agent, role: worker, cwd: '{binding:repo}'}
+    rework: {max_cycles: 2}
+    checks:
+      - name: Consolidated runtime and rule regression
+        argv: [uv, run, python, -m, unittest, discover, -s, tests]
+        cwd: '{binding:repo}'
+  - id: migration
+    title: Implement explicit legacy migration and recovery
+    type: task
+    epic: consolidation
+    depends_on: [consolidate]
+    description_asset: plan-assets/execution.md
+    attachments: [plan-assets/contract.md, plan-assets/migration.md]
+    executor: {kind: agent, role: worker, cwd: '{binding:repo}'}
+    rework: {max_cycles: 2}
+    checks:
+      - name: Migration preservation, conflicts and interrupted apply
+        argv: [uv, run, python, -m, unittest, discover, -s, tests,
+               -p, test_prosevoice_migration.py]
+        cwd: '{binding:repo}'
+      - name: Full runtime regression
+        argv: [uv, run, python, -m, unittest, discover, -s, tests]
+        cwd: '{binding:repo}'
+  - id: integration
+    title: Complete documentation and distribution validation
+    type: task
+    epic: consolidation
+    depends_on: [migration]
+    description_asset: plan-assets/execution.md
+    attachments: [plan-assets/contract.md, plan-assets/migration.md]
+    executor: {kind: agent, role: worker, cwd: '{binding:repo}'}
+    rework: {max_cycles: 2}
+    checks:
+      - name: Final source regression
+        argv: [uv, run, python, -m, unittest, discover, -s, tests]
+        cwd: '{binding:repo}'
+      - name: Isolated skill install, copied launcher and installed wheel
+        argv: [uv, run, tests/check_distribution.py]
+        cwd: '{binding:repo}'
+        timeout: 900
+  - id: acceptance
+    title: Independently verify contracts and final source changes
+    type: task
+    epic: consolidation
+    depends_on: [integration]
+    description_asset: plan-assets/execution.md
+    attachments: [plan-assets/contract.md, plan-assets/migration.md]
+    executor:
+      kind: agent
+      role: reviewer
+      independent: true
+      cwd: '{binding:repo}'
+    rework: {max_cycles: 2}
+    checks:
+      - name: Acceptance regression
+        argv: [uv, run, python, -m, unittest, discover, -s, tests]
+        cwd: '{binding:repo}'
+      - name: Acceptance distributions
+        argv: [uv, run, tests/check_distribution.py]
+        cwd: '{binding:repo}'
+        timeout: 900
+criteria:
+  - id: package-config
+    text: >-
+      One resource-aware package and thin launcher implement strict tiered
+      configuration with provenance and independently resolved guides.
+    verified_by: [foundation, integration, acceptance]
+  - id: preserved-semantics
+    text: >-
+      Editorial authority, all 12 artifact routes, READY source/optional-visual
+      checks, premise fingerprints and additive Harper policy are preserved
+      without legacy sibling imports or lookup.
+    verified_by: [consolidate, acceptance]
+  - id: explicit-migration
+    text: >-
+      Preview writes nothing; apply preserves source data, effective guidance,
+      policy and visual decisions, safely switches recognized rules, and fails
+      closed on conflicts with idempotent interruption recovery.
+    verified_by: [migration, acceptance]
+  - id: distributions
+    text: >-
+      Installed wheel and scratch single-skill installs work from unrelated
+      cwd with isolated home/XDG and no legacy siblings; live docs match the
+      implemented contract.
+    verified_by: [integration, acceptance]
+  - id: bounded-authority
+    text: >-
+      Operator tooling, reference repository and frozen history stay unchanged;
+      completion reports verification and limitations without implied
+      publication or real-project migration.
+    verified_by: [acceptance]

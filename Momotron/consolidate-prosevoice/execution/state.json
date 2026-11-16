@@ -3,9 +3,30 @@
  "attempts": {
   "planning-1:planning/draft/draft#1": {
    "adapter": "current",
+   "checks": [
+    {
+     "argv": [
+      "momotron:validate-candidate"
+     ],
+     "exit": 0,
+     "name": "candidate-valid",
+     "output": "candidate valid; staged digest c6385c6bf564",
+     "passed": true
+    }
+   ],
    "claimant": "run:current",
    "claimed_at": "2026-11-16T03:21:34.652807Z",
-   "decision": null,
+   "decision": {
+    "at": "2026-11-16T03:28:41.237462Z",
+    "controller": "rules_controller",
+    "decision": "accept",
+    "effect": "succeeded",
+    "evidence": [
+     "candidate-valid: exit 0"
+    ],
+    "reason": "worker succeeded and all acceptance checks passed",
+    "revision": 18
+   },
    "id": "planning-1:planning/draft/draft#1",
    "n": 1,
    "node": "planning/draft/draft",
@@ -15,7 +36,7 @@
     "phase": "handed-off",
     "recorded_at": "2026-11-16T03:21:34.660379Z"
    },
-   "result": null,
+   "result": "execution/blobs/results/8ce7090f9dbd3638f838fe5b6971fcf8389e7a0082447b782507f9f38ee4f006.json",
    "run": "planning-1",
    "stage": {
     "base_digest": "94335c0b749da97a3cb2f4364ad6908c346043687029ecabd2b0c61bbe9fd7b4",
@@ -23,7 +44,38 @@
     "dir": "execution/attempts/planning-1@planning~draft~draft#1/candidate",
     "disk_digest": "94335c0b749da97a3cb2f4364ad6908c346043687029ecabd2b0c61bbe9fd7b4"
    },
-   "state": "running"
+   "staged": {
+    "base_digest": "94335c0b749da97a3cb2f4364ad6908c346043687029ecabd2b0c61bbe9fd7b4",
+    "base_revision": 0,
+    "digest": "c6385c6bf564919856e5020caf269801ba9bb283f0d64caa24d062f90f8427a9",
+    "dir": "execution/attempts/planning-1@planning~draft~draft#1/validated"
+   },
+   "state": "decided"
+  },
+  "planning-1:planning/draft/publish#1": {
+   "adapter": "builtin",
+   "claimant": "runner",
+   "claimed_at": "2026-11-16T03:28:41.280875Z",
+   "decision": {
+    "at": "2026-11-16T03:28:41.331583Z",
+    "controller": "runner",
+    "decision": "accept",
+    "effect": "succeeded",
+    "evidence": [],
+    "reason": "validated candidate published"
+   },
+   "id": "planning-1:planning/draft/publish#1",
+   "n": 1,
+   "node": "planning/draft/publish",
+   "packet": null,
+   "receipt": {
+    "adapter": "builtin",
+    "op": "publish-candidate",
+    "recorded_at": "2026-11-16T03:28:41.280922Z"
+   },
+   "result": "execution/blobs/results/029a1fa0532ed33719a62d7a77c88ad27b3d12dad975de35a83aa394ad3fb0fd.json",
+   "run": "planning-1",
+   "state": "decided"
   },
   "planning-1:planning/investigate/investigate#1": {
    "adapter": "current",
@@ -108,6 +160,25 @@
   }
  },
  "decisions": {
+  "planning-1:planning/draft/draft#1": {
+   "at": "2026-11-16T03:28:41.237462Z",
+   "controller": "rules_controller",
+   "decision": "accept",
+   "effect": "succeeded",
+   "evidence": [
+    "candidate-valid: exit 0"
+   ],
+   "reason": "worker succeeded and all acceptance checks passed",
+   "revision": 18
+  },
+  "planning-1:planning/draft/publish#1": {
+   "at": "2026-11-16T03:28:41.331583Z",
+   "controller": "runner",
+   "decision": "accept",
+   "effect": "succeeded",
+   "evidence": [],
+   "reason": "validated candidate published"
+  },
   "planning-1:planning/investigate/investigate#1": {
    "at": "2026-11-16T03:21:34.612630Z",
    "controller": "rules_controller",
@@ -196,6 +267,26 @@
    "at": "2026-11-16T03:21:34.658784Z",
    "event": "claim",
    "revision": 15
+  },
+  {
+   "at": "2026-11-16T03:28:35.079179Z",
+   "event": "result submitted for planning-1:planning/draft/draft#1",
+   "revision": 17
+  },
+  {
+   "at": "2026-11-16T03:28:41.237887Z",
+   "event": "decision for planning-1:planning/draft/draft#1",
+   "revision": 18
+  },
+  {
+   "at": "2026-11-16T03:28:41.293737Z",
+   "event": "publication prepared",
+   "revision": 19
+  },
+  {
+   "at": "2026-11-16T03:28:41.331726Z",
+   "event": "candidate published",
+   "revision": 20
   }
  ],
  "locked_digest": null,
@@ -203,10 +294,14 @@
  "plan_id": "consolidate-prosevoice",
  "planning": {
   "candidate": {
-   "at": "2026-11-16T03:09:31.277961Z",
-   "digest": "94335c0b749da97a3cb2f4364ad6908c346043687029ecabd2b0c61bbe9fd7b4",
-   "revision": 0,
-   "source": "bootstrap"
+   "at": "2026-11-16T03:28:41.311736Z",
+   "attempt": "planning-1:planning/draft/publish#1",
+   "base_revision": 0,
+   "digest": "c6385c6bf564919856e5020caf269801ba9bb283f0d64caa24d062f90f8427a9",
+   "publication": "planning/publications/001-planning-1@planning~draft~publish#1",
+   "revision": 1,
+   "source": "publish",
+   "source_attempt": "planning-1:planning/draft/draft#1"
   },
   "candidate_history": [
    {
@@ -214,6 +309,16 @@
     "digest": "94335c0b749da97a3cb2f4364ad6908c346043687029ecabd2b0c61bbe9fd7b4",
     "revision": 0,
     "source": "bootstrap"
+   },
+   {
+    "at": "2026-11-16T03:28:41.311736Z",
+    "attempt": "planning-1:planning/draft/publish#1",
+    "base_revision": 0,
+    "digest": "c6385c6bf564919856e5020caf269801ba9bb283f0d64caa24d062f90f8427a9",
+    "publication": "planning/publications/001-planning-1@planning~draft~publish#1",
+    "revision": 1,
+    "source": "publish",
+    "source_attempt": "planning-1:planning/draft/draft#1"
    }
   ],
   "decisions": [],
@@ -246,7 +351,7 @@
   "status": "active",
   "workflow_digest": "2057290e9bb2f0de8955332667826c077f40d451f440c09c5288810d929733e1"
  },
- "revision": 16,
+ "revision": 20,
  "runs": {
   "planning-1": {
    "created_at": "2026-11-16T03:09:31.293013Z",
@@ -259,17 +364,19 @@
       "planning-1:planning/draft/draft#1"
      ],
      "cycles": 0,
-     "state": "running"
+     "state": "succeeded"
     },
     "planning/draft/end": {
      "attempts": [],
      "cycles": 0,
-     "state": "pending"
+     "state": "succeeded"
     },
     "planning/draft/publish": {
-     "attempts": [],
+     "attempts": [
+      "planning-1:planning/draft/publish#1"
+     ],
      "cycles": 0,
-     "state": "pending"
+     "state": "succeeded"
     },
     "planning/draft/start": {
      "attempts": [],
@@ -311,7 +418,7 @@
     "planning/review/start": {
      "attempts": [],
      "cycles": 0,
-     "state": "pending"
+     "state": "succeeded"
     },
     "planning/scope/capture": {
      "attempts": [

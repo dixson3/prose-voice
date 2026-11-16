@@ -1,0 +1,15 @@
+{
+  "status": "succeeded",
+  "summary": "Drafted a staged candidate with five bounded implementation/acceptance tasks. The primary agent removed the unnecessary completion gate and clarified standing authorization for plan-bookkeeping commits before submission. The plan declares the repo product binding, concrete package/CLI/config and migration contracts, editorial preservation requirements, and regression/scratch-install/wheel checks. Pure schema and dependency validation passed; no runner submission, advancement, gate resolution or product edits were performed.",
+  "outputs": {
+    "summary": "Candidate consolidates to one resource-aware prosevoice package and skill with strict builtin/user/project/CLI configuration, independent guidance lists and additive Harper policy. It preserves READY, premise fingerprints and all 12 artifact kinds. Migration alone reads legacy state, retains sources, preserves policy and visual decisions, fails closed on conflicts/malformed rules and resumes via a small per-file manifest. Product execution must bind repo to /Users/james/workspace/dixson3/blog-voice; the momotron reference and operator-installed tooling remain protected.",
+    "candidate": "execution/attempts/planning-1@planning~draft~draft#1/candidate/plan.yaml",
+    "validation": "Passed momotron_lib.schema.validate_plan through a read-only import, ordered acyclic dependency checks, bounded-task/check assertions, repo binding assertion and existence checks for every referenced candidate asset. YAML and Markdown write-time lint checks passed. Future product tests are specified, not claimed as executed."
+  },
+  "artifacts": [
+    "execution/attempts/planning-1@planning~draft~draft#1/candidate/plan.yaml",
+    "execution/attempts/planning-1@planning~draft~draft#1/candidate/plan-assets/contract.md",
+    "execution/attempts/planning-1@planning~draft~draft#1/candidate/plan-assets/migration.md",
+    "execution/attempts/planning-1@planning~draft~draft#1/candidate/plan-assets/execution.md"
+  ]
+}
