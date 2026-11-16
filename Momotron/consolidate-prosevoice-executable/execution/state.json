@@ -1391,6 +1391,11 @@
    "at": "2026-11-16T23:21:03.602651Z",
    "event": "resume reconciliation",
    "revision": 170
+  },
+  {
+   "at": "2026-11-16T23:21:18.879160Z",
+   "event": "resume reconciliation",
+   "revision": 171
   }
  ],
  "identity": {
@@ -1420,7 +1425,7 @@
  ],
  "plan_id": "consolidate-prosevoice-executable",
  "planning": null,
- "revision": 170,
+ "revision": 171,
  "runs": {
   "product": {
    "created_at": "2026-11-16T22:44:19.682979Z",
