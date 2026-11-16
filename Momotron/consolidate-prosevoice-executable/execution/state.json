@@ -1,0 +1,220 @@
+{
+ "approvals": [],
+ "attempts": {
+  "review-1:review/conformance#1": {
+   "adapter": "internal",
+   "checks": [],
+   "claimant": "run:internal",
+   "claimed_at": "2026-11-16T22:19:55.327049Z",
+   "decision": {
+    "at": "2026-11-16T22:20:11.632987Z",
+    "controller": "agent-controller",
+    "decision": "accept",
+    "effect": "succeeded",
+    "evidence": [
+     "worker_result.status == succeeded; summary '0 concern(s); verdict pass'",
+     "checks == [] (no acceptance checks declared)",
+     "reviews/conformance-20261116T221955370087Z.md exists (12 lines), frontmatter type Review / okf_spec MOMOTRON-PLAN, 'Verdict: **pass**', concerns table shows 'no concerns'",
+     "worker outputs: route=pass, concerns=[], review path matches the artifact"
+    ],
+    "reason": "Worker status is succeeded and the packet declares no acceptance checks, so none failed. The referenced review artifact exists and agrees with the reported outputs: verdict pass, 0 concerns. The node is a task, not a gateway, so no outcome choice applies.",
+    "revision": 6
+   },
+   "id": "review-1:review/conformance#1",
+   "n": 1,
+   "node": "review/conformance",
+   "packet": "execution/blobs/packets/69a70b92185e340ce1663301690f25f6851e45009a37ce17d0e5f4727e27e654.json",
+   "receipt": {
+    "adapter": "script",
+    "recorded_at": "2026-11-16T22:19:55.339151Z"
+   },
+   "result": "execution/blobs/results/a2ea7b56bf64243ea67ffbfb2733b0720eb886fdcba48df72371888b6eaabaff.json",
+   "run": "review-1",
+   "state": "decided"
+  },
+  "review-1:review/red-team#1": {
+   "adapter": "acpx",
+   "claimant": "run:acpx",
+   "claimed_at": "2026-11-16T22:20:11.794426Z",
+   "decision": null,
+   "id": "review-1:review/red-team#1",
+   "n": 1,
+   "node": "review/red-team",
+   "packet": "execution/blobs/packets/ed15ebe77daed1d30b85484b344f870d72bb064ec137f972e88387137e9940c1.json",
+   "receipt": {
+    "acpx_version": "0.22.0",
+    "adapter": "acpx",
+    "agent": "pi",
+    "cwd": "/Users/james/workspace/dixson3/blog-voice/Momotron/consolidate-prosevoice-executable",
+    "effective": {
+     "agent": "pi",
+     "config": {},
+     "config_source": "project",
+     "model": "magpie/claude/claude-opus-5-5",
+     "permission": "approve-all",
+     "session_policy": "fresh-per-attempt",
+     "timeout": 3600
+    },
+    "identity": {
+     "attempt": "review-1:review/red-team#1",
+     "bundle_uid": "caa4bb0e2178465197995adceda728b2",
+     "generation": 1,
+     "group": "attempt:review-1:review/red-team#1",
+     "host": "d3-mbp-m5.local",
+     "location": "/Users/james/workspace/dixson3/blog-voice/Momotron/consolidate-prosevoice-executable",
+     "node": "review/red-team",
+     "plan_id": "consolidate-prosevoice-executable",
+     "policy": "fresh-per-attempt",
+     "role": "processes/planning-review/agents/red-team.md",
+     "run": "review-1",
+     "schema": "momotron-session-identity/1",
+     "session_name": "momo-consolidate-prosevoi-review-red-team-ccb372bd9286225cd6f8",
+     "session_plan": {
+      "action": "fresh",
+      "generation": 1,
+      "key": null,
+      "problem": null,
+      "reason": "fresh-per-attempt"
+     }
+    },
+    "log": "execution/attempts/review-1@review~red-team#1/adapter.log",
+    "phase": "launching",
+    "recorded_at": "2026-11-16T22:20:11.914503Z",
+    "session": "momo-consolidate-prosevoi-review-red-team-ccb372bd9286225cd6f8"
+   },
+   "result": null,
+   "run": "review-1",
+   "state": "running"
+  }
+ },
+ "bindings": {
+  "momotron": "/Users/james/workspace/dixson3/momotron",
+  "repo": "/Users/james/workspace/dixson3/blog-voice"
+ },
+ "decisions": {
+  "review-1:review/conformance#1": {
+   "at": "2026-11-16T22:20:11.632987Z",
+   "controller": "agent-controller",
+   "decision": "accept",
+   "effect": "succeeded",
+   "evidence": [
+    "worker_result.status == succeeded; summary '0 concern(s); verdict pass'",
+    "checks == [] (no acceptance checks declared)",
+    "reviews/conformance-20261116T221955370087Z.md exists (12 lines), frontmatter type Review / okf_spec MOMOTRON-PLAN, 'Verdict: **pass**', concerns table shows 'no concerns'",
+    "worker outputs: route=pass, concerns=[], review path matches the artifact"
+   ],
+   "reason": "Worker status is succeeded and the packet declares no acceptance checks, so none failed. The referenced review artifact exists and agrees with the reported outputs: verdict pass, 0 concerns. The node is a task, not a gateway, so no outcome choice applies.",
+   "revision": 6
+  }
+ },
+ "events": [
+  {
+   "at": "2026-11-16T22:19:44.778753Z",
+   "event": "review run started by James Dixson",
+   "revision": 1
+  },
+  {
+   "at": "2026-11-16T22:19:55.291715Z",
+   "event": "bindings recorded: ['momotron', 'repo']",
+   "revision": 2
+  },
+  {
+   "at": "2026-11-16T22:19:55.335069Z",
+   "event": "claim",
+   "revision": 3
+  },
+  {
+   "at": "2026-11-16T22:19:55.394698Z",
+   "event": "result submitted for review-1:review/conformance#1",
+   "revision": 5
+  },
+  {
+   "at": "2026-11-16T22:20:11.633040Z",
+   "event": "decision for review-1:review/conformance#1",
+   "revision": 6
+  },
+  {
+   "at": "2026-11-16T22:20:11.806410Z",
+   "event": "claim",
+   "revision": 7
+  }
+ ],
+ "identity": {
+  "bundle_uid": "caa4bb0e2178465197995adceda728b2",
+  "created_at": "2026-11-16T22:20:11.914389Z"
+ },
+ "locked_digest": null,
+ "observations": [
+  {
+   "at": "2026-11-16T22:19:55.291529Z",
+   "bindings": {
+    "momotron": "/Users/james/workspace/dixson3/momotron",
+    "repo": "/Users/james/workspace/dixson3/blog-voice"
+   },
+   "host": "d3-mbp-m5.local",
+   "kind": "bindings"
+  }
+ ],
+ "plan_id": "consolidate-prosevoice-executable",
+ "planning": null,
+ "revision": 8,
+ "runs": {
+  "review-1": {
+   "created_at": "2026-11-16T22:19:44.778598Z",
+   "digest": "7fa7754b3f688b29d9c47f1c686c75dc393dc62bd961a346dcaec16d57faa3f3",
+   "extended": false,
+   "id": "review-1",
+   "kind": "review",
+   "nodes": {
+    "review/approval": {
+     "attempts": [],
+     "cycles": 0,
+     "state": "pending"
+    },
+    "review/conformance": {
+     "attempts": [
+      "review-1:review/conformance#1"
+     ],
+     "cycles": 0,
+     "state": "succeeded"
+    },
+    "review/end": {
+     "attempts": [],
+     "cycles": 0,
+     "state": "pending"
+    },
+    "review/portability": {
+     "attempts": [],
+     "cycles": 0,
+     "state": "pending"
+    },
+    "review/red-team": {
+     "attempts": [
+      "review-1:review/red-team#1"
+     ],
+     "cycles": 0,
+     "state": "running"
+    },
+    "review/revise": {
+     "attempts": [],
+     "cycles": 0,
+     "state": "pending"
+    },
+    "review/start": {
+     "attempts": [],
+     "cycles": 0,
+     "state": "succeeded"
+    },
+    "review/verdict": {
+     "attempts": [],
+     "cycles": 0,
+     "state": "pending"
+    }
+   },
+   "process_digest": "4a5ccf44386e350b1495ff9159799c9b9d13a3d029123e3d060a67991929a465",
+   "started_by": "James Dixson",
+   "status": "active"
+  }
+ },
+ "schema_version": 2
+}

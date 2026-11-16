@@ -1,0 +1,10 @@
+{
+  "decision": "accept",
+  "reason": "Worker status is succeeded and the packet declares no acceptance checks, so none failed. The referenced review artifact exists and agrees with the reported outputs: verdict pass, 0 concerns. The node is a task, not a gateway, so no outcome choice applies.",
+  "evidence": [
+    "worker_result.status == succeeded; summary '0 concern(s); verdict pass'",
+    "checks == [] (no acceptance checks declared)",
+    "reviews/conformance-20261116T221955370087Z.md exists (12 lines), frontmatter type Review / okf_spec MOMOTRON-PLAN, 'Verdict: **pass**', concerns table shows 'no concerns'",
+    "worker outputs: route=pass, concerns=[], review path matches the artifact"
+  ]
+}

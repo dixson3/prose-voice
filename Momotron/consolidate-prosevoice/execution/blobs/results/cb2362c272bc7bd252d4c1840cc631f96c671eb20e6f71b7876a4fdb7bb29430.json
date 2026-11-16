@@ -1,0 +1,12 @@
+{
+ "artifacts": [],
+ "outputs": {
+  "candidate_digest": "ae99cb96b3383d30177e5c86b7dd9a58574ff4173295d3e4215557dcf576452e",
+  "candidate_revision": 2,
+  "outcome": "approved",
+  "review_run": "review-2",
+  "route": "approved"
+ },
+ "status": "succeeded",
+ "summary": "review review-2 ended approved"
+}

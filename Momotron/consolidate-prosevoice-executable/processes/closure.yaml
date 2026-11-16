@@ -1,0 +1,27 @@
+schema_version: 1
+id: consolidate-prosevoice-executable-closure
+type: Closure
+okf_spec: MOMOTRON-PLAN
+review_process: planning-review
+processes:
+  planning-review:
+    version: 1.1.0
+    title: Planning review
+    kind: review
+    source:
+      tier: builtin
+      kind: catalog
+      origin: catalog:planning-review
+    digest: 4a5ccf44386e350b1495ff9159799c9b9d13a3d029123e3d060a67991929a465
+    files:
+      agents/red-team.md: f6347bf22465a8cd0fa6471aa39ec1256080b307871da664572a09b93b954dd5
+      agents/reviser.md: cf7f9dfe1a1060e6227ff92c2072f0d2fc2052adfe6e6fd0c3bd216172e6a6c6
+      context.md: eb66b5595eeb077f4eef9801a669d1adf32baa8cd81597d7328b192da6a15ed8
+      index.md: cc1e1a9f8e801e71f03a0f9951eba4f973afffde2aaebbe9ac60bae1f68ca9ed
+      log.md: eaf8411eed6998e48cae913dc0fac01706ed0ab9308ef42d5805c552c0de6092
+      process.yaml: 32f40e8f71ad85532fda716c5b3b544bfb396129a7c3494568ab2d2b5ccf26ec
+      scripts/conformance.py: 17162730a474226e80db31a2b363833decb6ba39aa90a660e4d060ac624549fa
+      scripts/portability.py: c265138c79bfba7c6df76f6ab010043ad121486ae1e451057e998bee416c00c8
+roles:
+  reviewer: a891abbba84aa1aa5383ad215bd18db234e2beddc9f7b0505ecda6205e8c2d67
+  worker: aec36fbf1493cf24ad94949f806c2efb6c9f796bec72491f97e9a7c1d082e1d2
