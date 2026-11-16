@@ -1,5 +1,18 @@
 {
- "approvals": [],
+ "approvals": [
+  {
+   "actor": "James Dixson",
+   "at": "2026-11-16T22:11:16.666138Z",
+   "authority": "designated-gate",
+   "candidate_revision": 2,
+   "digest": "ae99cb96b3383d30177e5c86b7dd9a58574ff4173295d3e4215557dcf576452e",
+   "evidence": "Operator approved the plan and requested execution: approve the plan; run with controller/worker pair under opus-5-5 with acpx",
+   "gate": "review/approval",
+   "review_process": "planning-review",
+   "review_process_digest": "4a5ccf44386e350b1495ff9159799c9b9d13a3d029123e3d060a67991929a465",
+   "review_run": "review-2"
+  }
+ ],
  "attempts": {
   "planning-1:planning/draft/draft#1": {
    "adapter": "current",
@@ -206,7 +219,14 @@
    "adapter": "builtin",
    "claimant": "review:James Dixson",
    "claimed_at": "2026-11-16T03:35:21.585723Z",
-   "decision": null,
+   "decision": {
+    "at": "2026-11-16T22:11:16.680543Z",
+    "controller": "runner",
+    "decision": "accept",
+    "effect": "succeeded",
+    "evidence": [],
+    "reason": "bound review run review-2 reached approved"
+   },
    "id": "planning-2:revision/review/review#1",
    "n": 1,
    "node": "revision/review/review",
@@ -217,9 +237,9 @@
     "recorded_at": "2026-11-16T03:35:21.585747Z",
     "review_run": "review-2"
    },
-   "result": null,
+   "result": "execution/blobs/results/cb2362c272bc7bd252d4c1840cc631f96c671eb20e6f71b7876a4fdb7bb29430.json",
    "run": "planning-2",
-   "state": "running"
+   "state": "decided"
   },
   "planning-2:revision/revise#1": {
    "adapter": "current",
@@ -566,6 +586,14 @@
    "effect": "succeeded",
    "evidence": [],
    "reason": "validated candidate published"
+  },
+  "planning-2:revision/review/review#1": {
+   "at": "2026-11-16T22:11:16.680543Z",
+   "controller": "runner",
+   "decision": "accept",
+   "effect": "succeeded",
+   "evidence": [],
+   "reason": "bound review run review-2 reached approved"
   },
   "planning-2:revision/revise#1": {
    "at": "2026-11-16T03:35:21.339224Z",
@@ -944,6 +972,11 @@
    "at": "2026-11-16T03:37:44.910322Z",
    "event": "decision for review-2:review/portability#1",
    "revision": 68
+  },
+  {
+   "at": "2026-11-16T22:11:16.684062Z",
+   "event": "gate review/approval approve by James Dixson",
+   "revision": 69
   }
  ],
  "locked_digest": null,
@@ -1053,21 +1086,22 @@
    },
    {
     "candidate_revision": 1,
+    "finished_at": "2026-11-16T22:11:16.684055Z",
     "kind": "revision",
     "n": 2,
-    "outcome": null,
+    "outcome": "approved",
     "process": "planning-revision",
-    "review_run": null,
+    "review_run": "review-2",
     "run": "planning-2",
     "started_at": "2026-11-16T03:34:05.476203Z"
    }
   ],
   "started_at": "2026-11-16T03:09:31.277961Z",
   "started_by": "James Dixson",
-  "status": "active",
+  "status": "approved",
   "workflow_digest": "2057290e9bb2f0de8955332667826c077f40d451f440c09c5288810d929733e1"
  },
- "revision": 68,
+ "revision": 69,
  "runs": {
   "planning-1": {
    "created_at": "2026-11-16T03:09:31.293013Z",
@@ -1189,13 +1223,14 @@
   "planning-2": {
    "created_at": "2026-11-16T03:34:05.476172Z",
    "digest": "2057290e9bb2f0de8955332667826c077f40d451f440c09c5288810d929733e1",
+   "finished_at": "2026-11-16T22:11:16.680571Z",
    "id": "planning-2",
    "kind": "planning",
    "nodes": {
     "revision/end": {
      "attempts": [],
      "cycles": 0,
-     "state": "pending"
+     "state": "succeeded"
     },
     "revision/publish": {
      "attempts": [
@@ -1207,14 +1242,14 @@
     "revision/review/end": {
      "attempts": [],
      "cycles": 0,
-     "state": "pending"
+     "state": "succeeded"
     },
     "revision/review/review": {
      "attempts": [
       "planning-2:revision/review/review#1"
      ],
      "cycles": 0,
-     "state": "running"
+     "state": "succeeded"
     },
     "revision/review/start": {
      "attempts": [],
@@ -1238,6 +1273,41 @@
    "process": "planning-revision",
    "process_digest": "5b99252a756c375c25ed03f0b46d959e7e6f7312b84a9152dac451b9744ff0e3",
    "round": 2,
+   "status": "completed"
+  },
+  "product": {
+   "created_at": "2026-11-16T22:11:16.670072Z",
+   "digest": "ae99cb96b3383d30177e5c86b7dd9a58574ff4173295d3e4215557dcf576452e",
+   "id": "product",
+   "kind": "product",
+   "nodes": {
+    "acceptance": {
+     "attempts": [],
+     "cycles": 0,
+     "state": "pending"
+    },
+    "consolidate": {
+     "attempts": [],
+     "cycles": 0,
+     "state": "pending"
+    },
+    "foundation": {
+     "attempts": [],
+     "cycles": 0,
+     "state": "pending"
+    },
+    "integration": {
+     "attempts": [],
+     "cycles": 0,
+     "state": "pending"
+    },
+    "migration": {
+     "attempts": [],
+     "cycles": 0,
+     "state": "pending"
+    }
+   },
+   "process_digest": null,
    "status": "active"
   },
   "review-1": {
@@ -1311,17 +1381,26 @@
    "status": "cancelled"
   },
   "review-2": {
+   "approval_recorded": true,
    "candidate_revision": 2,
    "created_at": "2026-11-16T03:35:21.577715Z",
    "digest": "ae99cb96b3383d30177e5c86b7dd9a58574ff4173295d3e4215557dcf576452e",
    "extended": false,
+   "finished_at": "2026-11-16T22:11:16.663733Z",
    "id": "review-2",
    "kind": "review",
    "nodes": {
     "review/approval": {
      "attempts": [],
      "cycles": 0,
-     "state": "pending"
+     "gate": {
+      "actor": "James Dixson",
+      "at": "2026-11-16T22:11:16.661613Z",
+      "evidence": "Operator approved the plan and requested execution: approve the plan; run with controller/worker pair under opus-5-5 with acpx",
+      "outcome": "approve"
+     },
+     "selection": "approve",
+     "state": "succeeded"
     },
     "review/conformance": {
      "attempts": [
@@ -1333,7 +1412,7 @@
     "review/end": {
      "attempts": [],
      "cycles": 0,
-     "state": "pending"
+     "state": "succeeded"
     },
     "review/portability": {
      "attempts": [
@@ -1372,7 +1451,7 @@
    "process_digest": "4a5ccf44386e350b1495ff9159799c9b9d13a3d029123e3d060a67991929a465",
    "started_by": "James Dixson",
    "started_via": "planning-authorization",
-   "status": "active"
+   "status": "approved"
   }
  },
  "schema_version": 2

@@ -1,4 +1,25 @@
 {
   "schema_version": 1,
-  "plans_root": "Momotron"
+  "plans_root": "Momotron",
+  "default_adapter": "acpx",
+  "controller": "agent",
+  "acpx": {
+    "agent": "pi",
+    "model": "magpie/claude/claude-opus-5-5",
+    "timeout": 3600,
+    "permission": "approve-all"
+  },
+  "command_adapter": {
+    "argv": [
+      "acpx",
+      "--cwd", "{cwd}",
+      "--model", "magpie/claude/claude-opus-5-5",
+      "--approve-all",
+      "--format", "json",
+      "--timeout", "600",
+      "pi", "exec",
+      "You are the independent momotron controller. Read only the controller packet at {packet} and the evidence it references. Follow its role and decision schema. Assess the worker result and every acceptance check. Write the decision JSON to {result}. Do not edit product files, execute plan steps, resolve human gates, or approve anything on behalf of the operator. Return a short summary after writing the decision."
+    ],
+    "timeout": 660
+  }
 }
