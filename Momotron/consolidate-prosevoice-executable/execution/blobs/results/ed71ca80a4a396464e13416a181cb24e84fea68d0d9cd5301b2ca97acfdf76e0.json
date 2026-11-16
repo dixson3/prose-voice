@@ -1,0 +1,11 @@
+{
+ "artifacts": [],
+ "outputs": {
+  "candidates": [
+   "pass"
+  ],
+  "route": "pass"
+ },
+ "status": "succeeded",
+ "summary": "route proposed by predecessors: pass"
+}

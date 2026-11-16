@@ -1,0 +1,11 @@
+{
+  "decision": "choose:pass",
+  "reason": "Gateway node review/verdict declares outcomes [pass, revise]. Worker result status is succeeded; predecessors proposed a single candidate route 'pass' with no competing candidates. No acceptance checks are defined, so none failed.",
+  "evidence": [
+    "worker_result.status = succeeded",
+    "worker_result.outputs.route = pass",
+    "worker_result.outputs.candidates = [pass]",
+    "node.kind = gateway; node.outcomes includes pass",
+    "checks = [] (no acceptance checks to fail)"
+  ]
+}

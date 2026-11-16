@@ -1,0 +1,11 @@
+{
+ "artifacts": [
+  "reviews/red-team-review-1-review-red-team-1.md"
+ ],
+ "outputs": {
+  "review": "reviews/red-team-review-1-review-red-team-1.md",
+  "route": "pass"
+ },
+ "status": "succeeded",
+ "summary": "Red-team pass: 0 BLOCKING; 2 NONBLOCKING (distribution-script exit semantics for unverified results; uv.lock status noise), 3 DEFERRED (self-authored distribution script and migration fidelity to acceptance; binding fix to first dispatch). Verdict pass."
+}

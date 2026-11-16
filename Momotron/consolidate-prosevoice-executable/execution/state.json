@@ -32,11 +32,57 @@
    "run": "review-1",
    "state": "decided"
   },
+  "review-1:review/portability#1": {
+   "adapter": "internal",
+   "checks": [],
+   "claimant": "run:internal",
+   "claimed_at": "2026-11-16T22:22:36.188840Z",
+   "decision": {
+    "at": "2026-11-16T22:22:48.676925Z",
+    "controller": "agent-controller",
+    "decision": "accept",
+    "effect": "succeeded",
+    "evidence": [
+     "worker_result.status = succeeded",
+     "worker_result.outputs.problems = [] (no portability problems reported)",
+     "checks = [] (no acceptance checks declared; none failed)",
+     "node.kind = task; no outcomes declared; no human gate involved",
+     "worker_result.artifacts = [] (no artifacts referenced for further review)"
+    ],
+    "reason": "Worker result status is 'succeeded' with summary 'bundle is portable' and an empty problems list. The node declares no acceptance checks, so none failed. This is a task node, not a gateway or human gate.",
+    "revision": 22
+   },
+   "id": "review-1:review/portability#1",
+   "n": 1,
+   "node": "review/portability",
+   "packet": "execution/blobs/packets/5ccf9899011692e301666683fe850839c32cf0f8eace95f60f9a1aef54d75805.json",
+   "receipt": {
+    "adapter": "script",
+    "recorded_at": "2026-11-16T22:22:36.213285Z"
+   },
+   "result": "execution/blobs/results/c44fb429e41e2699478ad6117da0fdba5f0d3dd1d526b2f7dfbbfcf3265a5e23.json",
+   "run": "review-1",
+   "state": "decided"
+  },
   "review-1:review/red-team#1": {
    "adapter": "acpx",
    "claimant": "run:acpx",
    "claimed_at": "2026-11-16T22:20:11.794426Z",
-   "decision": null,
+   "decision": {
+    "at": "2026-11-16T22:22:22.538440Z",
+    "controller": "agent-controller",
+    "decision": "accept",
+    "effect": "succeeded",
+    "evidence": [
+     "controller-packet.json: worker_result.status = succeeded; checks = []",
+     "reviews/red-team-review-1-review-red-team-1.md:8 Verdict pass, no BLOCKING concern",
+     "reviews/red-team-review-1-review-red-team-1.md:29-37 concerns table RT-1..RT-5 with classes, evidence and dispositions",
+     "reviews/conformance-20261116T221955370087Z.md:8-12 conformance verdict pass, no concerns",
+     "reviews/red-team-review-1-review-red-team-1.md:39-41 write boundary: no plan/product changes, no gate resolved"
+    ],
+    "reason": "Worker status is succeeded and the node declares no acceptance checks (checks: []), so none failed. The review artifact exists, reads the dependency conformance pass (zero concerns), and records 0 BLOCKING, 2 NONBLOCKING (RT-2, RT-3) and 3 DEFERRED (RT-1, RT-4, RT-5) concerns, each with evidence and a disposition that names a later check. outputs.route is 'pass', a value the node allows, and it is consistent with having no BLOCKING concern. This decision accepts the review attempt only; it does not approve execution or resolve the planning-review human gate.",
+    "revision": 15
+   },
    "id": "review-1:review/red-team#1",
    "n": 1,
    "node": "review/red-team",
@@ -116,9 +162,38 @@
     },
     "session": "momo-consolidate-prosevoi-review-red-team-ccb372bd9286225cd6f8"
    },
-   "result": null,
+   "result": "execution/blobs/results/343c566bcfa88cf81d571a8b9b052774028b8a8706485730274c199f133661c6.json",
    "run": "review-1",
-   "state": "running"
+   "state": "decided"
+  },
+  "review-1:review/verdict#1": {
+   "adapter": "internal",
+   "checks": [],
+   "claimant": "run:internal",
+   "claimed_at": "2026-11-16T22:22:22.555206Z",
+   "decision": {
+    "at": "2026-11-16T22:22:36.169094Z",
+    "controller": "agent-controller",
+    "decision": "choose:pass",
+    "effect": "selected pass",
+    "evidence": [
+     "worker_result.status = succeeded",
+     "worker_result.outputs.route = pass",
+     "worker_result.outputs.candidates = [pass]",
+     "node.kind = gateway; node.outcomes includes pass",
+     "checks = [] (no acceptance checks to fail)"
+    ],
+    "reason": "Gateway node review/verdict declares outcomes [pass, revise]. Worker result status is succeeded; predecessors proposed a single candidate route 'pass' with no competing candidates. No acceptance checks are defined, so none failed.",
+    "revision": 18
+   },
+   "id": "review-1:review/verdict#1",
+   "n": 1,
+   "node": "review/verdict",
+   "packet": "execution/blobs/packets/774d6ee2fc61892338789dbe0f088632da8ffd66289d907729eab5cd4e3d560d.json",
+   "receipt": null,
+   "result": "execution/blobs/results/ed71ca80a4a396464e13416a181cb24e84fea68d0d9cd5301b2ca97acfdf76e0.json",
+   "run": "review-1",
+   "state": "decided"
   }
  },
  "bindings": {
@@ -139,6 +214,51 @@
    ],
    "reason": "Worker status is succeeded and the packet declares no acceptance checks, so none failed. The referenced review artifact exists and agrees with the reported outputs: verdict pass, 0 concerns. The node is a task, not a gateway, so no outcome choice applies.",
    "revision": 6
+  },
+  "review-1:review/portability#1": {
+   "at": "2026-11-16T22:22:48.676925Z",
+   "controller": "agent-controller",
+   "decision": "accept",
+   "effect": "succeeded",
+   "evidence": [
+    "worker_result.status = succeeded",
+    "worker_result.outputs.problems = [] (no portability problems reported)",
+    "checks = [] (no acceptance checks declared; none failed)",
+    "node.kind = task; no outcomes declared; no human gate involved",
+    "worker_result.artifacts = [] (no artifacts referenced for further review)"
+   ],
+   "reason": "Worker result status is 'succeeded' with summary 'bundle is portable' and an empty problems list. The node declares no acceptance checks, so none failed. This is a task node, not a gateway or human gate.",
+   "revision": 22
+  },
+  "review-1:review/red-team#1": {
+   "at": "2026-11-16T22:22:22.538440Z",
+   "controller": "agent-controller",
+   "decision": "accept",
+   "effect": "succeeded",
+   "evidence": [
+    "controller-packet.json: worker_result.status = succeeded; checks = []",
+    "reviews/red-team-review-1-review-red-team-1.md:8 Verdict pass, no BLOCKING concern",
+    "reviews/red-team-review-1-review-red-team-1.md:29-37 concerns table RT-1..RT-5 with classes, evidence and dispositions",
+    "reviews/conformance-20261116T221955370087Z.md:8-12 conformance verdict pass, no concerns",
+    "reviews/red-team-review-1-review-red-team-1.md:39-41 write boundary: no plan/product changes, no gate resolved"
+   ],
+   "reason": "Worker status is succeeded and the node declares no acceptance checks (checks: []), so none failed. The review artifact exists, reads the dependency conformance pass (zero concerns), and records 0 BLOCKING, 2 NONBLOCKING (RT-2, RT-3) and 3 DEFERRED (RT-1, RT-4, RT-5) concerns, each with evidence and a disposition that names a later check. outputs.route is 'pass', a value the node allows, and it is consistent with having no BLOCKING concern. This decision accepts the review attempt only; it does not approve execution or resolve the planning-review human gate.",
+   "revision": 15
+  },
+  "review-1:review/verdict#1": {
+   "at": "2026-11-16T22:22:36.169094Z",
+   "controller": "agent-controller",
+   "decision": "choose:pass",
+   "effect": "selected pass",
+   "evidence": [
+    "worker_result.status = succeeded",
+    "worker_result.outputs.route = pass",
+    "worker_result.outputs.candidates = [pass]",
+    "node.kind = gateway; node.outcomes includes pass",
+    "checks = [] (no acceptance checks to fail)"
+   ],
+   "reason": "Gateway node review/verdict declares outcomes [pass, revise]. Worker result status is succeeded; predecessors proposed a single candidate route 'pass' with no competing candidates. No acceptance checks are defined, so none failed.",
+   "revision": 18
   }
  },
  "events": [
@@ -186,6 +306,46 @@
    "at": "2026-11-16T22:21:47.066118Z",
    "event": "resume reconciliation",
    "revision": 13
+  },
+  {
+   "at": "2026-11-16T22:21:57.240347Z",
+   "event": "resume reconciliation",
+   "revision": 14
+  },
+  {
+   "at": "2026-11-16T22:22:22.538492Z",
+   "event": "decision for review-1:review/red-team#1",
+   "revision": 15
+  },
+  {
+   "at": "2026-11-16T22:22:22.569884Z",
+   "event": "claim",
+   "revision": 16
+  },
+  {
+   "at": "2026-11-16T22:22:22.593547Z",
+   "event": "result submitted for review-1:review/verdict#1",
+   "revision": 17
+  },
+  {
+   "at": "2026-11-16T22:22:36.169179Z",
+   "event": "decision for review-1:review/verdict#1",
+   "revision": 18
+  },
+  {
+   "at": "2026-11-16T22:22:36.208927Z",
+   "event": "claim",
+   "revision": 19
+  },
+  {
+   "at": "2026-11-16T22:22:36.270964Z",
+   "event": "result submitted for review-1:review/portability#1",
+   "revision": 21
+  },
+  {
+   "at": "2026-11-16T22:22:48.677059Z",
+   "event": "decision for review-1:review/portability#1",
+   "revision": 22
   }
  ],
  "identity": {
@@ -206,7 +366,7 @@
  ],
  "plan_id": "consolidate-prosevoice-executable",
  "planning": null,
- "revision": 13,
+ "revision": 22,
  "runs": {
   "review-1": {
    "created_at": "2026-11-16T22:19:44.778598Z",
@@ -233,21 +393,23 @@
      "state": "pending"
     },
     "review/portability": {
-     "attempts": [],
+     "attempts": [
+      "review-1:review/portability#1"
+     ],
      "cycles": 0,
-     "state": "pending"
+     "state": "succeeded"
     },
     "review/red-team": {
      "attempts": [
       "review-1:review/red-team#1"
      ],
      "cycles": 0,
-     "state": "running"
+     "state": "succeeded"
     },
     "review/revise": {
      "attempts": [],
      "cycles": 0,
-     "state": "pending"
+     "state": "skipped"
     },
     "review/start": {
      "attempts": [],
@@ -255,9 +417,12 @@
      "state": "succeeded"
     },
     "review/verdict": {
-     "attempts": [],
+     "attempts": [
+      "review-1:review/verdict#1"
+     ],
      "cycles": 0,
-     "state": "pending"
+     "selection": "pass",
+     "state": "succeeded"
     }
    },
    "process_digest": "4a5ccf44386e350b1495ff9159799c9b9d13a3d029123e3d060a67991929a465",

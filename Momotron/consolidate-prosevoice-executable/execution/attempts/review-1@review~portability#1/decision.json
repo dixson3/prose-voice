@@ -1,0 +1,11 @@
+{
+  "decision": "accept",
+  "reason": "Worker result status is 'succeeded' with summary 'bundle is portable' and an empty problems list. The node declares no acceptance checks, so none failed. This is a task node, not a gateway or human gate.",
+  "evidence": [
+    "worker_result.status = succeeded",
+    "worker_result.outputs.problems = [] (no portability problems reported)",
+    "checks = [] (no acceptance checks declared; none failed)",
+    "node.kind = task; no outcomes declared; no human gate involved",
+    "worker_result.artifacts = [] (no artifacts referenced for further review)"
+  ]
+}
