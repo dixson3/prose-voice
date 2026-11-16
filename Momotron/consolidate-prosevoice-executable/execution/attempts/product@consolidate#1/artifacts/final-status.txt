@@ -1,0 +1,17 @@
+ M tests/test_harper_lint.py
+ M tests/test_harper_policy.py
+ M tests/test_narrative_scope.py
+?? .agents/
+?? .claude/
+?? Momotron/consolidate-prosevoice-executable/execution/attempts/product@consolidate#1/artifacts/
+?? Momotron/consolidate-prosevoice/execution/.publish.lock
+?? Momotron/consolidate-prosevoice/execution/attempts/planning-1@planning~investigate~investigate#1/artifacts/fixtures/
+?? pyproject.toml
+?? skills-lock.json
+?? skills/prosevoice/
+?? tests/_prosevoice_path.py
+?? tests/test_prosevoice_config.py
+?? tests/test_prosevoice_package.py
+?? tests/test_prosevoice_rules.py
+?? tests/test_prosevoice_runtime.py
+?? uv.lock
