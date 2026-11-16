@@ -313,9 +313,103 @@
     },
     "session": "momo-consolidate-prosevoi-integration-5ee07c1ad42f4505ef8b"
    },
+   "recovery": {
+    "action": "retry",
+    "actor": "James Dixson",
+    "at": "2026-11-16T23:51:48.086286Z",
+    "evidence": "Operator selected Retry integration (Recommended): preserve existing edits, retry integration with a fresh Opus 5.5 ACP worker, then continue through acceptance. The prior worker mistook its own receipt PID for a competitor, ended without result.json, and its dispatch process is confirmed exited with the ACP session closed. See references/integration-recovery.md."
+   },
    "result": null,
    "run": "product",
-   "state": "interrupted"
+   "state": "abandoned"
+  },
+  "product:integration#2": {
+   "adapter": "acpx",
+   "claimant": "run:acpx",
+   "claimed_at": "2026-11-16T23:51:55.777939Z",
+   "decision": null,
+   "id": "product:integration#2",
+   "n": 2,
+   "node": "integration",
+   "packet": "execution/blobs/packets/7d1354726707f0caa7c2cab07cd1c6f50ca9de386605f22209edf01ff0980b3d.json",
+   "receipt": {
+    "acpx_version": "0.22.0",
+    "adapter": "acpx",
+    "agent": "pi",
+    "cwd": "/Users/james/workspace/dixson3/blog-voice",
+    "deadline": 1794876724.0027788,
+    "effective": {
+     "agent": "pi",
+     "config": {},
+     "config_source": "project",
+     "model": "magpie/claude/claude-opus-5-5",
+     "permission": "approve-all",
+     "session_policy": "fresh-per-attempt",
+     "timeout": 3600
+    },
+    "identity": {
+     "attempt": "product:integration#2",
+     "bundle_uid": "caa4bb0e2178465197995adceda728b2",
+     "generation": 1,
+     "group": "attempt:product:integration#2",
+     "host": "d3-mbp-m5.local",
+     "location": "/Users/james/workspace/dixson3/blog-voice/Momotron/consolidate-prosevoice-executable",
+     "node": "integration",
+     "plan_id": "consolidate-prosevoice-executable",
+     "policy": "fresh-per-attempt",
+     "role": "processes/_roles/worker.md",
+     "run": "product",
+     "schema": "momotron-session-identity/1",
+     "session_name": "momo-consolidate-prosevoi-integration-47d5bb32110fe14efc48",
+     "session_plan": {
+      "action": "fresh",
+      "generation": 1,
+      "key": null,
+      "problem": null,
+      "reason": "fresh-per-attempt"
+     }
+    },
+    "launched_at": "2026-11-16T23:52:04.002723Z",
+    "log": "execution/attempts/product@integration#2/adapter.log",
+    "native": {
+     "acp_session_id": "01a1e6c6-4c8b-7363-afdb-f23ffb60905a",
+     "acpx_record_id": "c3fc44db-c38d-4033-b635-b3516688a783",
+     "agent_session_id": null,
+     "available": true,
+     "available_model_count": 652,
+     "closed": false,
+     "config_option_ids": [
+      "model",
+      "thought_level"
+     ],
+     "current_model_id": "magpie/claude/claude-opus-5-5",
+     "model_control": "config_option",
+     "usage_tokens": null
+    },
+    "phase": "launched",
+    "pid": 77691,
+    "process": {
+     "pgid": 77691,
+     "started": "Mon Nov 16 15:52:03 2026"
+    },
+    "recorded_at": "2026-11-16T23:51:56.034845Z",
+    "selection": {
+     "acknowledged": true,
+     "effective_model": "magpie/claude/claude-opus-5-5",
+     "options": {
+      "model": {
+       "acknowledged": true,
+       "effective": "magpie/claude/claude-opus-5-5",
+       "requested": "magpie/claude/claude-opus-5-5"
+      }
+     },
+     "requested_model": "magpie/claude/claude-opus-5-5"
+    },
+    "session": "momo-consolidate-prosevoi-integration-47d5bb32110fe14efc48"
+   },
+   "result": null,
+   "run": "product",
+   "state": "running"
   },
   "product:migration#1": {
    "adapter": "acpx",
@@ -1991,6 +2085,21 @@
    "at": "2026-11-16T23:45:58.049502Z",
    "event": "resume reconciliation",
    "revision": 268
+  },
+  {
+   "at": "2026-11-16T23:51:48.094381Z",
+   "event": "recover product:integration#1: retry by James Dixson",
+   "revision": 269
+  },
+  {
+   "at": "2026-11-16T23:51:55.816975Z",
+   "event": "claim",
+   "revision": 270
+  },
+  {
+   "at": "2026-11-16T23:52:12.871681Z",
+   "event": "resume reconciliation",
+   "revision": 274
   }
  ],
  "identity": {
@@ -2020,7 +2129,7 @@
  ],
  "plan_id": "consolidate-prosevoice-executable",
  "planning": null,
- "revision": 268,
+ "revision": 274,
  "runs": {
   "product": {
    "created_at": "2026-11-16T22:44:19.682979Z",
@@ -2049,10 +2158,11 @@
     },
     "integration": {
      "attempts": [
-      "product:integration#1"
+      "product:integration#1",
+      "product:integration#2"
      ],
      "cycles": 0,
-     "state": "blocked"
+     "state": "running"
     },
     "migration": {
      "attempts": [
