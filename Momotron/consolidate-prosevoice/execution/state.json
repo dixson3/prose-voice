@@ -431,11 +431,46 @@
    "run": "review-2",
    "state": "decided"
   },
+  "review-2:review/portability#1": {
+   "adapter": "internal",
+   "checks": [],
+   "claimant": "run:internal",
+   "claimed_at": "2026-11-16T03:37:44.702425Z",
+   "decision": {
+    "at": "2026-11-16T03:37:44.902493Z",
+    "controller": "rules_controller",
+    "decision": "accept",
+    "effect": "succeeded",
+    "evidence": [],
+    "reason": "worker succeeded and all acceptance checks passed",
+    "revision": 68
+   },
+   "id": "review-2:review/portability#1",
+   "n": 1,
+   "node": "review/portability",
+   "packet": "execution/blobs/packets/c7af42b42c82557f33abc6bb23a4f0ba01a8c59d8155b2d5737c529dafd8f82a.json",
+   "receipt": {
+    "adapter": "script",
+    "recorded_at": "2026-11-16T03:37:44.744539Z"
+   },
+   "result": "execution/blobs/results/c44fb429e41e2699478ad6117da0fdba5f0d3dd1d526b2f7dfbbfcf3265a5e23.json",
+   "run": "review-2",
+   "state": "decided"
+  },
   "review-2:review/red-team#1": {
    "adapter": "current",
+   "checks": [],
    "claimant": "run:current",
    "claimed_at": "2026-11-16T03:35:21.866076Z",
-   "decision": null,
+   "decision": {
+    "at": "2026-11-16T03:37:44.443066Z",
+    "controller": "rules_controller",
+    "decision": "accept",
+    "effect": "succeeded",
+    "evidence": [],
+    "reason": "worker succeeded and all acceptance checks passed",
+    "revision": 61
+   },
    "id": "review-2:review/red-team#1",
    "n": 1,
    "node": "review/red-team",
@@ -445,10 +480,37 @@
     "phase": "handed-off",
     "recorded_at": "2026-11-16T03:35:21.895849Z"
    },
-   "result": null,
+   "result": "execution/blobs/results/73abffd189a8bfd377ef14a692ec5ea31891a0a5161d84ae85dde518170fcf4f.json",
    "run": "review-2",
-   "state": "running"
+   "state": "decided"
+  },
+  "review-2:review/verdict#1": {
+   "adapter": "internal",
+   "checks": [],
+   "claimant": "run:internal",
+   "claimed_at": "2026-11-16T03:37:44.504788Z",
+   "decision": {
+    "at": "2026-11-16T03:37:44.643662Z",
+    "controller": "rules_controller",
+    "decision": "choose:pass",
+    "effect": "selected pass",
+    "evidence": [],
+    "reason": "route proposed by predecessor results",
+    "revision": 64
+   },
+   "id": "review-2:review/verdict#1",
+   "n": 1,
+   "node": "review/verdict",
+   "packet": "execution/blobs/packets/0cdb1866c5e27157cc3a5d8269f8a9467240a12af2beb0b47b713ab8188a7421.json",
+   "receipt": null,
+   "result": "execution/blobs/results/ed71ca80a4a396464e13416a181cb24e84fea68d0d9cd5301b2ca97acfdf76e0.json",
+   "run": "review-2",
+   "state": "decided"
   }
+ },
+ "bindings": {
+  "momotron": "/Users/james/workspace/dixson3/momotron",
+  "repo": "/Users/james/workspace/dixson3/blog-voice"
  },
  "decisions": {
   "planning-1:planning/draft/draft#1": {
@@ -573,6 +635,33 @@
    "evidence": [],
    "reason": "worker succeeded and all acceptance checks passed",
    "revision": 55
+  },
+  "review-2:review/portability#1": {
+   "at": "2026-11-16T03:37:44.902493Z",
+   "controller": "rules_controller",
+   "decision": "accept",
+   "effect": "succeeded",
+   "evidence": [],
+   "reason": "worker succeeded and all acceptance checks passed",
+   "revision": 68
+  },
+  "review-2:review/red-team#1": {
+   "at": "2026-11-16T03:37:44.443066Z",
+   "controller": "rules_controller",
+   "decision": "accept",
+   "effect": "succeeded",
+   "evidence": [],
+   "reason": "worker succeeded and all acceptance checks passed",
+   "revision": 61
+  },
+  "review-2:review/verdict#1": {
+   "at": "2026-11-16T03:37:44.643662Z",
+   "controller": "rules_controller",
+   "decision": "choose:pass",
+   "effect": "selected pass",
+   "evidence": [],
+   "reason": "route proposed by predecessor results",
+   "revision": 64
   }
  },
  "events": [
@@ -805,10 +894,70 @@
    "at": "2026-11-16T03:35:21.888164Z",
    "event": "claim",
    "revision": 56
+  },
+  {
+   "at": "2026-11-16T03:37:39.660099Z",
+   "event": "result submitted for review-2:review/red-team#1",
+   "revision": 58
+  },
+  {
+   "at": "2026-11-16T03:37:44.314731Z",
+   "event": "bindings recorded: ['momotron', 'repo']",
+   "revision": 59
+  },
+  {
+   "at": "2026-11-16T03:37:44.366429Z",
+   "event": "resume reconciliation",
+   "revision": 60
+  },
+  {
+   "at": "2026-11-16T03:37:44.451888Z",
+   "event": "decision for review-2:review/red-team#1",
+   "revision": 61
+  },
+  {
+   "at": "2026-11-16T03:37:44.534561Z",
+   "event": "claim",
+   "revision": 62
+  },
+  {
+   "at": "2026-11-16T03:37:44.580502Z",
+   "event": "result submitted for review-2:review/verdict#1",
+   "revision": 63
+  },
+  {
+   "at": "2026-11-16T03:37:44.651468Z",
+   "event": "decision for review-2:review/verdict#1",
+   "revision": 64
+  },
+  {
+   "at": "2026-11-16T03:37:44.736635Z",
+   "event": "claim",
+   "revision": 65
+  },
+  {
+   "at": "2026-11-16T03:37:44.841083Z",
+   "event": "result submitted for review-2:review/portability#1",
+   "revision": 67
+  },
+  {
+   "at": "2026-11-16T03:37:44.910322Z",
+   "event": "decision for review-2:review/portability#1",
+   "revision": 68
   }
  ],
  "locked_digest": null,
- "observations": [],
+ "observations": [
+  {
+   "at": "2026-11-16T03:37:44.314310Z",
+   "bindings": {
+    "momotron": "/Users/james/workspace/dixson3/momotron",
+    "repo": "/Users/james/workspace/dixson3/blog-voice"
+   },
+   "host": "d3-mbp-m5.local",
+   "kind": "bindings"
+  }
+ ],
  "plan_id": "consolidate-prosevoice",
  "planning": {
   "candidate": {
@@ -918,7 +1067,7 @@
   "status": "active",
   "workflow_digest": "2057290e9bb2f0de8955332667826c077f40d451f440c09c5288810d929733e1"
  },
- "revision": 57,
+ "revision": 68,
  "runs": {
   "planning-1": {
    "created_at": "2026-11-16T03:09:31.293013Z",
@@ -1187,21 +1336,23 @@
      "state": "pending"
     },
     "review/portability": {
-     "attempts": [],
+     "attempts": [
+      "review-2:review/portability#1"
+     ],
      "cycles": 0,
-     "state": "pending"
+     "state": "succeeded"
     },
     "review/red-team": {
      "attempts": [
       "review-2:review/red-team#1"
      ],
      "cycles": 0,
-     "state": "running"
+     "state": "succeeded"
     },
     "review/revise": {
      "attempts": [],
      "cycles": 0,
-     "state": "pending"
+     "state": "skipped"
     },
     "review/start": {
      "attempts": [],
@@ -1209,9 +1360,12 @@
      "state": "succeeded"
     },
     "review/verdict": {
-     "attempts": [],
+     "attempts": [
+      "review-2:review/verdict#1"
+     ],
      "cycles": 0,
-     "state": "pending"
+     "selection": "pass",
+     "state": "succeeded"
     }
    },
    "planning_attempt": "planning-2:revision/review/review#1",

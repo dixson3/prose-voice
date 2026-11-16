@@ -12,4 +12,5 @@ Bundle `consolidate-prosevoice` (okf_spec `MOMOTRON-PLAN`). Members listed only 
 | [`processes/`](processes/) | Frozen process closure pinned by processes/closure.yaml. |
 | [`planning/`](planning/) | Frozen planning workflow (planning/workflow/) and its closure; not part of the definition. |
 | [`execution/`](execution/) | Execution ledger (state.json), packets, results and receipts. |
+| [`plan.html`](plan.html) | Rendered plan view with embedded review comments. |
 | [`log.md`](log.md) | Newest-first bundle history (projection of the ledger). |
