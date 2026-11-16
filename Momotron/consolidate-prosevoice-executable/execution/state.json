@@ -17,7 +17,26 @@
    "adapter": "acpx",
    "claimant": "run:acpx",
    "claimed_at": "2026-11-16T22:56:58.226667Z",
-   "decision": null,
+   "decision": {
+    "at": "2026-11-16T23:18:07.154300Z",
+    "controller": "agent-controller",
+    "decision": "accept",
+    "effect": "succeeded",
+    "evidence": [
+     "check 'Consolidated runtime and rule regression': argv [uv, run, python, -m, unittest, discover, -s, tests], cwd /Users/james/workspace/dixson3/blog-voice, exit_code 0, output 'Ran 110 tests in 6.443s / OK' (run independently by controller)",
+     "git status --porcelain was identical before and after the controller's check run (20 entries), so the check made no changes to the tree",
+     "worker_result.status = succeeded; worker reported 110 tests OK, ruff 'All checks passed', and a wheel containing SKILL.md, PROSEVOICE-PROTOCOL.md, 12 agents, 2 harper files and 3 templates",
+     "tests/test_prosevoice_runtime.py has 23 test functions; tests/test_prosevoice_rules.py has 18 (grep -c 'def test')",
+     "skills/prosevoice contains agents/ (12), harper/ (dictionary.txt, ignore-rules.txt), templates/ (AUDIENCE, ILLUSTRATIONS, VOICE), scripts/prosevoice.py and prosevoice_lib",
+     "no pv-preflight/pv_config import in skills/prosevoice/**/*.py; the only sys.path.insert is skills/prosevoice/scripts/prosevoice.py:11, which adds the launcher's own directory",
+     "git diff --stat on skills/pv-prosevoice and skills/pv-preflight is empty, so the legacy trees are unchanged until integration",
+     "artifacts/evidence.md contains '## Responsibility mapping (prior \u2192 new)' (line 20) and '### SKILL.md instruction mapping' (line 41)",
+     "plan-assets/contract.md:11 defines exit 0 success, 1 evaluated blockers (including READY not ready), 2 invalid/operational, so the reported exit-code changes follow the contract",
+     "limit: the controller did not re-run ruff or the wheel build, and did not audit every editorial line; those rely on worker artifacts and on the acceptance step's full review"
+    ],
+    "reason": "Worker result status is 'succeeded'. The controller packet carried no executed check results, so the controller independently ran the single declared acceptance check ('Consolidated runtime and rule regression': uv run python -m unittest discover -s tests) in working_dir /Users/james/workspace/dixson3/blog-voice; it exited 0 with 110 tests OK. No timeout was declared. Spot checks of the worker's claims agree with the tree: new runtime/rules test modules exist with the stated counts, the consolidated skill contains SKILL.md, protocol, 12 agents, Harper resources and 3 templates, no sibling-skill import remains (the only sys.path insertion is the launcher adding its own scripts directory), the legacy skill trees have no diff, and the evidence report contains the required responsibility mapping. The interface differences the worker reported (READY blocked exit 3 -> 1, Harper unavailable reported as skipped with exit 0, JSON envelope) follow the 0/1/2 envelope contract in plan-assets/contract.md. The migrate command, legacy removal, docs and tests/check_distribution.py are deferred to later steps as the plan specifies.",
+    "revision": 155
+   },
    "id": "product:consolidate#1",
    "n": 1,
    "node": "consolidate",
@@ -97,9 +116,9 @@
     },
     "session": "momo-consolidate-prosevoi-consolidate-9a5f38740e1c2f7fa38e"
    },
-   "result": null,
+   "result": "execution/blobs/results/4c2db88e67873f66ddddb2706bee90a6f5b9960e93c58e778b66f5d7692e5e8b.json",
    "run": "product",
-   "state": "running"
+   "state": "decided"
   },
   "product:foundation#1": {
    "adapter": "acpx",
@@ -205,6 +224,94 @@
    "result": "execution/blobs/results/5d1181f846b0dd9c19be9132439a9de05c45442e9adb0cdb091e5fa7de535022.json",
    "run": "product",
    "state": "decided"
+  },
+  "product:migration#1": {
+   "adapter": "acpx",
+   "claimant": "run:acpx",
+   "claimed_at": "2026-11-16T23:18:07.468902Z",
+   "decision": null,
+   "id": "product:migration#1",
+   "n": 1,
+   "node": "migration",
+   "packet": "execution/blobs/packets/823f306f29ab750ceff26bc408bfe66a94a5991811afdf72ea5845433533f198.json",
+   "receipt": {
+    "acpx_version": "0.22.0",
+    "adapter": "acpx",
+    "agent": "pi",
+    "cwd": "/Users/james/workspace/dixson3/blog-voice",
+    "deadline": 1794874695.029768,
+    "effective": {
+     "agent": "pi",
+     "config": {},
+     "config_source": "project",
+     "model": "magpie/claude/claude-opus-5-5",
+     "permission": "approve-all",
+     "session_policy": "fresh-per-attempt",
+     "timeout": 3600
+    },
+    "identity": {
+     "attempt": "product:migration#1",
+     "bundle_uid": "caa4bb0e2178465197995adceda728b2",
+     "generation": 1,
+     "group": "attempt:product:migration#1",
+     "host": "d3-mbp-m5.local",
+     "location": "/Users/james/workspace/dixson3/blog-voice/Momotron/consolidate-prosevoice-executable",
+     "node": "migration",
+     "plan_id": "consolidate-prosevoice-executable",
+     "policy": "fresh-per-attempt",
+     "role": "processes/_roles/worker.md",
+     "run": "product",
+     "schema": "momotron-session-identity/1",
+     "session_name": "momo-consolidate-prosevoi-migration-f5afd860cb36d58b3d94",
+     "session_plan": {
+      "action": "fresh",
+      "generation": 1,
+      "key": null,
+      "problem": null,
+      "reason": "fresh-per-attempt"
+     }
+    },
+    "launched_at": "2026-11-16T23:18:15.029714Z",
+    "log": "execution/attempts/product@migration#1/adapter.log",
+    "native": {
+     "acp_session_id": "01a1e6a7-57ee-7042-9de2-78fcbb44e1e8",
+     "acpx_record_id": "b6f0087d-f3ab-4321-a1fb-035da4a55e9a",
+     "agent_session_id": null,
+     "available": true,
+     "available_model_count": 652,
+     "closed": false,
+     "config_option_ids": [
+      "model",
+      "thought_level"
+     ],
+     "current_model_id": "magpie/claude/claude-opus-5-5",
+     "model_control": "config_option",
+     "usage_tokens": null
+    },
+    "phase": "launched",
+    "pid": 31677,
+    "process": {
+     "pgid": 31677,
+     "started": "Mon Nov 16 15:18:15 2026"
+    },
+    "recorded_at": "2026-11-16T23:18:07.726622Z",
+    "selection": {
+     "acknowledged": true,
+     "effective_model": "magpie/claude/claude-opus-5-5",
+     "options": {
+      "model": {
+       "acknowledged": true,
+       "effective": "magpie/claude/claude-opus-5-5",
+       "requested": "magpie/claude/claude-opus-5-5"
+      }
+     },
+     "requested_model": "magpie/claude/claude-opus-5-5"
+    },
+    "session": "momo-consolidate-prosevoi-migration-f5afd860cb36d58b3d94"
+   },
+   "result": null,
+   "run": "product",
+   "state": "running"
   },
   "review-1:review/conformance#1": {
    "adapter": "internal",
@@ -406,6 +513,26 @@
   "repo": "/Users/james/workspace/dixson3/blog-voice"
  },
  "decisions": {
+  "product:consolidate#1": {
+   "at": "2026-11-16T23:18:07.154300Z",
+   "controller": "agent-controller",
+   "decision": "accept",
+   "effect": "succeeded",
+   "evidence": [
+    "check 'Consolidated runtime and rule regression': argv [uv, run, python, -m, unittest, discover, -s, tests], cwd /Users/james/workspace/dixson3/blog-voice, exit_code 0, output 'Ran 110 tests in 6.443s / OK' (run independently by controller)",
+    "git status --porcelain was identical before and after the controller's check run (20 entries), so the check made no changes to the tree",
+    "worker_result.status = succeeded; worker reported 110 tests OK, ruff 'All checks passed', and a wheel containing SKILL.md, PROSEVOICE-PROTOCOL.md, 12 agents, 2 harper files and 3 templates",
+    "tests/test_prosevoice_runtime.py has 23 test functions; tests/test_prosevoice_rules.py has 18 (grep -c 'def test')",
+    "skills/prosevoice contains agents/ (12), harper/ (dictionary.txt, ignore-rules.txt), templates/ (AUDIENCE, ILLUSTRATIONS, VOICE), scripts/prosevoice.py and prosevoice_lib",
+    "no pv-preflight/pv_config import in skills/prosevoice/**/*.py; the only sys.path.insert is skills/prosevoice/scripts/prosevoice.py:11, which adds the launcher's own directory",
+    "git diff --stat on skills/pv-prosevoice and skills/pv-preflight is empty, so the legacy trees are unchanged until integration",
+    "artifacts/evidence.md contains '## Responsibility mapping (prior \u2192 new)' (line 20) and '### SKILL.md instruction mapping' (line 41)",
+    "plan-assets/contract.md:11 defines exit 0 success, 1 evaluated blockers (including READY not ready), 2 invalid/operational, so the reported exit-code changes follow the contract",
+    "limit: the controller did not re-run ruff or the wheel build, and did not audit every editorial line; those rely on worker artifacts and on the acceptance step's full review"
+   ],
+   "reason": "Worker result status is 'succeeded'. The controller packet carried no executed check results, so the controller independently ran the single declared acceptance check ('Consolidated runtime and rule regression': uv run python -m unittest discover -s tests) in working_dir /Users/james/workspace/dixson3/blog-voice; it exited 0 with 110 tests OK. No timeout was declared. Spot checks of the worker's claims agree with the tree: new runtime/rules test modules exist with the stated counts, the consolidated skill contains SKILL.md, protocol, 12 agents, Harper resources and 3 templates, no sibling-skill import remains (the only sys.path insertion is the launcher adding its own scripts directory), the legacy skill trees have no diff, and the evidence report contains the required responsibility mapping. The interface differences the worker reported (READY blocked exit 3 -> 1, Harper unavailable reported as skipped with exit 0, JSON envelope) follow the 0/1/2 envelope contract in plan-assets/contract.md. The migrate command, legacy removal, docs and tests/check_distribution.py are deferred to later steps as the plan specifies.",
+   "revision": 155
+  },
   "product:foundation#1": {
    "at": "2026-11-16T22:56:57.896164Z",
    "controller": "agent-controller",
@@ -1194,6 +1321,21 @@
    "at": "2026-11-16T23:16:29.244127Z",
    "event": "resume reconciliation",
    "revision": 153
+  },
+  {
+   "at": "2026-11-16T23:16:44.594292Z",
+   "event": "resume reconciliation",
+   "revision": 154
+  },
+  {
+   "at": "2026-11-16T23:18:07.154435Z",
+   "event": "decision for product:consolidate#1",
+   "revision": 155
+  },
+  {
+   "at": "2026-11-16T23:18:07.500869Z",
+   "event": "claim",
+   "revision": 156
   }
  ],
  "identity": {
@@ -1223,7 +1365,7 @@
  ],
  "plan_id": "consolidate-prosevoice-executable",
  "planning": null,
- "revision": 153,
+ "revision": 159,
  "runs": {
   "product": {
    "created_at": "2026-11-16T22:44:19.682979Z",
@@ -1241,7 +1383,7 @@
       "product:consolidate#1"
      ],
      "cycles": 0,
-     "state": "running"
+     "state": "succeeded"
     },
     "foundation": {
      "attempts": [
@@ -1256,9 +1398,11 @@
      "state": "pending"
     },
     "migration": {
-     "attempts": [],
+     "attempts": [
+      "product:migration#1"
+     ],
      "cycles": 0,
-     "state": "pending"
+     "state": "running"
     }
    },
    "process_digest": null,

@@ -1,0 +1,33 @@
+{
+  "status": "succeeded",
+  "summary": "Moved all runtime responsibilities and editorial resources into skills/prosevoice. New prosevoice_lib modules: essay.py (extract, premise, READY via the shared config; sibling import removed), policy.py (additive Harper policy and lint wrapper; private legacy resolver removed) and rules.py (check, PROSEVOICE-PROTOCOL.md targets with OpenCode/path dedup, conservative parameterized managed-block parser shared with migration, preview-by-default rule that refuses all writes on malformed blocks). The CLI now exposes check, rule, policy, lint, extract, premise and ready under the 0/1/2 envelope. Essay operations without --project use each essay's own Git root, which preserves per-project policy isolation. SKILL.md and the 12 agents were copied and their callers rewritten to the pv CLI; the editorial text is otherwise unchanged. pyproject ships SKILL, agents, protocol, Harper policy and templates. The three legacy test modules were ported with all 19 tests and their assertions intact; tests/test_prosevoice_runtime.py (23 tests) and tests/test_prosevoice_rules.py (18 tests) were added. 110 tests OK, ruff clean, wheel builds with all resources. Legacy skill trees are byte-unchanged, pending removal in the integration step.",
+  "outputs": {
+    "checks": {
+      "Consolidated runtime and rule regression": "110 tests OK, exit 0"
+    },
+    "ruff": "All checks passed",
+    "wheel_resources": "SKILL.md, PROSEVOICE-PROTOCOL.md, agents (12), harper (2), templates (3)",
+    "commands_implemented": ["version", "config", "init", "check", "resolve", "artifacts", "rule", "policy", "lint", "extract", "premise", "ready"],
+    "commands_deferred": ["migrate"],
+    "legacy_sources_unchanged": true,
+    "committed": false,
+    "interface_differences": [
+      "READY blocked exit 3 -> 1; Harper unavailable exit 4 -> 0 with data.status skipped and harper-unavailable diagnostic",
+      "all helper output wrapped in the JSON envelope; results under data",
+      "--cwd replaced by --project; essay operations default to each essay's own Git root",
+      "build_user_dict --global/--ignore renamed --bundled-dictionary/--bundled-ignore",
+      "rule no longer strips legacy blog-voice/pv-protocol blocks (migration-only)"
+    ],
+    "remaining_for_later_steps": ["migrate command", "legacy tree removal and doc updates", "tests/check_distribution.py"]
+  },
+  "artifacts": [
+    "artifacts/evidence.md",
+    "artifacts/check-unittest.log",
+    "artifacts/ruff.log",
+    "artifacts/wheel-build.log",
+    "artifacts/wheel-contents.txt",
+    "artifacts/agents-diff.txt",
+    "artifacts/skill-diff.txt",
+    "artifacts/final-status.txt"
+  ]
+}
