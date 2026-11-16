@@ -1,0 +1,153 @@
+2c2
+< name: pv-prosevoice
+---
+> name: prosevoice
+5c5
+<   to other formats as the final step. TRIGGER on /pv-prosevoice; requests to draft, rewrite
+---
+>   to other formats as the final step. TRIGGER on /prosevoice; requests to draft, rewrite
+7c7
+<   authored or rewrote this turn. Load the skill and run pv-preflight to resolve guidance or
+---
+>   authored or rewrote this turn. Load the skill and run its preflight check to resolve guidance or
+12c12
+< # pv-prosevoice
+---
+> # prosevoice
+34c34
+< ## SKILL_DIR
+---
+> ## SKILL_DIR and the helper command
+46c46
+<     if [ -d "$_root/pv-prosevoice" ]; then SKILL_DIR="$_root/pv-prosevoice"; break; fi
+---
+>     if [ -d "$_root/prosevoice" ]; then SKILL_DIR="$_root/prosevoice"; break; fi
+50c50,51
+< [ -z "$SKILL_DIR" ] && { echo "ERROR: pv-prosevoice skill directory not found" >&2; exit 1; }
+---
+> [ -z "$SKILL_DIR" ] && { echo "ERROR: prosevoice skill directory not found" >&2; exit 1; }
+> pv() { env -u VIRTUAL_ENV uv run --script "$SKILL_DIR/scripts/prosevoice.py" "$@"; }
+53c54
+< `pv-preflight` is the sibling `$SKILL_DIR/../pv-preflight`; install both skills together.
+---
+> All runtime support is the single `pv` command (`scripts/prosevoice.py`, or the `prosevoice` console command when the package is installed). Every subcommand prints one JSON envelope `{schema_version, command, status, data, diagnostics}`. Exit 0 means `ok`, 1 means `blocked` (evaluated blockers such as unresolved guidance or READY failures), 2 means an invalid invocation, invalid configuration or operational error. Common options `--project PATH` and repeatable `--set KEY=JSON` work on every subcommand. Without `--project`, the project is the nearest Git root of the invocation directory, else the invocation directory; run commands from inside the writing project or pass `--project`.
+54a56,71
+> | Command | Writes | Purpose |
+> | :-- | :-- | :-- |
+> | `pv check` | nothing | dependencies, resolved guidance, companion-rule state, `actions`, `ready` |
+> | `pv config` | nothing | effective configuration with per-leaf provenance and resolved paths |
+> | `pv resolve` | nothing | required VOICE/AUDIENCE and optional ILLUSTRATIONS guidance paths |
+> | `pv init [--scope project\|user] [--illustrations]` | missing config, blank guides, cache ignore | seed setup; never overwrites |
+> | `pv artifacts <essay.md> [--kind KIND] [--apply]` | with `--apply`: artifact directory and cache ignore rule | intermediate artifact paths |
+> | `pv rule [--remove] [--apply]` | with `--apply`: rule file, managed `AGENTS.md` blocks | install or remove `PROSEVOICE-PROTOCOL.md` |
+> | `pv policy [<essay.md>] [--user-dict P]... [--user-ignore P]... [--sidecar P] [--out P]` | merged dictionary (temp unless `--out`) | merged Harper dictionary and ignore rules |
+> | `pv lint <part.md>... [--dialect us\|uk\|au\|ca\|in] [--user-dict P]... [--user-ignore P]...` | nothing | read-only Harper pass |
+> | `pv extract <essay.md> [--out-md P]` | snippet file (temp unless `--out-md`) | Harper-skipped reader-facing prose with back-map |
+> | `pv premise <part.md>...` | nothing | 16-character premise fingerprint per part |
+> | `pv ready <part.md>...` | nothing | READY source and active-anchor visual checks |
+> 
+> `rule` and `artifacts` preview unless `--apply` is given.
+> 
+57c74
+< Before every gate, read the sibling `pv-preflight/SKILL.md` and run:
+---
+> Before every gate run:
+60c77
+< uv run "$SKILL_DIR/../pv-preflight/scripts/preflight.py" check
+---
+> pv check
+63c80
+< Configured additional paths are tried first, then each reference resolves independently from `<git-root>/.prose-voice/<file>` and `~/.prose-voice/<file>`, taking the first usable file (non-empty, no `pv-template: unfilled` marker). See *Project configuration*.
+---
+> Configured guidance paths are tried first, then each reference resolves independently from `<project>/.prosevoice/<file>` and the user prosevoice directory (`$XDG_CONFIG_HOME/prosevoice/<file>`, else `~/.config/prosevoice/<file>`), taking the first usable file (non-empty, no `pv-template: unfilled` marker). See *Project configuration*.
+69c86
+< Pass resolved reference contents to agents; they do not search for references themselves. `ready: false` on an edit is a silent no-op; on explicit invocation, report setup actions and use the preflight setup flow. Never review against missing required references. Missing/stale companion rules get a short setup note but do not block. `uv` and `git` are required. `harper-cli` is optional: report `grammar-check skipped (harper-cli not found — brew install harper)` when absent. Web tools are optional: unresolved source gaps remain `[needs-source]`. Visual tool availability is assessed only when visuals are requested; no particular provider is required.
+---
+> Pass resolved reference contents to agents; they do not search for references themselves. `ready: false` on an edit is a silent no-op; on explicit invocation, report setup actions and use the setup flow below. Never review against missing required references. Missing/stale companion rules get a short setup note but do not block. `uv` and `git` are required. `harper-cli` is optional: report `grammar-check skipped (harper-cli not found — brew install harper)` when absent. Web tools are optional: unresolved source gaps remain `[needs-source]`. Visual tool availability is assessed only when visuals are requested; no particular provider is required.
+70a88,111
+> ### Setup flow
+> 
+> Use it on an explicit `/prosevoice` invocation when `check` is not ready, or when the operator asks to set up prose voice.
+> 
+> 1. Run `pv check` and show the report.
+> 2. Guidance: ask project or user scope, then run `pv init --scope <scope>` (it seeds only missing VOICE/AUDIENCE templates and config, never overwriting; add `--illustrations` only when the operator wants optional visual guidance). Tell the operator to fill in each file and delete its `pv-template: unfilled` line. On request, draft the sections from the repo's existing essays for operator approval.
+> 3. Companion rule: show `pv rule` (preview), then run `pv rule --apply` on confirmation.
+> 4. Missing `uv` or `git` → report; the skill cannot run. Missing `harper-cli` skips grammar. `naba` is one optional raster tool; absence does not disable diagrams or other image tools.
+> 
+> To uninstall the rule before removing the skill, run `pv rule --remove --apply`. Legacy `.prose-voice/` data and older rule identities are never read by these commands; converting them is a separate, explicit migration.
+> 
+> ### Companion rule targets
+> 
+> `rule` installs `PROSEVOICE-PROTOCOL.md` next to each `prosevoice` install it finds (project = selected project root, global = `$HOME`). Targets are deduplicated by path.
+> 
+> | Skill found at | Rule written to |
+> | :-- | :-- |
+> | `.claude/skills/prosevoice` | `.claude/rules/PROSEVOICE-PROTOCOL.md` |
+> | `<project>/.agents/skills/prosevoice` | managed block in `<project>/AGENTS.md` |
+> | `~/.agents/skills/prosevoice` | managed block in `~/.pi/agent/AGENTS.md`, `~/.codex/AGENTS.md` and `~/.config/opencode/AGENTS.md` (each only if that harness dir exists) |
+> | `~/.config/opencode/skills/prosevoice` | managed block in `~/.config/opencode/AGENTS.md` |
+> 
+> The managed block is delimited by `<!-- BEGIN prosevoice (managed by prosevoice rule; edits are overwritten) -->` and `<!-- END prosevoice -->`; every byte outside it is preserved. A malformed, nested or duplicate block makes `rule` report `blocked` and write nothing.
+> 
+73c114
+< Optional `.prose-voice/config.json` at the git root is tool-agnostic. External workflows may seed it; this skill has no dependency on them. `guidance` maps reference filenames to ordered file paths, tried before standard project/global locations. Relative paths resolve from the git root; absolute and `~` paths are accepted. Each file falls back independently. Invalid config is an error, never silently ignored. See `pv-preflight/SKILL.md` for the JSON schema/example.
+---
+> Optional strict JSON at `<project>/.prosevoice/config.json` and the user directory's `config.json`. Precedence is builtin < user < project < `--set`. Supported keys are `schema_version` (must be `1`), `guidance` and `artifacts`; unknown keys, duplicate keys, malformed JSON or invalid types are errors, never silently skipped.
+74a116,131
+> ```json
+> {
+>   "schema_version": 1,
+>   "guidance": {
+>     "VOICE.md": ["guides/voice.md"],
+>     "AUDIENCE.md": ["guides/audience.md"],
+>     "ILLUSTRATIONS.md": ["guides/visuals.md"]
+>   },
+>   "artifacts": {
+>     "location": "cache"
+>   }
+> }
+> ```
+> 
+> `guidance` maps reference filenames to ordered file paths, tried before the standard project/user locations. The highest tier that sets a filename replaces that filename's list; other filenames keep their own values. Relative paths anchor to the user config directory (user tier), the project root (project tier) or the invocation directory (`--set`); `~` is expanded. Each file falls back independently. Override one value per invocation with, for example, `--set 'guidance.VOICE.md=["docs/voice.md"]'` or `--set 'artifacts.location="adjacent"'`. `pv config` reports effective values and their provenance.
+> 
+78c135
+< uv run "$SKILL_DIR/../pv-preflight/scripts/preflight.py" artifacts <essay.md> --apply
+---
+> pv artifacts <essay.md> --apply
+81c138
+< Pass the returned paths to agents. The resolver covers `curmudgeon`, `steelman`, `illustrations`, `draft`, `review`, `ready`, `copyedit`, `provenance`, `fact-check`, `footnoter`, `red-team` and `cold-read`. Save reports only for explicit or pre-surface work; on-edit reviews surface in chat without writing report files. Default placement is `.prose-voice/cache/<essay-relative-directory>/<essay-stem>.<purpose>.md`; this avoids collisions between same-named files in different directories. The command creates the directory and an idempotent `.prose-voice/.gitignore` entry for `/cache/`. Without a git root, use `.prose-voice/cache/` beside the essay. Set `artifacts.location` to `adjacent` for sidecars next to the source. No automatic move or deletion of existing sidecars occurs when switching modes; use the new resolved paths and regenerate or explicitly migrate existing artifacts. For a multi-part review, select a primary source to key its pair's paths and record all parts in order.
+---
+> Pass the returned paths to agents. The resolver covers `curmudgeon`, `steelman`, `illustrations`, `draft`, `review`, `ready`, `copyedit`, `provenance`, `fact-check`, `footnoter`, `red-team` and `cold-read`. Save reports only for explicit or pre-surface work; on-edit reviews surface in chat without writing report files. Default placement is `<project>/.prosevoice/cache/<essay-relative-directory>/<essay-stem>.<purpose>.md`; this avoids collisions between same-named files in different directories. In cache mode the essay must be inside the selected project. The command creates the directory and an idempotent `.prosevoice/.gitignore` entry for `/cache/`, retaining custom ignore content. Set `artifacts.location` to `adjacent` for `<essay-stem>.<purpose>.md` sidecars next to the source. No automatic move or deletion of existing sidecars occurs when switching modes; use the new resolved paths and regenerate or explicitly migrate existing artifacts. For a multi-part review, select a primary source to key its pair's paths and record all parts in order.
+114,128c171
+< Use the grammar policy in `agents/grammar-check.md`. Run `scripts/build_user_dict.py --cwd
+< <essay-dir> --sidecar <essay-dir>/.harper-words --json` to merge bundled policy, user
+< `~/.prose-voice/dictionary.txt` and `~/.prose-voice/ignore-rules.txt`, project `.prose-voice/` equivalents, and optional
+< essay-local words. Both dictionary entries and ignore rules are additive unions. Use the returned
+< dictionary path and comma-separated ignore rules for every Harper pass; optional explicit
+< `--user-dict` / `--user-ignore` paths include policy stored elsewhere.
+< Use `scripts/harper_lint.py <essay.md> --dialect <dialect> --json` for the read-only primary pass;
+< it uses the same policy helper per essay and normalizes validated tool output. Honor VOICE dialect
+< (default `us`). A `fixable` flag is only a candidate and does not authorize a write.
+< `scripts/extract_prose.py` adds frontmatter, figure text and fenced prose that Harper may skip.
+< Run tools inline for on-edit draft review; on explicit/pre-surface drafts, follow the tool pass
+< with `agents/copy-editor.md` for agreement, punctuation, sentence boundaries and consistency.
+< The copy-editor still reads when Harper is absent. It reports proposals and never broadens
+< spelling auto-fix authority. Respect the matched-text guard and supplemental-region restrictions.
+< Check Markdown validity after changes.
+---
+> Use the grammar policy in `agents/grammar-check.md`. Run `pv policy <essay.md>` to merge bundled policy (`harper/`), user `dictionary.txt` and `ignore-rules.txt` in the user prosevoice directory, project `.prosevoice/` equivalents, and optional essay-local `.harper-words`. Both dictionary entries and ignore rules are additive unions. Use the returned `data.dictionary` path and comma-separated `data.ignore_rules` for every raw Harper pass; optional repeatable `--user-dict` / `--user-ignore` paths include policy stored elsewhere.
+129a173,174
+> Use `pv lint <essay.md> --dialect <dialect>` for the read-only primary pass; it merges the same policy per essay and normalizes validated tool output. Honor VOICE dialect (default `us`). A `fixable` flag is only a candidate and does not authorize a write. A `harper-unavailable` diagnostic with `data.status: skipped` means Harper is absent. `pv extract <essay.md>` adds frontmatter, figure text and fenced prose that Harper may skip. Run tools inline for on-edit draft review; on explicit/pre-surface drafts, follow the tool pass with `agents/copy-editor.md` for agreement, punctuation, sentence boundaries and consistency. The copy-editor still reads when Harper is absent. It reports proposals and never broadens spelling auto-fix authority. Respect the matched-text guard and supplemental-region restrictions. Check Markdown validity after changes.
+> 
+151c196
+<    uv run "$SKILL_DIR/scripts/ready_preconditions.py" <essay.md> [<part.md> ...] --json
+---
+>    pv ready <essay.md> [<part.md> ...]
+154c199
+<    Exit 3 means blocked. Only explicitly anchored visuals need resolved sidecar selections; unillustrated essays pass the visual check. No `[needs-source]` may remain without an explicit, reported user override. Resolve missing sources or qualify/remove the claim with approval.
+---
+>    Exit 1 (`status: blocked`) means blocked; the diagnostics list each `visual-unresolved` and `needs-source` location. Only explicitly anchored visuals need resolved sidecar selections; unillustrated essays pass the visual check. No `[needs-source]` may remain without an explicit, reported user override. Resolve missing sources or qualify/remove the claim with approval.
+161c206
+< Run `scripts/premise_fingerprint.py <essay.md>` for the source under review. Compare the result with `premise_fingerprint:` in the resolved `curmudgeon` and `steelman` artifact paths. Reuse only when both sidecars exist with matching fingerprints and the same reviewed essay-part set. For a multi-part essay, record each part's fingerprint in the review context; any changed part invalidates reuse. Missing/malformed fingerprints or an explicit request to rerun also invalidate reuse.
+---
+> Run `pv premise <essay.md> [<part.md> ...]` for the sources under review. Compare each part's `fingerprint` with `premise_fingerprint:` in the resolved `curmudgeon` and `steelman` artifact paths. Reuse only when both sidecars exist with matching fingerprints and the same reviewed essay-part set. For a multi-part essay, record each part's fingerprint in the review context; any changed part invalidates reuse. Missing/malformed fingerprints or an explicit request to rerun also invalidate reuse.
