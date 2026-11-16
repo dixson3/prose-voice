@@ -16,10 +16,10 @@
       "--model", "magpie/claude/claude-opus-5-5",
       "--approve-all",
       "--format", "json",
-      "--timeout", "600",
+      "--timeout", "1800",
       "pi", "exec",
-      "You are the independent momotron controller. Read only the controller packet at {packet} and the evidence it references. Follow its role and decision schema. Assess the worker result and every acceptance check. Write the decision JSON to {result}. Do not edit product files, execute plan steps, resolve human gates, or approve anything on behalf of the operator. Return a short summary after writing the decision."
+      "You are the independent momotron controller. Read the controller packet at {packet}, its referenced evidence, and the sibling worker packet.json. Follow the controller role and decision schema. Assess the worker result and every acceptance check declared in the worker packet. If the controller packet has no executed check results but the worker packet declares checks, independently run each declared argv in the worker working_dir (or bundle when a check explicitly requests it), respect its timeout, and record exit codes and evidence in the decision. Missing or unverified required checks are not passes. Write the decision JSON to {result}. Do not edit product files, perform implementation work, resolve human gates, or approve anything on behalf of the operator. Return a short summary after writing the decision."
     ],
-    "timeout": 660
+    "timeout": 1860
   }
 }
