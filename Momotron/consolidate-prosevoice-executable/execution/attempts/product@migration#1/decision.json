@@ -1,0 +1,13 @@
+{
+  "decision": "accept",
+  "reason": "Worker result status is 'succeeded'. The controller packet contained no executed check results, so the controller independently ran both acceptance checks declared in the worker packet in working_dir /Users/james/workspace/dixson3/blog-voice. No timeout was declared for either check. Both exited 0: the migration suite ran 32 tests OK and the full regression ran 142 tests OK, matching the worker's report. The test module covers the step's required scenarios: no-config, ordered/external guides, user-only and mixed fallback, cache/adjacent modes, duplicate nested stems, visual choices/no-image, blank templates, policy/custom ignores, every released rule version and target/remnant, differing destinations, equal reruns, invalid/duplicate/unknown config, malformed blocks, symlink escapes, missing installation, unmet user dependencies, resume before/after replacement and before/mid rule activation, intervening edits, and runtime ignoring retained legacy data. Recovery instructions are returned in the report. The legacy skill trees (skills/pv-prosevoice, skills/pv-preflight) have no diff, and nothing was committed. Running the checks did not change git status. Three interpretations were flagged for operator review and do not block acceptance: an active anchor with no decision preserves its blocked READY outcome; migration manifests are not git-ignored, so the policy is deferred to integration docs; and rule recognition is limited to the five released protocol texts.",
+  "evidence": [
+    "check 'Migration preservation, conflicts and interrupted apply': argv [uv run python -m unittest discover -s tests -p test_prosevoice_migration.py], cwd /Users/james/workspace/dixson3/blog-voice, exit 0, 'Ran 32 tests in 2.226s OK'",
+    "check 'Full runtime regression': argv [uv run python -m unittest discover -s tests], cwd /Users/james/workspace/dixson3/blog-voice, exit 0, 'Ran 142 tests in 8.599s OK'",
+    "git status --porcelain was identical before and after the check runs (23 entries)",
+    "git diff --stat -- skills/pv-prosevoice skills/pv-preflight is empty: legacy source trees are unchanged",
+    "tests/test_prosevoice_migration.py defines 32 test methods (lines 145-655) mapping to the migration section's required fixtures, failure injection and resume cases",
+    "result.json status=succeeded; artifacts include evidence.md (57 lines), check logs, ruff.log, wheel-build.log, baseline/final status",
+    "Deferred to the integration step per the worker: legacy tree removal, doc updates, tests/check_distribution.py, and the policy for git-ignoring manifests"
+  ]
+}

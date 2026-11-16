@@ -225,11 +225,115 @@
    "run": "product",
    "state": "decided"
   },
+  "product:integration#1": {
+   "adapter": "acpx",
+   "claimant": "run:acpx",
+   "claimed_at": "2026-11-16T23:38:26.128056Z",
+   "decision": null,
+   "id": "product:integration#1",
+   "n": 1,
+   "node": "integration",
+   "packet": "execution/blobs/packets/26d450558c6c481410fba751744a747fc039636973d5c38637f6075ab26e72c0.json",
+   "receipt": {
+    "acpx_version": "0.22.0",
+    "adapter": "acpx",
+    "agent": "pi",
+    "cwd": "/Users/james/workspace/dixson3/blog-voice",
+    "deadline": 1794875913.499694,
+    "effective": {
+     "agent": "pi",
+     "config": {},
+     "config_source": "project",
+     "model": "magpie/claude/claude-opus-5-5",
+     "permission": "approve-all",
+     "session_policy": "fresh-per-attempt",
+     "timeout": 3600
+    },
+    "identity": {
+     "attempt": "product:integration#1",
+     "bundle_uid": "caa4bb0e2178465197995adceda728b2",
+     "generation": 1,
+     "group": "attempt:product:integration#1",
+     "host": "d3-mbp-m5.local",
+     "location": "/Users/james/workspace/dixson3/blog-voice/Momotron/consolidate-prosevoice-executable",
+     "node": "integration",
+     "plan_id": "consolidate-prosevoice-executable",
+     "policy": "fresh-per-attempt",
+     "role": "processes/_roles/worker.md",
+     "run": "product",
+     "schema": "momotron-session-identity/1",
+     "session_name": "momo-consolidate-prosevoi-integration-5ee07c1ad42f4505ef8b",
+     "session_plan": {
+      "action": "fresh",
+      "generation": 1,
+      "key": null,
+      "problem": null,
+      "reason": "fresh-per-attempt"
+     }
+    },
+    "launched_at": "2026-11-16T23:38:33.499642Z",
+    "log": "execution/attempts/product@integration#1/adapter.log",
+    "native": {
+     "acp_session_id": "01a1e6b9-f04f-7630-8b94-d7d63310c57b",
+     "acpx_record_id": "116329a8-27da-47ac-8fef-d94642c9e911",
+     "agent_session_id": null,
+     "available": true,
+     "available_model_count": 652,
+     "closed": false,
+     "config_option_ids": [
+      "model",
+      "thought_level"
+     ],
+     "current_model_id": "magpie/claude/claude-opus-5-5",
+     "model_control": "config_option",
+     "usage_tokens": null
+    },
+    "phase": "launched",
+    "pid": 64291,
+    "process": {
+     "pgid": 64291,
+     "started": "Mon Nov 16 15:38:33 2026"
+    },
+    "recorded_at": "2026-11-16T23:38:26.387777Z",
+    "selection": {
+     "acknowledged": true,
+     "effective_model": "magpie/claude/claude-opus-5-5",
+     "options": {
+      "model": {
+       "acknowledged": true,
+       "effective": "magpie/claude/claude-opus-5-5",
+       "requested": "magpie/claude/claude-opus-5-5"
+      }
+     },
+     "requested_model": "magpie/claude/claude-opus-5-5"
+    },
+    "session": "momo-consolidate-prosevoi-integration-5ee07c1ad42f4505ef8b"
+   },
+   "result": null,
+   "run": "product",
+   "state": "running"
+  },
   "product:migration#1": {
    "adapter": "acpx",
    "claimant": "run:acpx",
    "claimed_at": "2026-11-16T23:18:07.468902Z",
-   "decision": null,
+   "decision": {
+    "at": "2026-11-16T23:38:25.814273Z",
+    "controller": "agent-controller",
+    "decision": "accept",
+    "effect": "succeeded",
+    "evidence": [
+     "check 'Migration preservation, conflicts and interrupted apply': argv [uv run python -m unittest discover -s tests -p test_prosevoice_migration.py], cwd /Users/james/workspace/dixson3/blog-voice, exit 0, 'Ran 32 tests in 2.226s OK'",
+     "check 'Full runtime regression': argv [uv run python -m unittest discover -s tests], cwd /Users/james/workspace/dixson3/blog-voice, exit 0, 'Ran 142 tests in 8.599s OK'",
+     "git status --porcelain was identical before and after the check runs (23 entries)",
+     "git diff --stat -- skills/pv-prosevoice skills/pv-preflight is empty: legacy source trees are unchanged",
+     "tests/test_prosevoice_migration.py defines 32 test methods (lines 145-655) mapping to the migration section's required fixtures, failure injection and resume cases",
+     "result.json status=succeeded; artifacts include evidence.md (57 lines), check logs, ruff.log, wheel-build.log, baseline/final status",
+     "Deferred to the integration step per the worker: legacy tree removal, doc updates, tests/check_distribution.py, and the policy for git-ignoring manifests"
+    ],
+    "reason": "Worker result status is 'succeeded'. The controller packet contained no executed check results, so the controller independently ran both acceptance checks declared in the worker packet in working_dir /Users/james/workspace/dixson3/blog-voice. No timeout was declared for either check. Both exited 0: the migration suite ran 32 tests OK and the full regression ran 142 tests OK, matching the worker's report. The test module covers the step's required scenarios: no-config, ordered/external guides, user-only and mixed fallback, cache/adjacent modes, duplicate nested stems, visual choices/no-image, blank templates, policy/custom ignores, every released rule version and target/remnant, differing destinations, equal reruns, invalid/duplicate/unknown config, malformed blocks, symlink escapes, missing installation, unmet user dependencies, resume before/after replacement and before/mid rule activation, intervening edits, and runtime ignoring retained legacy data. Recovery instructions are returned in the report. The legacy skill trees (skills/pv-prosevoice, skills/pv-preflight) have no diff, and nothing was committed. Running the checks did not change git status. Three interpretations were flagged for operator review and do not block acceptance: an active anchor with no decision preserves its blocked READY outcome; migration manifests are not git-ignored, so the policy is deferred to integration docs; and rule recognition is limited to the five released protocol texts.",
+    "revision": 235
+   },
    "id": "product:migration#1",
    "n": 1,
    "node": "migration",
@@ -309,9 +413,9 @@
     },
     "session": "momo-consolidate-prosevoi-migration-f5afd860cb36d58b3d94"
    },
-   "result": null,
+   "result": "execution/blobs/results/c360a2afa5a651362e9807564877de55762f9da18f0148d2211ac70f9eb22003.json",
    "run": "product",
-   "state": "running"
+   "state": "decided"
   },
   "review-1:review/conformance#1": {
    "adapter": "internal",
@@ -550,6 +654,23 @@
    ],
    "reason": "Worker status is succeeded. The controller packet's checks array is empty, so no runner acceptance check failed. The controller reran both checks named in the worker result and both passed. The foundation scope is implemented: a package skeleton, cwd-independent resource lookup, strict layered config with provenance, init, a JSON envelope with exits 0/1/2, a Hatchling MIT pyproject attributed to James Dixson, and the two required test modules mapped to every required case. The 19 original tests and the legacy helpers are byte-unchanged. Commands still unimplemented (check, rule, policy, lint, extract, premise, ready, migrate) belong to later steps, and nothing was committed.",
    "revision": 73
+  },
+  "product:migration#1": {
+   "at": "2026-11-16T23:38:25.814273Z",
+   "controller": "agent-controller",
+   "decision": "accept",
+   "effect": "succeeded",
+   "evidence": [
+    "check 'Migration preservation, conflicts and interrupted apply': argv [uv run python -m unittest discover -s tests -p test_prosevoice_migration.py], cwd /Users/james/workspace/dixson3/blog-voice, exit 0, 'Ran 32 tests in 2.226s OK'",
+    "check 'Full runtime regression': argv [uv run python -m unittest discover -s tests], cwd /Users/james/workspace/dixson3/blog-voice, exit 0, 'Ran 142 tests in 8.599s OK'",
+    "git status --porcelain was identical before and after the check runs (23 entries)",
+    "git diff --stat -- skills/pv-prosevoice skills/pv-preflight is empty: legacy source trees are unchanged",
+    "tests/test_prosevoice_migration.py defines 32 test methods (lines 145-655) mapping to the migration section's required fixtures, failure injection and resume cases",
+    "result.json status=succeeded; artifacts include evidence.md (57 lines), check logs, ruff.log, wheel-build.log, baseline/final status",
+    "Deferred to the integration step per the worker: legacy tree removal, doc updates, tests/check_distribution.py, and the policy for git-ignoring manifests"
+   ],
+   "reason": "Worker result status is 'succeeded'. The controller packet contained no executed check results, so the controller independently ran both acceptance checks declared in the worker packet in working_dir /Users/james/workspace/dixson3/blog-voice. No timeout was declared for either check. Both exited 0: the migration suite ran 32 tests OK and the full regression ran 142 tests OK, matching the worker's report. The test module covers the step's required scenarios: no-config, ordered/external guides, user-only and mixed fallback, cache/adjacent modes, duplicate nested stems, visual choices/no-image, blank templates, policy/custom ignores, every released rule version and target/remnant, differing destinations, equal reruns, invalid/duplicate/unknown config, malformed blocks, symlink escapes, missing installation, unmet user dependencies, resume before/after replacement and before/mid rule activation, intervening edits, and runtime ignoring retained legacy data. Recovery instructions are returned in the report. The legacy skill trees (skills/pv-prosevoice, skills/pv-preflight) have no diff, and nothing was committed. Running the checks did not change git status. Three interpretations were flagged for operator review and do not block acceptance: an active anchor with no decision preserves its blocked READY outcome; migration manifests are not git-ignored, so the policy is deferred to integration docs; and rule recognition is limited to the five released protocol texts.",
+   "revision": 235
   },
   "review-1:review/conformance#1": {
    "at": "2026-11-16T22:20:11.632987Z",
@@ -1706,6 +1827,21 @@
    "at": "2026-11-16T23:37:07.944671Z",
    "event": "resume reconciliation",
    "revision": 233
+  },
+  {
+   "at": "2026-11-16T23:37:23.297941Z",
+   "event": "resume reconciliation",
+   "revision": 234
+  },
+  {
+   "at": "2026-11-16T23:38:25.814363Z",
+   "event": "decision for product:migration#1",
+   "revision": 235
+  },
+  {
+   "at": "2026-11-16T23:38:26.166922Z",
+   "event": "claim",
+   "revision": 236
   }
  ],
  "identity": {
@@ -1735,7 +1871,7 @@
  ],
  "plan_id": "consolidate-prosevoice-executable",
  "planning": null,
- "revision": 233,
+ "revision": 239,
  "runs": {
   "product": {
    "created_at": "2026-11-16T22:44:19.682979Z",
@@ -1763,16 +1899,18 @@
      "state": "succeeded"
     },
     "integration": {
-     "attempts": [],
+     "attempts": [
+      "product:integration#1"
+     ],
      "cycles": 0,
-     "state": "pending"
+     "state": "running"
     },
     "migration": {
      "attempts": [
       "product:migration#1"
      ],
      "cycles": 0,
-     "state": "running"
+     "state": "succeeded"
     }
    },
    "process_digest": null,

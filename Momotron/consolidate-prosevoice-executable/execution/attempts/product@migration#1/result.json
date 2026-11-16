@@ -1,0 +1,49 @@
+{
+  "status": "succeeded",
+  "summary": "Implemented `prosevoice migrate` (skills/prosevoice/scripts/prosevoice_lib/migration.py), bounded to the contract in migration.md. Project/user scopes; preview by default, with no writes on preview or blocked preflight. Strict legacy config validation and translation to schema_version 1. Byte-exact copies of guides and policy. Cache sidecars are copied with link rebasing, and nested duplicate stems are handled. Known-hash recognition of PV-PROTOCOL.md/BLOG_VOICE.md files and pv-protocol/blog-voice blocks at every supported target, using the shared conservative block parser and requiring a prosevoice installation. Equivalence of guidance, policy union, artifact mode and READY visuals is verified through the shared resolver before rules are activated last. A manifest with before/after hashes, staged bytes and backups supports resume, and conflict detection names the file and manifest. Recovery instructions are returned in the report. Small shared-layer refactors (build_config, state_of, text parsers, image_outcome) avoid duplicate resolution logic. Added tests/test_prosevoice_migration.py (32 tests) and legacy rule fixtures. Migration checks: 32 OK; full suite: 142 OK; ruff clean; wheel builds. Legacy skill trees unchanged; nothing committed.",
+  "outputs": {
+    "checks": {
+      "Migration preservation, conflicts and interrupted apply": "32 tests OK, exit 0",
+      "Full runtime regression": "142 tests OK, exit 0"
+    },
+    "ruff": "All checks passed",
+    "commands_implemented": ["version", "config", "init", "check", "resolve", "artifacts", "rule", "policy", "lint", "extract", "premise", "ready", "migrate"],
+    "files_added": [
+      "skills/prosevoice/scripts/prosevoice_lib/migration.py",
+      "tests/test_prosevoice_migration.py",
+      "tests/fixtures/legacy_rules/PV-PROTOCOL.v1.md",
+      "tests/fixtures/legacy_rules/PV-PROTOCOL.v2.md",
+      "tests/fixtures/legacy_rules/PV-PROTOCOL.v3.md",
+      "tests/fixtures/legacy_rules/PV-PROTOCOL.v4.md",
+      "tests/fixtures/legacy_rules/BLOG_VOICE.md"
+    ],
+    "files_modified": [
+      "skills/prosevoice/scripts/prosevoice_lib/cli.py",
+      "skills/prosevoice/scripts/prosevoice_lib/config.py",
+      "skills/prosevoice/scripts/prosevoice_lib/policy.py",
+      "skills/prosevoice/scripts/prosevoice_lib/essay.py",
+      "tests/test_prosevoice_runtime.py"
+    ],
+    "legacy_sources_unchanged": true,
+    "committed": false,
+    "interpretations_for_review": [
+      "An active anchor with no decision anywhere does not block migration; its already-blocked READY outcome is preserved and reported. Unmappable decisions do block.",
+      "Manifests in .prosevoice/migrations/ are not git-ignored by migration; integration docs should state the policy.",
+      "Legacy rule recognition is limited to the five released protocol texts; anything else blocks for manual review."
+    ],
+    "remaining_for_later_steps": [
+      "legacy tree removal and doc updates (integration)",
+      "tests/check_distribution.py (integration)"
+    ]
+  },
+  "artifacts": [
+    "artifacts/evidence.md",
+    "artifacts/baseline-status.txt",
+    "artifacts/baseline-tests.log",
+    "artifacts/check-migration.log",
+    "artifacts/check-full-suite.log",
+    "artifacts/ruff.log",
+    "artifacts/wheel-build.log",
+    "artifacts/final-status.txt"
+  ]
+}
