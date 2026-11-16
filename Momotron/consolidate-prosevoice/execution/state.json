@@ -1,6 +1,24 @@
 {
  "approvals": [],
  "attempts": {
+  "planning-1:planning/investigate/investigate#1": {
+   "adapter": "current",
+   "claimant": "run:current",
+   "claimed_at": "2026-11-16T03:13:38.119202Z",
+   "decision": null,
+   "id": "planning-1:planning/investigate/investigate#1",
+   "n": 1,
+   "node": "planning/investigate/investigate",
+   "packet": "execution/blobs/packets/21f4013555f8073075b8d46f53cd439e6c6a2dddba740a30db2d23d147072ba3.json",
+   "receipt": {
+    "adapter": "current",
+    "phase": "handed-off",
+    "recorded_at": "2026-11-16T03:13:38.128108Z"
+   },
+   "result": null,
+   "run": "planning-1",
+   "state": "running"
+  },
   "planning-1:planning/scope/capture#1": {
    "adapter": "current",
    "checks": [],
@@ -111,6 +129,16 @@
    "at": "2026-11-16T03:11:46.303702Z",
    "event": "decision for planning-1:planning/scope/scope#1",
    "revision": 9
+  },
+  {
+   "at": "2026-11-16T03:13:28.867011Z",
+   "event": "gate planning/scope/scope-approval approve by James Dixson",
+   "revision": 10
+  },
+  {
+   "at": "2026-11-16T03:13:38.126462Z",
+   "event": "claim",
+   "revision": 11
   }
  ],
  "locked_digest": null,
@@ -161,7 +189,7 @@
   "status": "active",
   "workflow_digest": "2057290e9bb2f0de8955332667826c077f40d451f440c09c5288810d929733e1"
  },
- "revision": 9,
+ "revision": 12,
  "runs": {
   "planning-1": {
    "created_at": "2026-11-16T03:09:31.293013Z",
@@ -200,14 +228,16 @@
      "state": "pending"
     },
     "planning/investigate/investigate": {
-     "attempts": [],
+     "attempts": [
+      "planning-1:planning/investigate/investigate#1"
+     ],
      "cycles": 0,
-     "state": "pending"
+     "state": "running"
     },
     "planning/investigate/start": {
      "attempts": [],
      "cycles": 0,
-     "state": "pending"
+     "state": "succeeded"
     },
     "planning/review/end": {
      "attempts": [],
@@ -234,7 +264,7 @@
     "planning/scope/end": {
      "attempts": [],
      "cycles": 0,
-     "state": "pending"
+     "state": "succeeded"
     },
     "planning/scope/scope": {
      "attempts": [
@@ -246,7 +276,14 @@
     "planning/scope/scope-approval": {
      "attempts": [],
      "cycles": 0,
-     "state": "pending"
+     "gate": {
+      "actor": "James Dixson",
+      "at": "2026-11-16T03:13:28.866657Z",
+      "evidence": "Operator approved the scope: approve the scope",
+      "outcome": "approve"
+     },
+     "selection": "approve",
+     "state": "succeeded"
     },
     "planning/scope/start": {
      "attempts": [],

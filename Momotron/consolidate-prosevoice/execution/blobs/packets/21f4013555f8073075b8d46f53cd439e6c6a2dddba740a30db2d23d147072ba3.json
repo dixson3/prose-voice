@@ -1,0 +1,154 @@
+{
+ "allowed_operations": [
+  "read-bundle",
+  "write-references",
+  "write-reviews",
+  "write-artifacts"
+ ],
+ "artifact_dir": "/Users/james/workspace/dixson3/blog-voice/Momotron/consolidate-prosevoice/execution/attempts/planning-1@planning~investigate~investigate#1/artifacts",
+ "attempt": "planning-1:planning/investigate/investigate#1",
+ "bindings": {},
+ "bundle": "/Users/james/workspace/dixson3/blog-voice/Momotron/consolidate-prosevoice",
+ "checks": [],
+ "definition_digest": "94335c0b749da97a3cb2f4364ad6908c346043687029ecabd2b0c61bbe9fd7b4",
+ "dependency_outputs": {
+  "planning/scope/capture": {
+   "artifact_dir": "/Users/james/workspace/dixson3/blog-voice/Momotron/consolidate-prosevoice/execution/attempts/planning-1@planning~scope~capture#1/artifacts",
+   "artifacts": [],
+   "outputs": {
+    "request": "references/request.md"
+   },
+   "state": "succeeded",
+   "summary": "Verified the operator request is captured verbatim in references/request.md."
+  },
+  "planning/scope/scope": {
+   "artifact_dir": "/Users/james/workspace/dixson3/blog-voice/Momotron/consolidate-prosevoice/execution/attempts/planning-1@planning~scope~scope#1/artifacts",
+   "artifacts": [
+    "references/scope.md"
+   ],
+   "outputs": {
+    "scope": "references/scope.md"
+   },
+   "state": "succeeded",
+   "summary": "Defined the consolidation scope from the packet objective and captured operator request, including constraints, established decisions, exclusions, and investigation questions. No operator-only decision is needed to draft the scope; scope approval remains with the next human gate."
+  },
+  "planning/scope/scope-approval": {
+   "selection": "approve",
+   "state": "succeeded"
+  }
+ },
+ "independent": false,
+ "instructions": "Do only this node. Write the result JSON to result_path; put files in artifact_dir. Write permissions are exactly those in write_scope (allowed destinations; protected paths stay read-only), and never resolve a human gate. To ask the operator something, set outputs.questions to a list of strings: the node then waits for human answers and re-runs with them in planning.questions.",
+ "node": {
+  "description": "",
+  "id": "planning/investigate/investigate",
+  "inputs": [],
+  "kind": "task",
+  "outcomes": [],
+  "outputs": [],
+  "params": {},
+  "process": "planning-investigate",
+  "source": {
+   "node": "investigate",
+   "process": "planning-investigate"
+  },
+  "title": "Investigate"
+ },
+ "objective": "Consolidate pv-prosevoice and pv-preflight into one prosevoice skill; adopt momotron-style Python support package and configuration management; provide an explicit migration helper for older projects without retaining backward compatibility; validate and execute the approved plan.",
+ "permissions": "You may write only these destinations:\n- /Users/james/workspace/dixson3/blog-voice/Momotron/consolidate-prosevoice/execution/attempts/planning-1@planning~investigate~investigate#1/result.json \u2014 result JSON (this attempt)\n- /Users/james/workspace/dixson3/blog-voice/Momotron/consolidate-prosevoice/execution/attempts/planning-1@planning~investigate~investigate#1/artifacts/ \u2014 files you produce (this attempt)\n- /Users/james/workspace/dixson3/blog-voice/Momotron/consolidate-prosevoice/references/ \u2014 bundle references\n- /Users/james/workspace/dixson3/blog-voice/Momotron/consolidate-prosevoice/reviews/ \u2014 bundle reviews\nThese are the only paths under execution/ you may write. Everything below stays read-only, even where it lies inside an allowed directory:\n- /Users/james/workspace/dixson3/blog-voice/Momotron/consolidate-prosevoice/plan.yaml\n- /Users/james/workspace/dixson3/blog-voice/Momotron/consolidate-prosevoice/plan-assets/\n- /Users/james/workspace/dixson3/blog-voice/Momotron/consolidate-prosevoice/processes/\n- /Users/james/workspace/dixson3/blog-voice/Momotron/consolidate-prosevoice/planning/\n- /Users/james/workspace/dixson3/blog-voice/Momotron/consolidate-prosevoice/execution/state.json\n- /Users/james/workspace/dixson3/blog-voice/Momotron/consolidate-prosevoice/execution/blobs/\n- /Users/james/workspace/dixson3/blog-voice/Momotron/consolidate-prosevoice/execution/attempts/ (every other attempt, and this attempt's packet.json)\nNever resolve a human gate or invent operator evidence.",
+ "phase": "planning",
+ "plan_id": "consolidate-prosevoice",
+ "planning": {
+  "candidate": {
+   "at": "2026-11-16T03:09:31.277961Z",
+   "digest": "94335c0b749da97a3cb2f4364ad6908c346043687029ecabd2b0c61bbe9fd7b4",
+   "revision": 0,
+   "source": "bootstrap"
+  },
+  "objective": "Consolidate pv-prosevoice and pv-preflight into one prosevoice skill; adopt momotron-style Python support package and configuration management; provide an explicit migration helper for older projects without retaining backward compatibility; validate and execute the approved plan.",
+  "params": {},
+  "questions": [],
+  "remaining_revision_rounds": 3,
+  "review_files": [],
+  "reviews": [],
+  "round": 1,
+  "round_kind": "planning",
+  "rounds": [
+   {
+    "candidate_revision": 0,
+    "kind": "planning",
+    "n": 1,
+    "outcome": null,
+    "review_run": null
+   }
+  ],
+  "status": "active"
+ },
+ "process_dir": "/Users/james/workspace/dixson3/blog-voice/Momotron/consolidate-prosevoice/planning/workflow/planning-investigate",
+ "result_path": "/Users/james/workspace/dixson3/blog-voice/Momotron/consolidate-prosevoice/execution/attempts/planning-1@planning~investigate~investigate#1/result.json",
+ "result_schema": {
+  "additionalProperties": false,
+  "properties": {
+   "artifacts": {
+    "items": {
+     "type": "string"
+    },
+    "type": "array"
+   },
+   "outputs": {
+    "type": "object"
+   },
+   "status": {
+    "enum": [
+     "succeeded",
+     "failed"
+    ]
+   },
+   "summary": {
+    "type": "string"
+   }
+  },
+  "required": [
+   "status"
+  ],
+  "type": "object"
+ },
+ "role": {
+  "path": "planning/workflow/planning-investigate/agents/investigator.md",
+  "text": "# Investigator (planning-investigate)\n\nAnswer the open questions in `references/scope.md` before anything is drafted. Prefer a cheap experiment in a scratch directory to reasoning about it. Record each question, what you ran, what you saw and the conclusion in `references/investigation.md`. If you need a decision only the operator can make, set `outputs.questions` to a list of strings and stop; the node waits for human answers and re-runs with them in `planning.questions`. Never answer your own questions.\n\nResult: `status: succeeded`, `outputs.findings` = the path.\n"
+ },
+ "run": "planning-1",
+ "run_kind": "planning",
+ "schema": "momotron-packet/1",
+ "session": null,
+ "working_dir": "/Users/james/workspace/dixson3/blog-voice/Momotron/consolidate-prosevoice",
+ "write_scope": {
+  "allowed": [
+   {
+    "path": "/Users/james/workspace/dixson3/blog-voice/Momotron/consolidate-prosevoice/execution/attempts/planning-1@planning~investigate~investigate#1/result.json",
+    "what": "result JSON (this attempt)"
+   },
+   {
+    "path": "/Users/james/workspace/dixson3/blog-voice/Momotron/consolidate-prosevoice/execution/attempts/planning-1@planning~investigate~investigate#1/artifacts/",
+    "what": "files you produce (this attempt)"
+   },
+   {
+    "path": "/Users/james/workspace/dixson3/blog-voice/Momotron/consolidate-prosevoice/references/",
+    "what": "bundle references"
+   },
+   {
+    "path": "/Users/james/workspace/dixson3/blog-voice/Momotron/consolidate-prosevoice/reviews/",
+    "what": "bundle reviews"
+   }
+  ],
+  "protected": [
+   "/Users/james/workspace/dixson3/blog-voice/Momotron/consolidate-prosevoice/plan.yaml",
+   "/Users/james/workspace/dixson3/blog-voice/Momotron/consolidate-prosevoice/plan-assets/",
+   "/Users/james/workspace/dixson3/blog-voice/Momotron/consolidate-prosevoice/processes/",
+   "/Users/james/workspace/dixson3/blog-voice/Momotron/consolidate-prosevoice/planning/",
+   "/Users/james/workspace/dixson3/blog-voice/Momotron/consolidate-prosevoice/execution/state.json",
+   "/Users/james/workspace/dixson3/blog-voice/Momotron/consolidate-prosevoice/execution/blobs/",
+   "/Users/james/workspace/dixson3/blog-voice/Momotron/consolidate-prosevoice/execution/attempts/ (every other attempt, and this attempt's packet.json)"
+  ]
+ }
+}
