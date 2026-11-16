@@ -1,0 +1,20 @@
+{
+  "checks": "passed",
+  "evidence": "/Users/james/workspace/dixson3/blog-voice/Momotron/consolidate-prosevoice/execution/attempts/planning-1@planning~investigate~investigate#1/artifacts/probe-results.json",
+  "observations": [
+    "legacy_guidance",
+    "unfilled_fallback",
+    "artifacts",
+    "adjacent",
+    "legacy_duplicate_keys",
+    "legacy_unknown_key",
+    "momotron_layers",
+    "momotron_duplicate_keys",
+    "momotron_init",
+    "momotron_root_fallback",
+    "momotron_skill_root",
+    "single_legacy_skill_failure",
+    "malformed_legacy_block",
+    "python_version"
+  ]
+}
