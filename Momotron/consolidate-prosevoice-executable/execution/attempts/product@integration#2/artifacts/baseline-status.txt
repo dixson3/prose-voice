@@ -1,0 +1,50 @@
+ M AGENTS.md
+ M README.md
+ D skills/pv-preflight/PV-PROTOCOL.md
+ D skills/pv-preflight/SKILL.md
+ D skills/pv-preflight/scripts/preflight.py
+ D skills/pv-preflight/scripts/pv_config.py
+ D skills/pv-preflight/templates/AUDIENCE.md
+ D skills/pv-preflight/templates/ILLUSTRATIONS.md
+ D skills/pv-preflight/templates/VOICE.md
+ D skills/pv-prosevoice/README.md
+ D skills/pv-prosevoice/SKILL.md
+ D skills/pv-prosevoice/agents/cold-read.md
+ D skills/pv-prosevoice/agents/copy-editor.md
+ D skills/pv-prosevoice/agents/curmudgeon.md
+ D skills/pv-prosevoice/agents/fact-checker.md
+ D skills/pv-prosevoice/agents/footnoter.md
+ D skills/pv-prosevoice/agents/grammar-check.md
+ D skills/pv-prosevoice/agents/illustrator.md
+ D skills/pv-prosevoice/agents/provenance.md
+ D skills/pv-prosevoice/agents/readability-critic.md
+ D skills/pv-prosevoice/agents/red-team.md
+ D skills/pv-prosevoice/agents/steelman-response.md
+ D skills/pv-prosevoice/agents/voice-stylist.md
+ D skills/pv-prosevoice/harper/dictionary.txt
+ D skills/pv-prosevoice/harper/ignore-rules.txt
+ D skills/pv-prosevoice/scripts/build_user_dict.py
+ D skills/pv-prosevoice/scripts/extract_prose.py
+ D skills/pv-prosevoice/scripts/harper_lint.py
+ D skills/pv-prosevoice/scripts/premise_fingerprint.py
+ D skills/pv-prosevoice/scripts/ready_preconditions.py
+ M tests/test_harper_lint.py
+ M tests/test_harper_policy.py
+ M tests/test_narrative_scope.py
+?? .agents/
+?? .claude/
+?? Momotron/consolidate-prosevoice-executable/execution/attempts/product@integration#2/artifacts/
+?? Momotron/consolidate-prosevoice/execution/.publish.lock
+?? Momotron/consolidate-prosevoice/execution/attempts/planning-1@planning~investigate~investigate#1/artifacts/fixtures/
+?? pyproject.toml
+?? skills-lock.json
+?? skills/prosevoice/
+?? tests/_prosevoice_path.py
+?? tests/fixtures/
+?? tests/test_prosevoice_config.py
+?? tests/test_prosevoice_migration.py
+?? tests/test_prosevoice_package.py
+?? tests/test_prosevoice_rules.py
+?? tests/test_prosevoice_runtime.py
+?? uv.lock
+58cba486ee4c2f465d006b137045b1d183c7d87a
