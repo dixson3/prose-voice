@@ -1,0 +1,41 @@
+schema_version: 1
+id: planning-revision
+type: Process
+okf_spec: MOMOTRON-PROCESS
+version: 1.0.0
+kind: planning
+title: Planning revision
+description: 'One revision round: apply the requested changes to a staged candidate, publish it, review
+  again.'
+nodes:
+- id: start
+  type: start
+- id: revise
+  type: task
+  title: Revise candidate
+  candidate: stage
+  executor:
+    kind: agent
+    role: agents/reviser.md
+  rework:
+    max_cycles: 2
+- id: publish
+  type: task
+  title: Publish candidate
+  executor:
+    kind: builtin
+    op: publish-candidate
+- id: review
+  type: subprocess
+  process: planning-review-handoff
+- id: end
+  type: end
+edges:
+- from: start
+  to: revise
+- from: revise
+  to: publish
+- from: publish
+  to: review
+- from: review
+  to: end

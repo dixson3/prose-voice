@@ -1,0 +1,32 @@
+schema_version: 1
+id: planning-review-handoff
+type: Process
+okf_spec: MOMOTRON-PROCESS
+version: 1.0.0
+kind: planning
+title: Candidate review handoff
+description: Start a review run bound to the published candidate and return its outcome.
+inputs:
+- candidate
+outputs:
+- review-outcome
+nodes:
+- id: start
+  type: start
+- id: review
+  type: task
+  title: Review candidate
+  description: 'Runner-owned: starts the frozen review process against the published candidate under recorded
+    human authorization, or waits for `momotron review start`.'
+  executor:
+    kind: builtin
+    op: review-candidate
+  rework:
+    max_cycles: 2
+- id: end
+  type: end
+edges:
+- from: start
+  to: review
+- from: review
+  to: end

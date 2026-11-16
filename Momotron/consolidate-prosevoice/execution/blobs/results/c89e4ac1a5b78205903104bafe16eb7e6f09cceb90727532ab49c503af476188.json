@@ -1,0 +1,8 @@
+{
+ "artifacts": [],
+ "outputs": {
+  "request": "references/request.md"
+ },
+ "status": "succeeded",
+ "summary": "Verified the operator request is captured verbatim in references/request.md."
+}

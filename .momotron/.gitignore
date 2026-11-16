@@ -1,0 +1,2 @@
+# momotron: the cache is disposable; never store state here
+cache/

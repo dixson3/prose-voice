@@ -1,0 +1,48 @@
+schema_version: 1
+id: planning-scope
+type: Process
+okf_spec: MOMOTRON-PROCESS
+version: 1.0.0
+kind: planning
+title: Planning scope
+description: Capture the request, scope it, and have a human approve the scope. Rejecting scope ends the
+  round.
+outputs:
+- references/request.md
+- references/scope.md
+nodes:
+- id: start
+  type: start
+- id: capture
+  type: task
+  title: Capture request
+  executor:
+    kind: agent
+    role: agents/capture.md
+- id: scope
+  type: task
+  title: Scope
+  executor:
+    kind: agent
+    role: agents/scoper.md
+  rework:
+    max_cycles: 2
+- id: scope-approval
+  type: gate
+  title: Scope approval
+  description: A human approves the scope before investigation. This never approves the plan.
+  outcomes:
+  - approve
+  - reject
+- id: end
+  type: end
+edges:
+- from: start
+  to: capture
+- from: capture
+  to: scope
+- from: scope
+  to: scope-approval
+- from: scope-approval
+  to: end
+  outcome: approve

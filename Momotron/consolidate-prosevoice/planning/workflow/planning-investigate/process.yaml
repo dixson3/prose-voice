@@ -1,0 +1,30 @@
+schema_version: 1
+id: planning-investigate
+type: Process
+okf_spec: MOMOTRON-PROCESS
+version: 1.0.0
+kind: planning
+title: Planning investigation
+description: Answer scoped questions with recorded evidence before drafting.
+inputs:
+- references/scope.md
+outputs:
+- references/investigation.md
+nodes:
+- id: start
+  type: start
+- id: investigate
+  type: task
+  title: Investigate
+  executor:
+    kind: agent
+    role: agents/investigator.md
+  rework:
+    max_cycles: 2
+- id: end
+  type: end
+edges:
+- from: start
+  to: investigate
+- from: investigate
+  to: end

@@ -1,0 +1,270 @@
+{
+ "approvals": [],
+ "attempts": {
+  "planning-1:planning/scope/capture#1": {
+   "adapter": "current",
+   "checks": [],
+   "claimant": "run:current",
+   "claimed_at": "2026-11-16T03:09:43.956321Z",
+   "decision": {
+    "at": "2026-11-16T03:10:17.946149Z",
+    "controller": "rules_controller",
+    "decision": "accept",
+    "effect": "succeeded",
+    "evidence": [],
+    "reason": "worker succeeded and all acceptance checks passed",
+    "revision": 5
+   },
+   "id": "planning-1:planning/scope/capture#1",
+   "n": 1,
+   "node": "planning/scope/capture",
+   "packet": "execution/blobs/packets/268c92fee239eb3168767b0354a203ba4024c1db45745dc6489d87004ef0916b.json",
+   "receipt": {
+    "adapter": "current",
+    "phase": "handed-off",
+    "recorded_at": "2026-11-16T03:09:43.960896Z"
+   },
+   "result": "execution/blobs/results/c89e4ac1a5b78205903104bafe16eb7e6f09cceb90727532ab49c503af476188.json",
+   "run": "planning-1",
+   "state": "decided"
+  },
+  "planning-1:planning/scope/scope#1": {
+   "adapter": "current",
+   "checks": [],
+   "claimant": "run:current",
+   "claimed_at": "2026-11-16T03:10:18.001184Z",
+   "decision": {
+    "at": "2026-11-16T03:11:46.303343Z",
+    "controller": "rules_controller",
+    "decision": "accept",
+    "effect": "succeeded",
+    "evidence": [],
+    "reason": "worker succeeded and all acceptance checks passed",
+    "revision": 9
+   },
+   "id": "planning-1:planning/scope/scope#1",
+   "n": 1,
+   "node": "planning/scope/scope",
+   "packet": "execution/blobs/packets/6cf349cc6bae4eda668601b99211ee12f9ab65a5befc71ea5dd0d8c454a08151.json",
+   "receipt": {
+    "adapter": "current",
+    "phase": "handed-off",
+    "recorded_at": "2026-11-16T03:10:18.006267Z"
+   },
+   "result": "execution/blobs/results/603c4764fa22bd6b3c9f07074fc1d13902682ad54a4696000d850c785c725865.json",
+   "run": "planning-1",
+   "state": "decided"
+  }
+ },
+ "decisions": {
+  "planning-1:planning/scope/capture#1": {
+   "at": "2026-11-16T03:10:17.946149Z",
+   "controller": "rules_controller",
+   "decision": "accept",
+   "effect": "succeeded",
+   "evidence": [],
+   "reason": "worker succeeded and all acceptance checks passed",
+   "revision": 5
+  },
+  "planning-1:planning/scope/scope#1": {
+   "at": "2026-11-16T03:11:46.303343Z",
+   "controller": "rules_controller",
+   "decision": "accept",
+   "effect": "succeeded",
+   "evidence": [],
+   "reason": "worker succeeded and all acceptance checks passed",
+   "revision": 9
+  }
+ },
+ "events": [
+  {
+   "at": "2026-11-16T03:09:31.295239Z",
+   "event": "planning started by James Dixson",
+   "revision": 1
+  },
+  {
+   "at": "2026-11-16T03:09:43.959449Z",
+   "event": "claim",
+   "revision": 2
+  },
+  {
+   "at": "2026-11-16T03:10:09.302601Z",
+   "event": "result submitted for planning-1:planning/scope/capture#1",
+   "revision": 4
+  },
+  {
+   "at": "2026-11-16T03:10:17.946624Z",
+   "event": "decision for planning-1:planning/scope/capture#1",
+   "revision": 5
+  },
+  {
+   "at": "2026-11-16T03:10:18.004621Z",
+   "event": "claim",
+   "revision": 6
+  },
+  {
+   "at": "2026-11-16T03:11:41.521664Z",
+   "event": "result submitted for planning-1:planning/scope/scope#1",
+   "revision": 8
+  },
+  {
+   "at": "2026-11-16T03:11:46.303702Z",
+   "event": "decision for planning-1:planning/scope/scope#1",
+   "revision": 9
+  }
+ ],
+ "locked_digest": null,
+ "observations": [],
+ "plan_id": "consolidate-prosevoice",
+ "planning": {
+  "candidate": {
+   "at": "2026-11-16T03:09:31.277961Z",
+   "digest": "94335c0b749da97a3cb2f4364ad6908c346043687029ecabd2b0c61bbe9fd7b4",
+   "revision": 0,
+   "source": "bootstrap"
+  },
+  "candidate_history": [
+   {
+    "at": "2026-11-16T03:09:31.277961Z",
+    "digest": "94335c0b749da97a3cb2f4364ad6908c346043687029ecabd2b0c61bbe9fd7b4",
+    "revision": 0,
+    "source": "bootstrap"
+   }
+  ],
+  "decisions": [],
+  "declared_bindings": [],
+  "extension_log": [],
+  "extensions": 0,
+  "max_revision_rounds": 3,
+  "objective": "Consolidate pv-prosevoice and pv-preflight into one prosevoice skill; adopt momotron-style Python support package and configuration management; provide an explicit migration helper for older projects without retaining backward compatibility; validate and execute the approved plan.",
+  "params": {},
+  "planning_process": "planning",
+  "publication": null,
+  "publication_conflicts": [],
+  "questions": {},
+  "review_authorization": null,
+  "revision_process": "planning-revision",
+  "rounds": [
+   {
+    "candidate_revision": 0,
+    "kind": "planning",
+    "n": 1,
+    "outcome": null,
+    "process": "planning",
+    "review_run": null,
+    "run": "planning-1",
+    "started_at": "2026-11-16T03:09:31.293050Z"
+   }
+  ],
+  "started_at": "2026-11-16T03:09:31.277961Z",
+  "started_by": "James Dixson",
+  "status": "active",
+  "workflow_digest": "2057290e9bb2f0de8955332667826c077f40d451f440c09c5288810d929733e1"
+ },
+ "revision": 9,
+ "runs": {
+  "planning-1": {
+   "created_at": "2026-11-16T03:09:31.293013Z",
+   "digest": "2057290e9bb2f0de8955332667826c077f40d451f440c09c5288810d929733e1",
+   "id": "planning-1",
+   "kind": "planning",
+   "nodes": {
+    "planning/draft/draft": {
+     "attempts": [],
+     "cycles": 0,
+     "state": "pending"
+    },
+    "planning/draft/end": {
+     "attempts": [],
+     "cycles": 0,
+     "state": "pending"
+    },
+    "planning/draft/publish": {
+     "attempts": [],
+     "cycles": 0,
+     "state": "pending"
+    },
+    "planning/draft/start": {
+     "attempts": [],
+     "cycles": 0,
+     "state": "pending"
+    },
+    "planning/end": {
+     "attempts": [],
+     "cycles": 0,
+     "state": "pending"
+    },
+    "planning/investigate/end": {
+     "attempts": [],
+     "cycles": 0,
+     "state": "pending"
+    },
+    "planning/investigate/investigate": {
+     "attempts": [],
+     "cycles": 0,
+     "state": "pending"
+    },
+    "planning/investigate/start": {
+     "attempts": [],
+     "cycles": 0,
+     "state": "pending"
+    },
+    "planning/review/end": {
+     "attempts": [],
+     "cycles": 0,
+     "state": "pending"
+    },
+    "planning/review/review": {
+     "attempts": [],
+     "cycles": 0,
+     "state": "pending"
+    },
+    "planning/review/start": {
+     "attempts": [],
+     "cycles": 0,
+     "state": "pending"
+    },
+    "planning/scope/capture": {
+     "attempts": [
+      "planning-1:planning/scope/capture#1"
+     ],
+     "cycles": 0,
+     "state": "succeeded"
+    },
+    "planning/scope/end": {
+     "attempts": [],
+     "cycles": 0,
+     "state": "pending"
+    },
+    "planning/scope/scope": {
+     "attempts": [
+      "planning-1:planning/scope/scope#1"
+     ],
+     "cycles": 0,
+     "state": "succeeded"
+    },
+    "planning/scope/scope-approval": {
+     "attempts": [],
+     "cycles": 0,
+     "state": "pending"
+    },
+    "planning/scope/start": {
+     "attempts": [],
+     "cycles": 0,
+     "state": "succeeded"
+    },
+    "planning/start": {
+     "attempts": [],
+     "cycles": 0,
+     "state": "succeeded"
+    }
+   },
+   "prefix": "planning/",
+   "process": "planning",
+   "process_digest": "747a6783cb444d1e768835c1e6fb98e1fa121456e11cc84c91bd08c003f22494",
+   "round": 1,
+   "status": "active"
+  }
+ },
+ "schema_version": 2
+}

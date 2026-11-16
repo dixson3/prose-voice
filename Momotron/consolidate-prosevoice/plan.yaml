@@ -1,0 +1,14 @@
+schema_version: 1
+id: consolidate-prosevoice
+type: Plan
+okf_spec: MOMOTRON-PLAN
+title: Consolidate and modernize prosevoice
+objective: Consolidate pv-prosevoice and pv-preflight into one prosevoice skill; adopt momotron-style
+  Python support package and configuration management; provide an explicit migration helper for older
+  projects without retaining backward compatibility; validate and execute the approved plan.
+motivation: ''
+review_process: planning-review
+bindings: {}
+epics: []
+steps: []
+criteria: []

@@ -1,0 +1,10 @@
+{
+  "status": "succeeded",
+  "summary": "Defined the consolidation scope from the packet objective and captured operator request, including constraints, established decisions, exclusions, and investigation questions. No operator-only decision is needed to draft the scope; scope approval remains with the next human gate.",
+  "outputs": {
+    "scope": "references/scope.md"
+  },
+  "artifacts": [
+    "references/scope.md"
+  ]
+}

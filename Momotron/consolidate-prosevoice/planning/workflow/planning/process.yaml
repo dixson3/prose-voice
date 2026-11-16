@@ -1,0 +1,37 @@
+schema_version: 1
+id: planning
+type: Process
+okf_spec: MOMOTRON-PROCESS
+version: 1.0.0
+kind: planning
+title: Planning
+description: 'Default planning workflow: scope, investigate, draft and publish a candidate, then hand
+  it to review.'
+nodes:
+- id: start
+  type: start
+- id: scope
+  type: subprocess
+  process: planning-scope
+- id: investigate
+  type: subprocess
+  process: planning-investigate
+- id: draft
+  type: subprocess
+  process: planning-draft
+- id: review
+  type: subprocess
+  process: planning-review-handoff
+- id: end
+  type: end
+edges:
+- from: start
+  to: scope
+- from: scope
+  to: investigate
+- from: investigate
+  to: draft
+- from: draft
+  to: review
+- from: review
+  to: end

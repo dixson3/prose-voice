@@ -1,0 +1,97 @@
+schema_version: 1
+id: consolidate-prosevoice-planning-workflow
+type: Closure
+okf_spec: MOMOTRON-PLAN
+planning_process: planning
+revision_process: planning-revision
+processes:
+  planning:
+    version: 1.0.0
+    title: Planning
+    kind: planning
+    source:
+      tier: builtin
+      kind: catalog
+      origin: catalog:planning
+    digest: 747a6783cb444d1e768835c1e6fb98e1fa121456e11cc84c91bd08c003f22494
+    files:
+      context.md: 08c84dd6f9b438c4238ff11bba872d42f937ee23978d757bb8e8a9619ed066a7
+      index.md: d15f52e7593e4583895c8dbb56e69cf180ebee329b44bbd729f404bc27d7a8c7
+      log.md: d973e8ef7b0ce11a18160f86ba3de524030f141971fd082b6f4e7f8e1a505983
+      process.yaml: 123f0f8c6000f79aa36bde435ecd688a5a2a816baae16b16db8272a0378232a2
+  planning-revision:
+    version: 1.0.0
+    title: Planning revision
+    kind: planning
+    source:
+      tier: builtin
+      kind: catalog
+      origin: catalog:planning-revision
+    digest: 5b99252a756c375c25ed03f0b46d959e7e6f7312b84a9152dac451b9744ff0e3
+    files:
+      agents/reviser.md: 0e14ab28c0fb7824f8a5d6139b3cc34ac72a816eeb7bbaf83ae7715025e0ffe8
+      context.md: 59a755905683cf391f78835ac0143755e5182629d817ed7a03c8952d82e54106
+      index.md: ff05487a37af9ecf03f90da8671a070e6346a9a03e085d1bf0275262783abfbe
+      log.md: d973e8ef7b0ce11a18160f86ba3de524030f141971fd082b6f4e7f8e1a505983
+      process.yaml: 09fdce0767acda364806ee9c471844478fde575920e2a46f4bf858edaafba250
+  planning-scope:
+    version: 1.0.0
+    title: Planning scope
+    kind: planning
+    source:
+      tier: builtin
+      kind: catalog
+      origin: catalog:planning-scope
+    digest: f0c7b3a2206b7b8dd4417b649b2372b90a0d7d963d356dee5f1d0e9d00480207
+    files:
+      agents/capture.md: 0a4ec70d9c38b05462a09b7a07aacd992dce62418d13023dabfe7e35db534390
+      agents/scoper.md: 0a77b0c1a58689a509b004f39b8b13ed44ddcd97dcc6d7d4e025db5e36a745b9
+      context.md: f5b2d441aec46833818b4d05db07ef1c42b669411adf8478fc2716f1fbfbbde6
+      index.md: 7026fcee47f85c66bfc6cd83a52e096862fe1748a9505e576d315ba91bc08809
+      log.md: d973e8ef7b0ce11a18160f86ba3de524030f141971fd082b6f4e7f8e1a505983
+      process.yaml: aa91047bb49f3ee3bf51c33be5aec2ea76bd383a1b533ed77126b3db53f2acfc
+  planning-investigate:
+    version: 1.0.0
+    title: Planning investigation
+    kind: planning
+    source:
+      tier: builtin
+      kind: catalog
+      origin: catalog:planning-investigate
+    digest: 2b0938a7ce6660f3212e3d52417abf7cd251139b9a92b4d6b4ca5d0ae1cc9bda
+    files:
+      agents/investigator.md: 2a24ae85380483118b2ac04d9172de4b18e0902c99c912d80e508b3183f659d0
+      context.md: 65b736492e3803fb986d5d2edba6e9f866ac476bcb629e2c02d54f6cd4c436cd
+      index.md: e716fe570285892852b01299cf669a183a5ba9a3ff1f46923fcdf851f9bc6e9c
+      log.md: d973e8ef7b0ce11a18160f86ba3de524030f141971fd082b6f4e7f8e1a505983
+      process.yaml: bada7ebe84e84d044fee6a32fc0517e526885bedd39822dd6cbffb520af337ff
+  planning-draft:
+    version: 1.0.0
+    title: Planning draft and publish
+    kind: planning
+    source:
+      tier: builtin
+      kind: catalog
+      origin: catalog:planning-draft
+    digest: 6c69e01894c4c546e06b6f484a3932697a191e84315d5b0b182a5cb46b3fb1e7
+    files:
+      agents/drafter.md: 610add6f92274852a797df398d9cbd0fcdb336d6d576d38eb074fb981473af1c
+      context.md: 31c9d81cd0dcc2fc98a080584133550768ec271f150513058101e6999d1bedde
+      index.md: 3ae1e9c1cf4611182817fa7c2eea4db115acfbea94ae404afb86cc0fbc834d9e
+      log.md: d973e8ef7b0ce11a18160f86ba3de524030f141971fd082b6f4e7f8e1a505983
+      process.yaml: eae00086bed962c0ca37da4cc173331a1cbb4afba2b9ca5c423eb7bd04642410
+  planning-review-handoff:
+    version: 1.0.0
+    title: Candidate review handoff
+    kind: planning
+    source:
+      tier: builtin
+      kind: catalog
+      origin: catalog:planning-review-handoff
+    digest: 35f751324bf88f653f4ac29d53968d22a8c1a4916a27315606df529d21928da9
+    files:
+      context.md: 4cbc2d41bab2d0f5e06f4027c919372ed82a963a7bba7c98c7c60830bc079923
+      index.md: f10fa73a0ae4d9b0c9a20ebb6eaa3418d12d539021ee73efe7bec28c9cc0e809
+      log.md: d973e8ef7b0ce11a18160f86ba3de524030f141971fd082b6f4e7f8e1a505983
+      process.yaml: 8820582eb8efbbe4edfce67f812b13fb671413e497a8caa7e025624d7a1a2037
+roles: {}
