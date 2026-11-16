@@ -329,6 +329,10 @@
    "claimed_at": "2026-11-16T23:51:55.777939Z",
    "decision": null,
    "id": "product:integration#2",
+   "interrupted": {
+    "at": "2026-11-16T23:54:46.069130Z",
+    "reason": "no result and no live dispatch after interruption"
+   },
    "n": 2,
    "node": "integration",
    "packet": "execution/blobs/packets/7d1354726707f0caa7c2cab07cd1c6f50ca9de386605f22209edf01ff0980b3d.json",
@@ -409,7 +413,7 @@
    },
    "result": null,
    "run": "product",
-   "state": "running"
+   "state": "interrupted"
   },
   "product:migration#1": {
    "adapter": "acpx",
@@ -2145,6 +2149,11 @@
    "at": "2026-11-16T23:54:30.730067Z",
    "event": "resume reconciliation",
    "revision": 283
+  },
+  {
+   "at": "2026-11-16T23:54:46.069459Z",
+   "event": "resume reconciliation",
+   "revision": 284
   }
  ],
  "identity": {
@@ -2174,7 +2183,7 @@
  ],
  "plan_id": "consolidate-prosevoice-executable",
  "planning": null,
- "revision": 283,
+ "revision": 284,
  "runs": {
   "product": {
    "created_at": "2026-11-16T22:44:19.682979Z",
@@ -2207,7 +2216,7 @@
       "product:integration#2"
      ],
      "cycles": 0,
-     "state": "running"
+     "state": "blocked"
     },
     "migration": {
      "attempts": [
