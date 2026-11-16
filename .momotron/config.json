@@ -4,8 +4,8 @@
   "default_adapter": "acpx",
   "controller": "agent",
   "acpx": {
-    "agent": "pi",
-    "model": "magpie/claude/claude-opus-5-5",
+    "agent": "claude",
+    "model": "claude-opus-5-5",
     "timeout": 3600,
     "permission": "approve-all"
   },
@@ -13,11 +13,11 @@
     "argv": [
       "acpx",
       "--cwd", "{cwd}",
-      "--model", "magpie/claude/claude-opus-5-5",
+      "--model", "claude-opus-5-5",
       "--approve-all",
       "--format", "json",
       "--timeout", "1800",
-      "pi", "exec",
+      "claude", "exec",
       "You are the independent momotron controller. Read the controller packet at {packet}, its referenced evidence, and the sibling worker packet.json. Follow the controller role and decision schema. Assess the worker result and every acceptance check declared in the worker packet. If the controller packet has no executed check results but the worker packet declares checks, independently run each declared argv in the worker working_dir (or bundle when a check explicitly requests it), respect its timeout, and record exit codes and evidence in the decision. Missing or unverified required checks are not passes. Write the decision JSON to {result}. Do not edit product files, perform implementation work, resolve human gates, or approve anything on behalf of the operator. Return a short summary after writing the decision."
     ],
     "timeout": 1860

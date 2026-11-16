@@ -1,0 +1,9 @@
+# Integration adapter recovery
+
+The operator authorized retrying integration with a fresh Opus 5.5 ACP worker and then continuing through acceptance. Attempt `product:integration#2` reproduced the same self-identification error as attempt #1: after a diagnostic advisory, it described its own live transcript as another worker and ended with `end_turn` without writing `result.json`. Its cited PID 77691 is its own receipt PID. The outer dispatch process has exited, and the exact recorded ACP session was closed; adapter status confirms `process_alive: false` and `nativeClosed: true`.
+
+Attempt #2 retained the documentation changes and added a constant `limitations` field to READY output, but stopped before adding its test and before writing the distribution checker. These partial product edits remain uncommitted. The three prior product steps remain accepted.
+
+The primary session verified the native Claude ACP adapter with a tool-free prompt requesting exactly `ACP_MODEL_CHECK_OK`. It returned that string and terminal `end_turn`; native usage metadata identified `claude-opus-5-5` as the responding model. Runtime configuration now uses `acpx.agent: claude`, `acpx.model: claude-opus-5-5`, and the same native adapter/model for controller decisions. This removes the Pi ACP layer from subsequent worker/controller sessions without changing the approved plan or requested model family. The native adapter's own incidental utility-model accounting is separate from the Opus worker response.
+
+Continuation uses the operator's existing instruction to retry integration and continue acceptance. The next worker must inspect retained edits and complete the same integration contract. No competing product worker is running, no definition change was made, and neither prior interrupted attempt is accepted as successful.

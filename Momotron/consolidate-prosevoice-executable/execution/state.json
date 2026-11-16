@@ -411,9 +411,15 @@
     },
     "session": "momo-consolidate-prosevoi-integration-47d5bb32110fe14efc48"
    },
+   "recovery": {
+    "action": "retry",
+    "actor": "James Dixson",
+    "at": "2026-11-16T23:57:36.122348Z",
+    "evidence": "Continuing the operator-authorized retry of integration and acceptance. Attempt #2 repeated the same verified self-process misidentification, ended without a result, and its dispatched process is exited and ACP session closed. Native Claude ACP was probed successfully with claude-opus-5-5; runtime controller and worker now use that adapter. See references/integration-adapter-recovery.md."
+   },
    "result": null,
    "run": "product",
-   "state": "interrupted"
+   "state": "abandoned"
   },
   "product:migration#1": {
    "adapter": "acpx",
@@ -2154,6 +2160,11 @@
    "at": "2026-11-16T23:54:46.069459Z",
    "event": "resume reconciliation",
    "revision": 284
+  },
+  {
+   "at": "2026-11-16T23:57:36.130402Z",
+   "event": "recover product:integration#2: retry by James Dixson",
+   "revision": 285
   }
  ],
  "identity": {
@@ -2183,7 +2194,7 @@
  ],
  "plan_id": "consolidate-prosevoice-executable",
  "planning": null,
- "revision": 284,
+ "revision": 285,
  "runs": {
   "product": {
    "created_at": "2026-11-16T22:44:19.682979Z",
@@ -2216,7 +2227,7 @@
       "product:integration#2"
      ],
      "cycles": 0,
-     "state": "blocked"
+     "state": "pending"
     },
     "migration": {
      "attempts": [
