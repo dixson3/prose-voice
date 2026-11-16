@@ -1,0 +1,19 @@
+You are executing one node of a momotron plan as a fresh session.
+Read the context packet at: /Users/james/workspace/dixson3/blog-voice/Momotron/consolidate-prosevoice-executable/execution/attempts/product@foundation#1/packet.json
+It contains your role, the node description, dependency outputs, the working directory,
+allowed operations and the result schema. Use nothing from any prior conversation.
+When finished, write the result JSON to: /Users/james/workspace/dixson3/blog-voice/Momotron/consolidate-prosevoice-executable/execution/attempts/product@foundation#1/result.json
+Put any files you produce in: /Users/james/workspace/dixson3/blog-voice/Momotron/consolidate-prosevoice-executable/execution/attempts/product@foundation#1/artifacts
+You may write only these destinations:
+- /Users/james/workspace/dixson3/blog-voice/Momotron/consolidate-prosevoice-executable/execution/attempts/product@foundation#1/result.json — result JSON (this attempt)
+- /Users/james/workspace/dixson3/blog-voice/Momotron/consolidate-prosevoice-executable/execution/attempts/product@foundation#1/artifacts/ — files you produce (this attempt)
+- /Users/james/workspace/dixson3/blog-voice/ — working directory (task changes)
+These are the only paths under execution/ you may write. Everything below stays read-only, even where it lies inside an allowed directory:
+- /Users/james/workspace/dixson3/blog-voice/Momotron/consolidate-prosevoice-executable/plan.yaml
+- /Users/james/workspace/dixson3/blog-voice/Momotron/consolidate-prosevoice-executable/plan-assets/
+- /Users/james/workspace/dixson3/blog-voice/Momotron/consolidate-prosevoice-executable/processes/
+- /Users/james/workspace/dixson3/blog-voice/Momotron/consolidate-prosevoice-executable/planning/
+- /Users/james/workspace/dixson3/blog-voice/Momotron/consolidate-prosevoice-executable/execution/state.json
+- /Users/james/workspace/dixson3/blog-voice/Momotron/consolidate-prosevoice-executable/execution/blobs/
+- /Users/james/workspace/dixson3/blog-voice/Momotron/consolidate-prosevoice-executable/execution/attempts/ (every other attempt, and this attempt's packet.json)
+Never resolve a human gate or invent operator evidence.

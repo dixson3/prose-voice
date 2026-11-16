@@ -1,6 +1,106 @@
 {
- "approvals": [],
+ "approvals": [
+  {
+   "actor": "James Dixson",
+   "at": "2026-11-16T22:44:19.674859Z",
+   "authority": "designated-gate",
+   "digest": "7fa7754b3f688b29d9c47f1c686c75dc393dc62bd961a346dcaec16d57faa3f3",
+   "evidence": "Operator explicitly approved the corrected successor: successor approved",
+   "gate": "review/approval",
+   "review_process": "planning-review",
+   "review_process_digest": "4a5ccf44386e350b1495ff9159799c9b9d13a3d029123e3d060a67991929a465",
+   "review_run": "review-1"
+  }
+ ],
  "attempts": {
+  "product:foundation#1": {
+   "adapter": "acpx",
+   "claimant": "run:acpx",
+   "claimed_at": "2026-11-16T22:44:25.838534Z",
+   "decision": null,
+   "id": "product:foundation#1",
+   "n": 1,
+   "node": "foundation",
+   "packet": "execution/blobs/packets/0dfc4ce5b9ea1c230c8640b63089b31ff830fa83335a39028003c56aa50dd555.json",
+   "receipt": {
+    "acpx_version": "0.22.0",
+    "adapter": "acpx",
+    "agent": "pi",
+    "cwd": "/Users/james/workspace/dixson3/blog-voice",
+    "deadline": 1794872674.6026042,
+    "effective": {
+     "agent": "pi",
+     "config": {},
+     "config_source": "project",
+     "model": "magpie/claude/claude-opus-5-5",
+     "permission": "approve-all",
+     "session_policy": "fresh-per-attempt",
+     "timeout": 3600
+    },
+    "identity": {
+     "attempt": "product:foundation#1",
+     "bundle_uid": "caa4bb0e2178465197995adceda728b2",
+     "generation": 1,
+     "group": "attempt:product:foundation#1",
+     "host": "d3-mbp-m5.local",
+     "location": "/Users/james/workspace/dixson3/blog-voice/Momotron/consolidate-prosevoice-executable",
+     "node": "foundation",
+     "plan_id": "consolidate-prosevoice-executable",
+     "policy": "fresh-per-attempt",
+     "role": "processes/_roles/worker.md",
+     "run": "product",
+     "schema": "momotron-session-identity/1",
+     "session_name": "momo-consolidate-prosevoi-foundation-9bdcdf8f45864a4019dd",
+     "session_plan": {
+      "action": "fresh",
+      "generation": 1,
+      "key": null,
+      "problem": null,
+      "reason": "fresh-per-attempt"
+     }
+    },
+    "launched_at": "2026-11-16T22:44:34.602544Z",
+    "log": "execution/attempts/product@foundation#1/adapter.log",
+    "native": {
+     "acp_session_id": "01a1e688-8029-7789-b239-c881763d3395",
+     "acpx_record_id": "f054997c-a2bd-47cc-9c26-42e7441433fa",
+     "agent_session_id": null,
+     "available": true,
+     "available_model_count": 652,
+     "closed": false,
+     "config_option_ids": [
+      "model",
+      "thought_level"
+     ],
+     "current_model_id": "magpie/claude/claude-opus-5-5",
+     "model_control": "config_option",
+     "usage_tokens": null
+    },
+    "phase": "launched",
+    "pid": 37091,
+    "process": {
+     "pgid": 37091,
+     "started": "Mon Nov 16 14:44:34 2026"
+    },
+    "recorded_at": "2026-11-16T22:44:26.072675Z",
+    "selection": {
+     "acknowledged": true,
+     "effective_model": "magpie/claude/claude-opus-5-5",
+     "options": {
+      "model": {
+       "acknowledged": true,
+       "effective": "magpie/claude/claude-opus-5-5",
+       "requested": "magpie/claude/claude-opus-5-5"
+      }
+     },
+     "requested_model": "magpie/claude/claude-opus-5-5"
+    },
+    "session": "momo-consolidate-prosevoi-foundation-9bdcdf8f45864a4019dd"
+   },
+   "result": null,
+   "run": "product",
+   "state": "running"
+  },
   "review-1:review/conformance#1": {
    "adapter": "internal",
    "checks": [],
@@ -346,16 +446,45 @@
    "at": "2026-11-16T22:22:48.677059Z",
    "event": "decision for review-1:review/portability#1",
    "revision": 22
+  },
+  {
+   "at": "2026-11-16T22:44:19.683009Z",
+   "event": "gate review/approval approve by James Dixson",
+   "revision": 23
+  },
+  {
+   "at": "2026-11-16T22:44:25.498878Z",
+   "event": "bindings recorded: ['momotron', 'repo']",
+   "revision": 24
+  },
+  {
+   "at": "2026-11-16T22:44:25.854261Z",
+   "event": "claim",
+   "revision": 25
+  },
+  {
+   "at": "2026-11-16T22:45:05.042159Z",
+   "event": "resume reconciliation",
+   "revision": 29
   }
  ],
  "identity": {
   "bundle_uid": "caa4bb0e2178465197995adceda728b2",
   "created_at": "2026-11-16T22:20:11.914389Z"
  },
- "locked_digest": null,
+ "locked_digest": "7fa7754b3f688b29d9c47f1c686c75dc393dc62bd961a346dcaec16d57faa3f3",
  "observations": [
   {
    "at": "2026-11-16T22:19:55.291529Z",
+   "bindings": {
+    "momotron": "/Users/james/workspace/dixson3/momotron",
+    "repo": "/Users/james/workspace/dixson3/blog-voice"
+   },
+   "host": "d3-mbp-m5.local",
+   "kind": "bindings"
+  },
+  {
+   "at": "2026-11-16T22:44:25.498573Z",
    "bindings": {
     "momotron": "/Users/james/workspace/dixson3/momotron",
     "repo": "/Users/james/workspace/dixson3/blog-voice"
@@ -366,19 +495,65 @@
  ],
  "plan_id": "consolidate-prosevoice-executable",
  "planning": null,
- "revision": 22,
+ "revision": 29,
  "runs": {
+  "product": {
+   "created_at": "2026-11-16T22:44:19.682979Z",
+   "digest": "7fa7754b3f688b29d9c47f1c686c75dc393dc62bd961a346dcaec16d57faa3f3",
+   "id": "product",
+   "kind": "product",
+   "nodes": {
+    "acceptance": {
+     "attempts": [],
+     "cycles": 0,
+     "state": "pending"
+    },
+    "consolidate": {
+     "attempts": [],
+     "cycles": 0,
+     "state": "pending"
+    },
+    "foundation": {
+     "attempts": [
+      "product:foundation#1"
+     ],
+     "cycles": 0,
+     "state": "running"
+    },
+    "integration": {
+     "attempts": [],
+     "cycles": 0,
+     "state": "pending"
+    },
+    "migration": {
+     "attempts": [],
+     "cycles": 0,
+     "state": "pending"
+    }
+   },
+   "process_digest": null,
+   "status": "active"
+  },
   "review-1": {
+   "approval_recorded": true,
    "created_at": "2026-11-16T22:19:44.778598Z",
    "digest": "7fa7754b3f688b29d9c47f1c686c75dc393dc62bd961a346dcaec16d57faa3f3",
    "extended": false,
+   "finished_at": "2026-11-16T22:44:19.669911Z",
    "id": "review-1",
    "kind": "review",
    "nodes": {
     "review/approval": {
      "attempts": [],
      "cycles": 0,
-     "state": "pending"
+     "gate": {
+      "actor": "James Dixson",
+      "at": "2026-11-16T22:44:19.665441Z",
+      "evidence": "Operator explicitly approved the corrected successor: successor approved",
+      "outcome": "approve"
+     },
+     "selection": "approve",
+     "state": "succeeded"
     },
     "review/conformance": {
      "attempts": [
@@ -390,7 +565,7 @@
     "review/end": {
      "attempts": [],
      "cycles": 0,
-     "state": "pending"
+     "state": "succeeded"
     },
     "review/portability": {
      "attempts": [
@@ -427,7 +602,7 @@
    },
    "process_digest": "4a5ccf44386e350b1495ff9159799c9b9d13a3d029123e3d060a67991929a465",
    "started_by": "James Dixson",
-   "status": "active"
+   "status": "approved"
   }
  },
  "schema_version": 2
