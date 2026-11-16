@@ -1,0 +1,11 @@
+# Integration interruption and recovery evidence
+
+Attempt `product:integration#1` ended without `result.json` and the runner marked it interrupted. The worker's final public response claimed that PID 64291 and its descendant ACP/Pi processes belonged to another worker, because its own `adapter.log` and edited files were changing. The attempt's receipt records PID 64291 as this very attempt's dispatched process. Those observations did not establish a competing writer: they described the worker's own session.
+
+The ACP log has a terminal `end_turn` result. Adapter status confirms `process_alive: false`, `process_check: launched process has exited`, and `result_present: false`. The primary session closed the completed ACP session by its exact recorded name; subsequent adapter status confirms `nativeClosed: true`. No competing product worker is recorded. The automatic driver stopped at the blocked state and has not retried or resolved recovery.
+
+Partial integration edits are retained: the two legacy source skill trees were removed, root README and AGENTS were updated, the consolidated SKILL command table changed, and the consolidated README was written. These are uncommitted product edits authorized by the integration step, not a completed integration result. The three prior product steps remain accepted. Independent Python 3.11 validation passed all 142 tests during integration; it does not establish distribution correctness.
+
+The interrupted worker reported that `tests/check_distribution.py`, distribution verification, the final evidence report, and the result JSON were still missing. A replacement worker should inspect the current tree and continue the existing integration contract, preserving valid prior edits. It must compare any suspected competing process with the current attempt receipt; its own process or log activity is not evidence of another writer. A worker must always write a succeeded or failed result when it can do so safely.
+
+Recovery requires an operator-authorized retry of this attempt through momotron. The approved definition is unchanged; no successor or new plan approval is needed. After recovery, use a fresh Opus 5.5 ACP worker and the configured independent controller, then run the existing acceptance step. Do not infer completion from the partial edits or from the passing runtime suite.
