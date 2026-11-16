@@ -1,0 +1,14 @@
+{
+  "status": "succeeded",
+  "summary": "Investigated both repositories and answered all four approved scope questions. Documented momotron's package/resource/configuration patterns, consolidation dependencies and preserved editorial behavior, an explicit migration contract with scope/conflict/resume semantics, and installation/regression acceptance checks. All 19 existing unittest tests and isolated behavior probes pass. Confirmed the existing READY sibling import fails in a single-skill fixture and malformed legacy rule blocks require safer migration handling. No product edits, runner advancement or human-gate actions were performed.",
+  "outputs": {
+    "findings": "references/investigation.md"
+  },
+  "artifacts": [
+    "references/investigation.md",
+    "execution/attempts/planning-1@planning~investigate~investigate#1/artifacts/investigate.py",
+    "execution/attempts/planning-1@planning~investigate~investigate#1/artifacts/probe-results.json",
+    "execution/attempts/planning-1@planning~investigate~investigate#1/artifacts/probe.log",
+    "execution/attempts/planning-1@planning~investigate~investigate#1/artifacts/unittest.log"
+  ]
+}

@@ -1,0 +1,123 @@
+{
+  "legacy_guidance": {
+    "VOICE.md": {
+      "resolved": {
+        "level": "project",
+        "path": "/Users/james/workspace/dixson3/blog-voice/Momotron/consolidate-prosevoice/execution/attempts/planning-1@planning~investigate~investigate#1/artifacts/fixtures/project/.prose-voice/VOICE.md"
+      },
+      "tried": [
+        {
+          "level": "project",
+          "path": "/Users/james/workspace/dixson3/blog-voice/Momotron/consolidate-prosevoice/execution/attempts/planning-1@planning~investigate~investigate#1/artifacts/fixtures/project/.prose-voice/VOICE.md",
+          "state": "ok"
+        },
+        {
+          "level": "global",
+          "path": "/Users/james/workspace/dixson3/blog-voice/Momotron/consolidate-prosevoice/execution/attempts/planning-1@planning~investigate~investigate#1/artifacts/fixtures/home/.prose-voice/VOICE.md",
+          "state": "absent"
+        }
+      ]
+    },
+    "AUDIENCE.md": {
+      "resolved": {
+        "level": "configured",
+        "path": "/Users/james/workspace/dixson3/blog-voice/Momotron/consolidate-prosevoice/execution/attempts/planning-1@planning~investigate~investigate#1/artifacts/fixtures/project/guides/reader.md"
+      },
+      "tried": [
+        {
+          "level": "configured",
+          "path": "/Users/james/workspace/dixson3/blog-voice/Momotron/consolidate-prosevoice/execution/attempts/planning-1@planning~investigate~investigate#1/artifacts/fixtures/project/missing.md",
+          "state": "absent"
+        },
+        {
+          "level": "configured",
+          "path": "/Users/james/workspace/dixson3/blog-voice/Momotron/consolidate-prosevoice/execution/attempts/planning-1@planning~investigate~investigate#1/artifacts/fixtures/project/guides/reader.md",
+          "state": "ok"
+        },
+        {
+          "level": "project",
+          "path": "/Users/james/workspace/dixson3/blog-voice/Momotron/consolidate-prosevoice/execution/attempts/planning-1@planning~investigate~investigate#1/artifacts/fixtures/project/.prose-voice/AUDIENCE.md",
+          "state": "absent"
+        },
+        {
+          "level": "global",
+          "path": "/Users/james/workspace/dixson3/blog-voice/Momotron/consolidate-prosevoice/execution/attempts/planning-1@planning~investigate~investigate#1/artifacts/fixtures/home/.prose-voice/AUDIENCE.md",
+          "state": "ok"
+        }
+      ]
+    },
+    "ILLUSTRATIONS.md": {
+      "resolved": null,
+      "tried": [
+        {
+          "level": "project",
+          "path": "/Users/james/workspace/dixson3/blog-voice/Momotron/consolidate-prosevoice/execution/attempts/planning-1@planning~investigate~investigate#1/artifacts/fixtures/project/.prose-voice/ILLUSTRATIONS.md",
+          "state": "absent"
+        },
+        {
+          "level": "global",
+          "path": "/Users/james/workspace/dixson3/blog-voice/Momotron/consolidate-prosevoice/execution/attempts/planning-1@planning~investigate~investigate#1/artifacts/fixtures/home/.prose-voice/ILLUSTRATIONS.md",
+          "state": "absent"
+        }
+      ]
+    }
+  },
+  "unfilled_fallback": "unfilled configured guide falls back independently to global audience",
+  "artifacts": {
+    "curmudgeon": ".prose-voice/cache/chapters/one.curmudgeon.md",
+    "steelman": ".prose-voice/cache/chapters/one.steelman.md",
+    "illustrations": ".prose-voice/cache/chapters/one.illustrations.md",
+    "draft": ".prose-voice/cache/chapters/one.draft.md",
+    "review": ".prose-voice/cache/chapters/one.review.md",
+    "ready": ".prose-voice/cache/chapters/one.ready.md",
+    "copyedit": ".prose-voice/cache/chapters/one.copyedit.md",
+    "provenance": ".prose-voice/cache/chapters/one.provenance.md",
+    "fact-check": ".prose-voice/cache/chapters/one.fact-check.md",
+    "footnoter": ".prose-voice/cache/chapters/one.footnoter.md",
+    "red-team": ".prose-voice/cache/chapters/one.red-team.md",
+    "cold-read": ".prose-voice/cache/chapters/one.cold-read.md"
+  },
+  "adjacent": "paths remain beside essay when configured",
+  "legacy_duplicate_keys": {
+    "artifacts": {
+      "location": "adjacent"
+    }
+  },
+  "legacy_unknown_key": ".prose-voice/config.json must contain only guidance and artifacts objects",
+  "momotron_layers": {
+    "plans_root": {
+      "value": "CLIPlans",
+      "tier": "cli"
+    },
+    "max_review_cycles": {
+      "value": 7,
+      "tier": "user"
+    },
+    "schema_version": {
+      "value": 1,
+      "tier": "builtin"
+    }
+  },
+  "momotron_duplicate_keys": "/Users/james/workspace/dixson3/blog-voice/Momotron/consolidate-prosevoice/execution/attempts/planning-1@planning~investigate~investigate#1/artifacts/fixtures/project/.momotron/config.json: duplicate key(s) ['plans_root']",
+  "momotron_init": {
+    "first": {
+      "project_root": "/Users/james/workspace/dixson3/blog-voice/Momotron/consolidate-prosevoice/execution/attempts/planning-1@planning~investigate~investigate#1/artifacts/fixtures/project",
+      "created": []
+    },
+    "second": {
+      "project_root": "/Users/james/workspace/dixson3/blog-voice/Momotron/consolidate-prosevoice/execution/attempts/planning-1@planning~investigate~investigate#1/artifacts/fixtures/project",
+      "created": []
+    }
+  },
+  "momotron_root_fallback": "/Users/james/workspace/dixson3/blog-voice",
+  "momotron_skill_root": "/Users/james/workspace/dixson3/momotron/skills/momotron",
+  "single_legacy_skill_failure": {
+    "returncode": 1,
+    "last_error": "FileNotFoundError: [Errno 2] No such file or directory: '/Users/james/workspace/dixson3/blog-voice/Momotron/consolidate-prosevoice/execution/attempts/planning-1@planning~investigate~investigate#1/artifacts/fixtures/installed/skills/pv-preflight/scripts/pv_config.py'"
+  },
+  "malformed_legacy_block": {
+    "input": "Keep before\\n<!-- BEGIN pv-protocol (managed by pv-preflight; edits are overwritten) -->\\nKeep after\\n",
+    "stripped": "Keep before"
+  },
+  "python_version": "3.14.10 (main, Nov 11 2026, 00:14:32) [Clang 23.1.3 ]"
+}
