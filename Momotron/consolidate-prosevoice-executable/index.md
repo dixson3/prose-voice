@@ -11,4 +11,5 @@ Bundle `consolidate-prosevoice-executable` (okf_spec `MOMOTRON-PLAN`). Members l
 | [`plan-assets/`](plan-assets/) | Long descriptions and attachments referenced by plan.yaml. |
 | [`processes/`](processes/) | Frozen process closure pinned by processes/closure.yaml. |
 | [`execution/`](execution/) | Execution ledger (state.json), packets, results and receipts. |
+| [`plan.html`](plan.html) | Rendered plan view with embedded review comments. |
 | [`log.md`](log.md) | Newest-first bundle history (projection of the ledger). |

@@ -46,6 +46,7 @@
     "adapter": "acpx",
     "agent": "pi",
     "cwd": "/Users/james/workspace/dixson3/blog-voice/Momotron/consolidate-prosevoice-executable",
+    "deadline": 1794871216.0350778,
     "effective": {
      "agent": "pi",
      "config": {},
@@ -77,9 +78,42 @@
       "reason": "fresh-per-attempt"
      }
     },
+    "launched_at": "2026-11-16T22:20:16.035050Z",
     "log": "execution/attempts/review-1@review~red-team#1/adapter.log",
-    "phase": "launching",
+    "native": {
+     "acp_session_id": "01a1e672-4c67-741a-9aba-35c6521f63bf",
+     "acpx_record_id": "95ab3248-8964-440e-810f-b3f2f33da10d",
+     "agent_session_id": null,
+     "available": true,
+     "available_model_count": 652,
+     "closed": false,
+     "config_option_ids": [
+      "model",
+      "thought_level"
+     ],
+     "current_model_id": "magpie/claude/claude-opus-5-5",
+     "model_control": "config_option",
+     "usage_tokens": null
+    },
+    "phase": "launched",
+    "pid": 28973,
+    "process": {
+     "pgid": 28973,
+     "started": "Mon Nov 16 14:20:16 2026"
+    },
     "recorded_at": "2026-11-16T22:20:11.914503Z",
+    "selection": {
+     "acknowledged": true,
+     "effective_model": "magpie/claude/claude-opus-5-5",
+     "options": {
+      "model": {
+       "acknowledged": true,
+       "effective": "magpie/claude/claude-opus-5-5",
+       "requested": "magpie/claude/claude-opus-5-5"
+      }
+     },
+     "requested_model": "magpie/claude/claude-opus-5-5"
+    },
     "session": "momo-consolidate-prosevoi-review-red-team-ccb372bd9286225cd6f8"
    },
    "result": null,
@@ -157,7 +191,7 @@
  ],
  "plan_id": "consolidate-prosevoice-executable",
  "planning": null,
- "revision": 8,
+ "revision": 10,
  "runs": {
   "review-1": {
    "created_at": "2026-11-16T22:19:44.778598Z",
