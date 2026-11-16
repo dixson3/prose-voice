@@ -977,12 +977,40 @@
    "at": "2026-11-16T22:11:16.684062Z",
    "event": "gate review/approval approve by James Dixson",
    "revision": 69
+  },
+  {
+   "at": "2026-11-16T22:14:36.703442Z",
+   "event": "bindings recorded: ['momotron', 'repo']",
+   "revision": 70
+  },
+  {
+   "at": "2026-11-16T22:15:25.549361Z",
+   "event": "bindings recorded: ['momotron', 'repo']",
+   "revision": 71
   }
  ],
  "locked_digest": null,
  "observations": [
   {
    "at": "2026-11-16T03:37:44.314310Z",
+   "bindings": {
+    "momotron": "/Users/james/workspace/dixson3/momotron",
+    "repo": "/Users/james/workspace/dixson3/blog-voice"
+   },
+   "host": "d3-mbp-m5.local",
+   "kind": "bindings"
+  },
+  {
+   "at": "2026-11-16T22:14:36.703255Z",
+   "bindings": {
+    "momotron": "/Users/james/workspace/dixson3/momotron",
+    "repo": "/Users/james/workspace/dixson3/blog-voice"
+   },
+   "host": "d3-mbp-m5.local",
+   "kind": "bindings"
+  },
+  {
+   "at": "2026-11-16T22:15:25.549152Z",
    "bindings": {
     "momotron": "/Users/james/workspace/dixson3/momotron",
     "repo": "/Users/james/workspace/dixson3/blog-voice"
@@ -1101,7 +1129,7 @@
   "status": "approved",
   "workflow_digest": "2057290e9bb2f0de8955332667826c077f40d451f440c09c5288810d929733e1"
  },
- "revision": 69,
+ "revision": 71,
  "runs": {
   "planning-1": {
    "created_at": "2026-11-16T03:09:31.293013Z",

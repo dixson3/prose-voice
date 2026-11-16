@@ -2,6 +2,7 @@
 
 Newest first.
 
+- 2026-11-16T22:16:30.211053Z successor `consolidate-prosevoice-executable` created at consolidate-prosevoice-executable
 - 2026-11-16T22:11:16.684760Z approved by James Dixson at digest ae99cb96b338 (run review-2)
 - 2026-11-16T03:35:21.586610Z review run `review-2` started under James Dixson's authorization (planning attempt planning-2:revision/review/review#1)
 - 2026-11-16T03:35:21.463670Z candidate revision 2 published (digest ae99cb96b338)
