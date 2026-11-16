@@ -1,0 +1,10 @@
+{
+ "artifacts": [],
+ "outputs": {
+  "problems": [
+   "plan-assets/contract.md embeds a home-directory path"
+  ]
+ },
+ "status": "failed",
+ "summary": "plan-assets/contract.md embeds a home-directory path"
+}

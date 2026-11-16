@@ -1,0 +1,10 @@
+{
+ "artifacts": [
+  "reviews/resolution-planning-2-revision-revise-1.md"
+ ],
+ "outputs": {
+  "resolutions": "reviews/resolution-planning-2-revision-revise-1.md"
+ },
+ "status": "succeeded",
+ "summary": "Replaced machine-specific checkout paths with explicit repo and read-only momotron runtime bindings. Retained existing deferred implementation checks without expanding scope."
+}

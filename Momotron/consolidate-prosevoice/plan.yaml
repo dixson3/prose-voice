@@ -14,8 +14,11 @@ review_process: planning-review
 bindings:
   repo:
     description: >-
-      Product source checkout, bound to the source repository identified in
-      plan-assets/contract.md; the momotron reference is read-only.
+      Product source checkout supplied through the repo runtime binding.
+  momotron:
+    description: >-
+      Read-only reference checkout supplied through the momotron runtime
+      binding; never modify it.
 scope:
   include:
     - One skill, Python package and resource-aware launcher/console command.

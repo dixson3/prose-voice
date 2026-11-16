@@ -121,7 +121,7 @@
    },
    "result": null,
    "run": "planning-1",
-   "state": "running"
+   "state": "abandoned"
   },
   "planning-1:planning/scope/capture#1": {
    "adapter": "current",
@@ -177,6 +177,101 @@
    "run": "planning-1",
    "state": "decided"
   },
+  "planning-2:revision/publish#1": {
+   "adapter": "builtin",
+   "claimant": "runner",
+   "claimed_at": "2026-11-16T03:35:21.415001Z",
+   "decision": {
+    "at": "2026-11-16T03:35:21.462754Z",
+    "controller": "runner",
+    "decision": "accept",
+    "effect": "succeeded",
+    "evidence": [],
+    "reason": "validated candidate published"
+   },
+   "id": "planning-2:revision/publish#1",
+   "n": 1,
+   "node": "revision/publish",
+   "packet": null,
+   "receipt": {
+    "adapter": "builtin",
+    "op": "publish-candidate",
+    "recorded_at": "2026-11-16T03:35:21.415038Z"
+   },
+   "result": "execution/blobs/results/1ba573534cb7e045644ce885c5c030f770d1a2a0a186972027b90ddd659821d6.json",
+   "run": "planning-2",
+   "state": "decided"
+  },
+  "planning-2:revision/review/review#1": {
+   "adapter": "builtin",
+   "claimant": "review:James Dixson",
+   "claimed_at": "2026-11-16T03:35:21.585723Z",
+   "decision": null,
+   "id": "planning-2:revision/review/review#1",
+   "n": 1,
+   "node": "revision/review/review",
+   "packet": null,
+   "receipt": {
+    "adapter": "builtin",
+    "op": "review-candidate",
+    "recorded_at": "2026-11-16T03:35:21.585747Z",
+    "review_run": "review-2"
+   },
+   "result": null,
+   "run": "planning-2",
+   "state": "running"
+  },
+  "planning-2:revision/revise#1": {
+   "adapter": "current",
+   "checks": [
+    {
+     "argv": [
+      "momotron:validate-candidate"
+     ],
+     "exit": 0,
+     "name": "candidate-valid",
+     "output": "candidate valid; staged digest ae99cb96b338",
+     "passed": true
+    }
+   ],
+   "claimant": "run:current",
+   "claimed_at": "2026-11-16T03:34:08.774764Z",
+   "decision": {
+    "at": "2026-11-16T03:35:21.339224Z",
+    "controller": "rules_controller",
+    "decision": "accept",
+    "effect": "succeeded",
+    "evidence": [
+     "candidate-valid: exit 0"
+    ],
+    "reason": "worker succeeded and all acceptance checks passed",
+    "revision": 48
+   },
+   "id": "planning-2:revision/revise#1",
+   "n": 1,
+   "node": "revision/revise",
+   "packet": "execution/blobs/packets/f1d83d5dc5248207609fe64e28f54baf203d3fd5280a3583be6a7c1d600cba27.json",
+   "receipt": {
+    "adapter": "current",
+    "phase": "handed-off",
+    "recorded_at": "2026-11-16T03:34:08.809277Z"
+   },
+   "result": "execution/blobs/results/10e9999392b99ea9a5bb68e1a8c96608ab46378a1a5f7a5e492e3a94f94d752e.json",
+   "run": "planning-2",
+   "stage": {
+    "base_digest": "c6385c6bf564919856e5020caf269801ba9bb283f0d64caa24d062f90f8427a9",
+    "base_revision": 1,
+    "dir": "execution/attempts/planning-2@revision~revise#1/candidate",
+    "disk_digest": "c6385c6bf564919856e5020caf269801ba9bb283f0d64caa24d062f90f8427a9"
+   },
+   "staged": {
+    "base_digest": "c6385c6bf564919856e5020caf269801ba9bb283f0d64caa24d062f90f8427a9",
+    "base_revision": 1,
+    "digest": "ae99cb96b3383d30177e5c86b7dd9a58574ff4173295d3e4215557dcf576452e",
+    "dir": "execution/attempts/planning-2@revision~revise#1/validated"
+   },
+   "state": "decided"
+  },
   "review-1:review/conformance#1": {
    "adapter": "internal",
    "checks": [],
@@ -203,11 +298,77 @@
    "run": "review-1",
    "state": "decided"
   },
+  "review-1:review/portability#1": {
+   "adapter": "internal",
+   "checks": [],
+   "claimant": "run:internal",
+   "claimed_at": "2026-11-16T03:33:21.729671Z",
+   "decision": {
+    "at": "2026-11-16T03:33:21.937409Z",
+    "controller": "rules_controller",
+    "decision": "retry",
+    "effect": "retry 1/1",
+    "evidence": [
+     "plan-assets/contract.md embeds a home-directory path"
+    ],
+    "reason": "worker reported failure",
+    "revision": 38
+   },
+   "id": "review-1:review/portability#1",
+   "n": 1,
+   "node": "review/portability",
+   "packet": "execution/blobs/packets/358869ab30f1a5f5d00be2175ce9ce2f64b5979f9298b5cb875d439f712275b4.json",
+   "receipt": {
+    "adapter": "script",
+    "recorded_at": "2026-11-16T03:33:21.772916Z"
+   },
+   "result": "execution/blobs/results/1e10e801fc58aec3848e6c2e5953b81d7863f0569f7f3a03ee075972ea90dc29.json",
+   "run": "review-1",
+   "state": "decided"
+  },
+  "review-1:review/portability#2": {
+   "adapter": "internal",
+   "checks": [],
+   "claimant": "run:internal",
+   "claimed_at": "2026-11-16T03:33:22.001364Z",
+   "decision": {
+    "at": "2026-11-16T03:33:22.203181Z",
+    "controller": "rules_controller",
+    "decision": "retry",
+    "effect": "rework budget exhausted: blocked for human recovery",
+    "evidence": [
+     "plan-assets/contract.md embeds a home-directory path"
+    ],
+    "reason": "worker reported failure",
+    "revision": 42
+   },
+   "exhausted": true,
+   "id": "review-1:review/portability#2",
+   "n": 2,
+   "node": "review/portability",
+   "packet": "execution/blobs/packets/d1e95bade6d77d9f5065fc378cbc42f592203d0e01aafe0f7a8873a8893da81a.json",
+   "receipt": {
+    "adapter": "script",
+    "recorded_at": "2026-11-16T03:33:22.043405Z"
+   },
+   "result": "execution/blobs/results/1e10e801fc58aec3848e6c2e5953b81d7863f0569f7f3a03ee075972ea90dc29.json",
+   "run": "review-1",
+   "state": "decided"
+  },
   "review-1:review/red-team#1": {
    "adapter": "current",
+   "checks": [],
    "claimant": "run:current",
    "claimed_at": "2026-11-16T03:30:49.015344Z",
-   "decision": null,
+   "decision": {
+    "at": "2026-11-16T03:33:21.457614Z",
+    "controller": "rules_controller",
+    "decision": "accept",
+    "effect": "succeeded",
+    "evidence": [],
+    "reason": "worker succeeded and all acceptance checks passed",
+    "revision": 31
+   },
    "id": "review-1:review/red-team#1",
    "n": 1,
    "node": "review/red-team",
@@ -217,8 +378,75 @@
     "phase": "handed-off",
     "recorded_at": "2026-11-16T03:30:49.044759Z"
    },
-   "result": null,
+   "result": "execution/blobs/results/07d8fa3997167ebe479366e61a9ee24ee516b0a07df093dd206a0099f2315424.json",
    "run": "review-1",
+   "state": "decided"
+  },
+  "review-1:review/verdict#1": {
+   "adapter": "internal",
+   "checks": [],
+   "claimant": "run:internal",
+   "claimed_at": "2026-11-16T03:33:21.523212Z",
+   "decision": {
+    "at": "2026-11-16T03:33:21.666574Z",
+    "controller": "rules_controller",
+    "decision": "choose:pass",
+    "effect": "selected pass",
+    "evidence": [],
+    "reason": "route proposed by predecessor results",
+    "revision": 34
+   },
+   "id": "review-1:review/verdict#1",
+   "n": 1,
+   "node": "review/verdict",
+   "packet": "execution/blobs/packets/3e1a4a864ce1dae5780626e936acdc30092cb725554c41ccd344d56315a66915.json",
+   "receipt": null,
+   "result": "execution/blobs/results/ed71ca80a4a396464e13416a181cb24e84fea68d0d9cd5301b2ca97acfdf76e0.json",
+   "run": "review-1",
+   "state": "decided"
+  },
+  "review-2:review/conformance#1": {
+   "adapter": "internal",
+   "checks": [],
+   "claimant": "run:internal",
+   "claimed_at": "2026-11-16T03:35:21.636048Z",
+   "decision": {
+    "at": "2026-11-16T03:35:21.810511Z",
+    "controller": "rules_controller",
+    "decision": "accept",
+    "effect": "succeeded",
+    "evidence": [],
+    "reason": "worker succeeded and all acceptance checks passed",
+    "revision": 55
+   },
+   "id": "review-2:review/conformance#1",
+   "n": 1,
+   "node": "review/conformance",
+   "packet": "execution/blobs/packets/2068e617bdfeafb6a570c0a197d428f823c262d8bf2fd49da134b5a1cdd60b75.json",
+   "receipt": {
+    "adapter": "script",
+    "recorded_at": "2026-11-16T03:35:21.657980Z"
+   },
+   "result": "execution/blobs/results/5ceb6dc809dde1176c7498c297f89339a8c0497066b2288d633098ee10407816.json",
+   "run": "review-2",
+   "state": "decided"
+  },
+  "review-2:review/red-team#1": {
+   "adapter": "current",
+   "claimant": "run:current",
+   "claimed_at": "2026-11-16T03:35:21.866076Z",
+   "decision": null,
+   "id": "review-2:review/red-team#1",
+   "n": 1,
+   "node": "review/red-team",
+   "packet": "execution/blobs/packets/5868159ab5a837112d94f864559acf5a48ee1d2d73e1cbb27b71f11ea89d0986.json",
+   "receipt": {
+    "adapter": "current",
+    "phase": "handed-off",
+    "recorded_at": "2026-11-16T03:35:21.895849Z"
+   },
+   "result": null,
+   "run": "review-2",
    "state": "running"
   }
  },
@@ -269,6 +497,25 @@
    "reason": "worker succeeded and all acceptance checks passed",
    "revision": 9
   },
+  "planning-2:revision/publish#1": {
+   "at": "2026-11-16T03:35:21.462754Z",
+   "controller": "runner",
+   "decision": "accept",
+   "effect": "succeeded",
+   "evidence": [],
+   "reason": "validated candidate published"
+  },
+  "planning-2:revision/revise#1": {
+   "at": "2026-11-16T03:35:21.339224Z",
+   "controller": "rules_controller",
+   "decision": "accept",
+   "effect": "succeeded",
+   "evidence": [
+    "candidate-valid: exit 0"
+   ],
+   "reason": "worker succeeded and all acceptance checks passed",
+   "revision": 48
+  },
   "review-1:review/conformance#1": {
    "at": "2026-11-16T03:30:48.951033Z",
    "controller": "rules_controller",
@@ -277,6 +524,55 @@
    "evidence": [],
    "reason": "worker succeeded and all acceptance checks passed",
    "revision": 26
+  },
+  "review-1:review/portability#1": {
+   "at": "2026-11-16T03:33:21.937409Z",
+   "controller": "rules_controller",
+   "decision": "retry",
+   "effect": "retry 1/1",
+   "evidence": [
+    "plan-assets/contract.md embeds a home-directory path"
+   ],
+   "reason": "worker reported failure",
+   "revision": 38
+  },
+  "review-1:review/portability#2": {
+   "at": "2026-11-16T03:33:22.203181Z",
+   "controller": "rules_controller",
+   "decision": "retry",
+   "effect": "rework budget exhausted: blocked for human recovery",
+   "evidence": [
+    "plan-assets/contract.md embeds a home-directory path"
+   ],
+   "reason": "worker reported failure",
+   "revision": 42
+  },
+  "review-1:review/red-team#1": {
+   "at": "2026-11-16T03:33:21.457614Z",
+   "controller": "rules_controller",
+   "decision": "accept",
+   "effect": "succeeded",
+   "evidence": [],
+   "reason": "worker succeeded and all acceptance checks passed",
+   "revision": 31
+  },
+  "review-1:review/verdict#1": {
+   "at": "2026-11-16T03:33:21.666574Z",
+   "controller": "rules_controller",
+   "decision": "choose:pass",
+   "effect": "selected pass",
+   "evidence": [],
+   "reason": "route proposed by predecessor results",
+   "revision": 34
+  },
+  "review-2:review/conformance#1": {
+   "at": "2026-11-16T03:35:21.810511Z",
+   "controller": "rules_controller",
+   "decision": "accept",
+   "effect": "succeeded",
+   "evidence": [],
+   "reason": "worker succeeded and all acceptance checks passed",
+   "revision": 55
   }
  },
  "events": [
@@ -389,6 +685,126 @@
    "at": "2026-11-16T03:30:49.037377Z",
    "event": "claim",
    "revision": 27
+  },
+  {
+   "at": "2026-11-16T03:33:15.823803Z",
+   "event": "result submitted for review-1:review/red-team#1",
+   "revision": 29
+  },
+  {
+   "at": "2026-11-16T03:33:21.394178Z",
+   "event": "resume reconciliation",
+   "revision": 30
+  },
+  {
+   "at": "2026-11-16T03:33:21.469437Z",
+   "event": "decision for review-1:review/red-team#1",
+   "revision": 31
+  },
+  {
+   "at": "2026-11-16T03:33:21.552595Z",
+   "event": "claim",
+   "revision": 32
+  },
+  {
+   "at": "2026-11-16T03:33:21.598076Z",
+   "event": "result submitted for review-1:review/verdict#1",
+   "revision": 33
+  },
+  {
+   "at": "2026-11-16T03:33:21.678637Z",
+   "event": "decision for review-1:review/verdict#1",
+   "revision": 34
+  },
+  {
+   "at": "2026-11-16T03:33:21.763876Z",
+   "event": "claim",
+   "revision": 35
+  },
+  {
+   "at": "2026-11-16T03:33:21.871043Z",
+   "event": "result submitted for review-1:review/portability#1",
+   "revision": 37
+  },
+  {
+   "at": "2026-11-16T03:33:21.949026Z",
+   "event": "decision for review-1:review/portability#1",
+   "revision": 38
+  },
+  {
+   "at": "2026-11-16T03:33:22.036002Z",
+   "event": "claim",
+   "revision": 39
+  },
+  {
+   "at": "2026-11-16T03:33:22.137629Z",
+   "event": "result submitted for review-1:review/portability#2",
+   "revision": 41
+  },
+  {
+   "at": "2026-11-16T03:33:22.214240Z",
+   "event": "decision for review-1:review/portability#2",
+   "revision": 42
+  },
+  {
+   "at": "2026-11-16T03:34:01.402835Z",
+   "event": "planning cancelled by James Dixson",
+   "revision": 43
+  },
+  {
+   "at": "2026-11-16T03:34:05.478738Z",
+   "event": "revision round started by James Dixson",
+   "revision": 44
+  },
+  {
+   "at": "2026-11-16T03:34:08.798180Z",
+   "event": "claim",
+   "revision": 45
+  },
+  {
+   "at": "2026-11-16T03:35:17.360603Z",
+   "event": "result submitted for planning-2:revision/revise#1",
+   "revision": 47
+  },
+  {
+   "at": "2026-11-16T03:35:21.339688Z",
+   "event": "decision for planning-2:revision/revise#1",
+   "revision": 48
+  },
+  {
+   "at": "2026-11-16T03:35:21.433504Z",
+   "event": "publication prepared",
+   "revision": 49
+  },
+  {
+   "at": "2026-11-16T03:35:21.462870Z",
+   "event": "candidate published",
+   "revision": 50
+  },
+  {
+   "at": "2026-11-16T03:35:21.585775Z",
+   "event": "review started under James Dixson's planning authorization",
+   "revision": 51
+  },
+  {
+   "at": "2026-11-16T03:35:21.650195Z",
+   "event": "claim",
+   "revision": 52
+  },
+  {
+   "at": "2026-11-16T03:35:21.749952Z",
+   "event": "result submitted for review-2:review/conformance#1",
+   "revision": 54
+  },
+  {
+   "at": "2026-11-16T03:35:21.817994Z",
+   "event": "decision for review-2:review/conformance#1",
+   "revision": 55
+  },
+  {
+   "at": "2026-11-16T03:35:21.888164Z",
+   "event": "claim",
+   "revision": 56
   }
  ],
  "locked_digest": null,
@@ -396,14 +812,14 @@
  "plan_id": "consolidate-prosevoice",
  "planning": {
   "candidate": {
-   "at": "2026-11-16T03:28:41.311736Z",
-   "attempt": "planning-1:planning/draft/publish#1",
-   "base_revision": 0,
-   "digest": "c6385c6bf564919856e5020caf269801ba9bb283f0d64caa24d062f90f8427a9",
-   "publication": "planning/publications/001-planning-1@planning~draft~publish#1",
-   "revision": 1,
+   "at": "2026-11-16T03:35:21.447297Z",
+   "attempt": "planning-2:revision/publish#1",
+   "base_revision": 1,
+   "digest": "ae99cb96b3383d30177e5c86b7dd9a58574ff4173295d3e4215557dcf576452e",
+   "publication": "planning/publications/002-planning-2@revision~publish#1",
+   "revision": 2,
    "source": "publish",
-   "source_attempt": "planning-1:planning/draft/draft#1"
+   "source_attempt": "planning-2:revision/revise#1"
   },
   "candidate_history": [
    {
@@ -421,6 +837,16 @@
     "revision": 1,
     "source": "publish",
     "source_attempt": "planning-1:planning/draft/draft#1"
+   },
+   {
+    "at": "2026-11-16T03:35:21.447297Z",
+    "attempt": "planning-2:revision/publish#1",
+    "base_revision": 1,
+    "digest": "ae99cb96b3383d30177e5c86b7dd9a58574ff4173295d3e4215557dcf576452e",
+    "publication": "planning/publications/002-planning-2@revision~publish#1",
+    "revision": 2,
+    "source": "publish",
+    "source_attempt": "planning-2:revision/revise#1"
    }
   ],
   "decisions": [
@@ -429,6 +855,23 @@
     "actor": "James Dixson",
     "at": "2026-11-16T03:30:45.413162Z",
     "evidence": "Operator instructed: review the plan, fix issues and prepare the plan for execution. Authorizes review and review of corrections within that task."
+   },
+   {
+    "action": "cancel",
+    "actor": "James Dixson",
+    "at": "2026-11-16T03:34:01.402829Z",
+    "cancelled_questions": [],
+    "cancelled_reviews": [
+     "review-1"
+    ],
+    "evidence": "Operator authorized fixing review issues. Stop the round blocked by the exhausted portability check so its machine-specific paths can be revised through a staged candidate."
+   },
+   {
+    "action": "revise",
+    "actor": "James Dixson",
+    "at": "2026-11-16T03:34:05.466822Z",
+    "evidence": "Operator instructed review the plan, fix issues and prepare the plan for execution. Replace absolute checkout paths in the execution contract with logical runtime bindings and revalidate portability.",
+    "from_status": "cancelled"
    }
   ],
   "declared_bindings": [],
@@ -450,13 +893,24 @@
   "rounds": [
    {
     "candidate_revision": 0,
+    "finished_at": "2026-11-16T03:34:01.402429Z",
     "kind": "planning",
     "n": 1,
-    "outcome": null,
+    "outcome": "cancelled",
     "process": "planning",
     "review_run": null,
     "run": "planning-1",
     "started_at": "2026-11-16T03:09:31.293050Z"
+   },
+   {
+    "candidate_revision": 1,
+    "kind": "revision",
+    "n": 2,
+    "outcome": null,
+    "process": "planning-revision",
+    "review_run": null,
+    "run": "planning-2",
+    "started_at": "2026-11-16T03:34:05.476203Z"
    }
   ],
   "started_at": "2026-11-16T03:09:31.277961Z",
@@ -464,7 +918,7 @@
   "status": "active",
   "workflow_digest": "2057290e9bb2f0de8955332667826c077f40d451f440c09c5288810d929733e1"
  },
- "revision": 28,
+ "revision": 57,
  "runs": {
   "planning-1": {
    "created_at": "2026-11-16T03:09:31.293013Z",
@@ -528,7 +982,7 @@
       "planning-1:planning/review/review#1"
      ],
      "cycles": 0,
-     "state": "running"
+     "state": "cancelled"
     },
     "planning/review/start": {
      "attempts": [],
@@ -581,14 +1035,138 @@
    "process": "planning",
    "process_digest": "747a6783cb444d1e768835c1e6fb98e1fa121456e11cc84c91bd08c003f22494",
    "round": 1,
+   "status": "cancelled"
+  },
+  "planning-2": {
+   "created_at": "2026-11-16T03:34:05.476172Z",
+   "digest": "2057290e9bb2f0de8955332667826c077f40d451f440c09c5288810d929733e1",
+   "id": "planning-2",
+   "kind": "planning",
+   "nodes": {
+    "revision/end": {
+     "attempts": [],
+     "cycles": 0,
+     "state": "pending"
+    },
+    "revision/publish": {
+     "attempts": [
+      "planning-2:revision/publish#1"
+     ],
+     "cycles": 0,
+     "state": "succeeded"
+    },
+    "revision/review/end": {
+     "attempts": [],
+     "cycles": 0,
+     "state": "pending"
+    },
+    "revision/review/review": {
+     "attempts": [
+      "planning-2:revision/review/review#1"
+     ],
+     "cycles": 0,
+     "state": "running"
+    },
+    "revision/review/start": {
+     "attempts": [],
+     "cycles": 0,
+     "state": "succeeded"
+    },
+    "revision/revise": {
+     "attempts": [
+      "planning-2:revision/revise#1"
+     ],
+     "cycles": 0,
+     "state": "succeeded"
+    },
+    "revision/start": {
+     "attempts": [],
+     "cycles": 0,
+     "state": "succeeded"
+    }
+   },
+   "prefix": "revision/",
+   "process": "planning-revision",
+   "process_digest": "5b99252a756c375c25ed03f0b46d959e7e6f7312b84a9152dac451b9744ff0e3",
+   "round": 2,
    "status": "active"
   },
   "review-1": {
+   "cancelled_by": {
+    "actor": "James Dixson",
+    "reason": "planning cancelled"
+   },
    "candidate_revision": 1,
    "created_at": "2026-11-16T03:30:48.701186Z",
    "digest": "c6385c6bf564919856e5020caf269801ba9bb283f0d64caa24d062f90f8427a9",
    "extended": false,
+   "finished_at": "2026-11-16T03:34:01.402818Z",
    "id": "review-1",
+   "kind": "review",
+   "nodes": {
+    "review/approval": {
+     "attempts": [],
+     "cycles": 0,
+     "state": "cancelled"
+    },
+    "review/conformance": {
+     "attempts": [
+      "review-1:review/conformance#1"
+     ],
+     "cycles": 0,
+     "state": "succeeded"
+    },
+    "review/end": {
+     "attempts": [],
+     "cycles": 0,
+     "state": "cancelled"
+    },
+    "review/portability": {
+     "attempts": [
+      "review-1:review/portability#1",
+      "review-1:review/portability#2"
+     ],
+     "cycles": 1,
+     "state": "cancelled"
+    },
+    "review/red-team": {
+     "attempts": [
+      "review-1:review/red-team#1"
+     ],
+     "cycles": 0,
+     "state": "succeeded"
+    },
+    "review/revise": {
+     "attempts": [],
+     "cycles": 0,
+     "state": "skipped"
+    },
+    "review/start": {
+     "attempts": [],
+     "cycles": 0,
+     "state": "succeeded"
+    },
+    "review/verdict": {
+     "attempts": [
+      "review-1:review/verdict#1"
+     ],
+     "cycles": 0,
+     "selection": "pass",
+     "state": "succeeded"
+    }
+   },
+   "planning_attempt": "planning-1:planning/review/review#1",
+   "process_digest": "4a5ccf44386e350b1495ff9159799c9b9d13a3d029123e3d060a67991929a465",
+   "started_by": "James Dixson",
+   "started_via": "planning-authorization",
+   "status": "cancelled"
+  },
+  "review-2": {
+   "candidate_revision": 2,
+   "created_at": "2026-11-16T03:35:21.577715Z",
+   "digest": "ae99cb96b3383d30177e5c86b7dd9a58574ff4173295d3e4215557dcf576452e",
+   "extended": false,
+   "id": "review-2",
    "kind": "review",
    "nodes": {
     "review/approval": {
@@ -598,7 +1176,7 @@
     },
     "review/conformance": {
      "attempts": [
-      "review-1:review/conformance#1"
+      "review-2:review/conformance#1"
      ],
      "cycles": 0,
      "state": "succeeded"
@@ -615,7 +1193,7 @@
     },
     "review/red-team": {
      "attempts": [
-      "review-1:review/red-team#1"
+      "review-2:review/red-team#1"
      ],
      "cycles": 0,
      "state": "running"
@@ -636,7 +1214,7 @@
      "state": "pending"
     }
    },
-   "planning_attempt": "planning-1:planning/review/review#1",
+   "planning_attempt": "planning-2:revision/review/review#1",
    "process_digest": "4a5ccf44386e350b1495ff9159799c9b9d13a3d029123e3d060a67991929a465",
    "started_by": "James Dixson",
    "started_via": "planning-authorization",
