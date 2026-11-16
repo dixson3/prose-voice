@@ -104,6 +104,25 @@
    "run": "planning-1",
    "state": "decided"
   },
+  "planning-1:planning/review/review#1": {
+   "adapter": "builtin",
+   "claimant": "review:James Dixson",
+   "claimed_at": "2026-11-16T03:30:48.713820Z",
+   "decision": null,
+   "id": "planning-1:planning/review/review#1",
+   "n": 1,
+   "node": "planning/review/review",
+   "packet": null,
+   "receipt": {
+    "adapter": "builtin",
+    "op": "review-candidate",
+    "recorded_at": "2026-11-16T03:30:48.713847Z",
+    "review_run": "review-1"
+   },
+   "result": null,
+   "run": "planning-1",
+   "state": "running"
+  },
   "planning-1:planning/scope/capture#1": {
    "adapter": "current",
    "checks": [],
@@ -157,6 +176,50 @@
    "result": "execution/blobs/results/603c4764fa22bd6b3c9f07074fc1d13902682ad54a4696000d850c785c725865.json",
    "run": "planning-1",
    "state": "decided"
+  },
+  "review-1:review/conformance#1": {
+   "adapter": "internal",
+   "checks": [],
+   "claimant": "run:internal",
+   "claimed_at": "2026-11-16T03:30:48.771021Z",
+   "decision": {
+    "at": "2026-11-16T03:30:48.951033Z",
+    "controller": "rules_controller",
+    "decision": "accept",
+    "effect": "succeeded",
+    "evidence": [],
+    "reason": "worker succeeded and all acceptance checks passed",
+    "revision": 26
+   },
+   "id": "review-1:review/conformance#1",
+   "n": 1,
+   "node": "review/conformance",
+   "packet": "execution/blobs/packets/6091cba0d8574fe916b6d2bf662fafd95e2f7228918f948fcd08f32a7220c1ac.json",
+   "receipt": {
+    "adapter": "script",
+    "recorded_at": "2026-11-16T03:30:48.794182Z"
+   },
+   "result": "execution/blobs/results/350989596759461e0ab1e1fbe55f71b2e08e0a842ac1dc9d2051060f85c20e45.json",
+   "run": "review-1",
+   "state": "decided"
+  },
+  "review-1:review/red-team#1": {
+   "adapter": "current",
+   "claimant": "run:current",
+   "claimed_at": "2026-11-16T03:30:49.015344Z",
+   "decision": null,
+   "id": "review-1:review/red-team#1",
+   "n": 1,
+   "node": "review/red-team",
+   "packet": "execution/blobs/packets/8bf7b758786ce863596b7ee590d08ca6216b71d1b24d2f6c8b116f7000409bea.json",
+   "receipt": {
+    "adapter": "current",
+    "phase": "handed-off",
+    "recorded_at": "2026-11-16T03:30:49.044759Z"
+   },
+   "result": null,
+   "run": "review-1",
+   "state": "running"
   }
  },
  "decisions": {
@@ -205,6 +268,15 @@
    "evidence": [],
    "reason": "worker succeeded and all acceptance checks passed",
    "revision": 9
+  },
+  "review-1:review/conformance#1": {
+   "at": "2026-11-16T03:30:48.951033Z",
+   "controller": "rules_controller",
+   "decision": "accept",
+   "effect": "succeeded",
+   "evidence": [],
+   "reason": "worker succeeded and all acceptance checks passed",
+   "revision": 26
   }
  },
  "events": [
@@ -287,6 +359,36 @@
    "at": "2026-11-16T03:28:41.331726Z",
    "event": "candidate published",
    "revision": 20
+  },
+  {
+   "at": "2026-11-16T03:30:45.413171Z",
+   "event": "review authorization recorded by James Dixson",
+   "revision": 21
+  },
+  {
+   "at": "2026-11-16T03:30:48.713878Z",
+   "event": "review started under James Dixson's planning authorization",
+   "revision": 22
+  },
+  {
+   "at": "2026-11-16T03:30:48.786111Z",
+   "event": "claim",
+   "revision": 23
+  },
+  {
+   "at": "2026-11-16T03:30:48.882611Z",
+   "event": "result submitted for review-1:review/conformance#1",
+   "revision": 25
+  },
+  {
+   "at": "2026-11-16T03:30:48.963221Z",
+   "event": "decision for review-1:review/conformance#1",
+   "revision": 26
+  },
+  {
+   "at": "2026-11-16T03:30:49.037377Z",
+   "event": "claim",
+   "revision": 27
   }
  ],
  "locked_digest": null,
@@ -321,7 +423,14 @@
     "source_attempt": "planning-1:planning/draft/draft#1"
    }
   ],
-  "decisions": [],
+  "decisions": [
+   {
+    "action": "authorize",
+    "actor": "James Dixson",
+    "at": "2026-11-16T03:30:45.413162Z",
+    "evidence": "Operator instructed: review the plan, fix issues and prepare the plan for execution. Authorizes review and review of corrections within that task."
+   }
+  ],
   "declared_bindings": [],
   "extension_log": [],
   "extensions": 0,
@@ -332,7 +441,11 @@
   "publication": null,
   "publication_conflicts": [],
   "questions": {},
-  "review_authorization": null,
+  "review_authorization": {
+   "actor": "James Dixson",
+   "at": "2026-11-16T03:30:45.412929Z",
+   "evidence": "Operator instructed: review the plan, fix issues and prepare the plan for execution. Authorizes review and review of corrections within that task."
+  },
   "revision_process": "planning-revision",
   "rounds": [
    {
@@ -351,7 +464,7 @@
   "status": "active",
   "workflow_digest": "2057290e9bb2f0de8955332667826c077f40d451f440c09c5288810d929733e1"
  },
- "revision": 20,
+ "revision": 28,
  "runs": {
   "planning-1": {
    "created_at": "2026-11-16T03:09:31.293013Z",
@@ -411,9 +524,11 @@
      "state": "pending"
     },
     "planning/review/review": {
-     "attempts": [],
+     "attempts": [
+      "planning-1:planning/review/review#1"
+     ],
      "cycles": 0,
-     "state": "pending"
+     "state": "running"
     },
     "planning/review/start": {
      "attempts": [],
@@ -466,6 +581,65 @@
    "process": "planning",
    "process_digest": "747a6783cb444d1e768835c1e6fb98e1fa121456e11cc84c91bd08c003f22494",
    "round": 1,
+   "status": "active"
+  },
+  "review-1": {
+   "candidate_revision": 1,
+   "created_at": "2026-11-16T03:30:48.701186Z",
+   "digest": "c6385c6bf564919856e5020caf269801ba9bb283f0d64caa24d062f90f8427a9",
+   "extended": false,
+   "id": "review-1",
+   "kind": "review",
+   "nodes": {
+    "review/approval": {
+     "attempts": [],
+     "cycles": 0,
+     "state": "pending"
+    },
+    "review/conformance": {
+     "attempts": [
+      "review-1:review/conformance#1"
+     ],
+     "cycles": 0,
+     "state": "succeeded"
+    },
+    "review/end": {
+     "attempts": [],
+     "cycles": 0,
+     "state": "pending"
+    },
+    "review/portability": {
+     "attempts": [],
+     "cycles": 0,
+     "state": "pending"
+    },
+    "review/red-team": {
+     "attempts": [
+      "review-1:review/red-team#1"
+     ],
+     "cycles": 0,
+     "state": "running"
+    },
+    "review/revise": {
+     "attempts": [],
+     "cycles": 0,
+     "state": "pending"
+    },
+    "review/start": {
+     "attempts": [],
+     "cycles": 0,
+     "state": "succeeded"
+    },
+    "review/verdict": {
+     "attempts": [],
+     "cycles": 0,
+     "state": "pending"
+    }
+   },
+   "planning_attempt": "planning-1:planning/review/review#1",
+   "process_digest": "4a5ccf44386e350b1495ff9159799c9b9d13a3d029123e3d060a67991929a465",
+   "started_by": "James Dixson",
+   "started_via": "planning-authorization",
    "status": "active"
   }
  },
