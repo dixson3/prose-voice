@@ -1,0 +1,67 @@
+{
+ "schema": "momotron-controller-packet/1",
+ "attempt": "review-1:review/red-team#1",
+ "node": {
+  "description": "Attack the plan independently of its author. Read the conformance pass from the dependency outputs. Set outputs.route to \"pass\" or \"revise\".",
+  "id": "review/red-team",
+  "inputs": [],
+  "kind": "task",
+  "outcomes": [],
+  "outputs": [],
+  "params": {},
+  "process": "planning-review",
+  "source": {
+   "node": "red-team",
+   "process": "planning-review"
+  },
+  "title": "Independent red-team review"
+ },
+ "role": "# Role: controller\n\nYou assess one submitted attempt and propose a decision. The runner validates your decision;\nit does not trust it.\n\nInput: the context packet, the worker result, and the acceptance-check results.\n\nReturn JSON only:\n`{\"decision\": \"accept\" | \"retry\" | \"block\" | \"fail\" | \"choose:<outcome>\", \"reason\": \"...\", \"evidence\": [\"...\"]}`\n\n- `accept` only when the result status is `succeeded` **and** every acceptance check passed.\n- `retry` only when the failure is plausibly transient or fixable and budget remains.\n- `choose:<outcome>` only on a gateway node, naming one of its declared outcomes.\n- You can never approve a human gate.\n",
+ "worker_result": {
+  "artifacts": [
+   "reviews/red-team-review-1-review-red-team-1.md"
+  ],
+  "outputs": {
+   "concerns": [
+    {
+     "class": "NONBLOCKING",
+     "id": "R1",
+     "severity": "medium"
+    },
+    {
+     "class": "NONBLOCKING",
+     "id": "R2",
+     "severity": "medium"
+    },
+    {
+     "class": "NONBLOCKING",
+     "id": "R3",
+     "severity": "low"
+    },
+    {
+     "class": "DEFERRED",
+     "id": "R4",
+     "severity": "low"
+    },
+    {
+     "class": "DEFERRED",
+     "id": "R5",
+     "severity": "low"
+    }
+   ],
+   "review": "reviews/red-team-review-1-review-red-team-1.md",
+   "route": "pass"
+  },
+  "status": "succeeded",
+  "summary": "Red-team pass: 0 BLOCKING, 3 NONBLOCKING, 2 DEFERRED concerns; verdict pass. Main residual: the mechanical checks cannot fail if the B1 regression test is missing, so the independent acceptance reproduction carries the proof."
+ },
+ "checks": [],
+ "decision_path": "/Users/james/workspace/dixson3/blog-voice/Momotron/consolidate-prosevoice-repair-1/execution/attempts/review-1@review~red-team#1/decision.json",
+ "decision_schema": {
+  "decision": "accept|retry|block|fail|choose:<outcome>",
+  "reason": "string",
+  "evidence": [
+   "string"
+  ]
+ }
+}

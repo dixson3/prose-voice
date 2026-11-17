@@ -34,11 +34,61 @@
    "run": "review-1",
    "state": "decided"
   },
+  "review-1:review/portability#1": {
+   "adapter": "internal",
+   "checks": [],
+   "claimant": "run:internal",
+   "claimed_at": "2026-11-17T00:26:01.712291Z",
+   "decision": {
+    "at": "2026-11-17T00:26:33.220875Z",
+    "controller": "agent-controller",
+    "decision": "accept",
+    "effect": "succeeded",
+    "evidence": [
+     "execution/attempts/review-1@review~portability#1/result.json: {\"status\": \"succeeded\", \"summary\": \"bundle is portable\", \"outputs\": {\"problems\": []}, \"artifacts\": []}",
+     "packet.json and controller-packet.json both declare checks: [], so there were no declared acceptance checks to run",
+     "processes/planning-review/process.yaml:41-44: the portability node is a script task running {python} {process}/scripts/portability.py {bundle} with cwd bundle",
+     "Independent re-run: MOMOTRON_RESULT=<tmpdir>/r.json python3 processes/planning-review/scripts/portability.py <bundle> -> exit 0; result {\"status\": \"succeeded\", \"summary\": \"bundle is portable\", \"outputs\": {\"problems\": []}}",
+     "The script checks that the core members (index.md, log.md, plan.yaml, context.md) exist, that the process closure digests match, that no symlinks point outside the bundle, that plan.yaml and plan-assets contain no home-directory paths, and that every member listed in index.md exists; all passed",
+     "Upstream dependencies succeeded: conformance passed with 0 concerns; red-team passed with 0 BLOCKING concerns; verdict selected pass",
+     "The next node, approval, is a human gate; this decision does not resolve or approve it"
+    ],
+    "reason": "Worker result status is 'succeeded' with summary 'bundle is portable' and an empty problems list. Neither the worker packet nor the controller packet declares any acceptance checks (checks: []), so there are no required checks to fail or leave unverified. To corroborate, the controller independently re-ran the node's own script executor (processes/planning-review/scripts/portability.py) against the bundle with output redirected to a temporary file. It exited 0 and returned the same result as the worker: succeeded, no problems.",
+    "revision": 22
+   },
+   "id": "review-1:review/portability#1",
+   "n": 1,
+   "node": "review/portability",
+   "packet": "execution/blobs/packets/83ffd1be97736d8b3f3f2045d5803a5921dd13c7e5da70763b4f33817b240a66.json",
+   "receipt": {
+    "adapter": "script",
+    "recorded_at": "2026-11-17T00:26:01.740279Z"
+   },
+   "result": "execution/blobs/results/c44fb429e41e2699478ad6117da0fdba5f0d3dd1d526b2f7dfbbfcf3265a5e23.json",
+   "run": "review-1",
+   "state": "decided"
+  },
   "review-1:review/red-team#1": {
    "adapter": "acpx",
    "claimant": "run:acpx",
    "claimed_at": "2026-11-17T00:23:49.834341Z",
-   "decision": null,
+   "decision": {
+    "at": "2026-11-17T00:25:39.519243Z",
+    "controller": "agent-controller",
+    "decision": "accept",
+    "effect": "succeeded",
+    "evidence": [
+     "result.json: status=succeeded, outputs.route=pass, outputs.review=reviews/red-team-review-1-review-red-team-1.md, artifacts=[same path]",
+     "reviews/red-team-review-1-review-red-team-1.md exists; frontmatter has type: Review, okf_spec: MOMOTRON-PLAN, description; table rows R1-R5 classified NONBLOCKING/DEFERRED with no BLOCKING",
+     "packet.json checks: [] and controller-packet.json checks: []: no declared acceptance checks to run",
+     "Dependency review/conformance succeeded with route=pass and 0 concerns (reviews/conformance-20261117T002315091950Z.md). The red-team review acknowledges it.",
+     "Spot-verified R1: plan.yaml lines 57-64 and 82-86 show the checks are only the unittest discover runs and tests/check_distribution.py. references/repro-nongit-routing.sh echoes exit codes rather than asserting them.",
+     "Spot-verified gate/bounds: processes/planning-review/process.yaml declares approval_gate: approval (type: gate). plan.yaml rework max_cycles: 2.",
+     "git status in the bundle shows new files only at reviews/red-team-review-1-review-red-team-1.md and this attempt's result.json and controller-packet.json, plus runner-owned execution files. No protected paths (plan.yaml, plan-assets/, processes/, planning/) were modified."
+    ],
+    "reason": "Worker result status is 'succeeded' and outputs match the red-team role contract: outputs.route='pass', outputs.review points to an existing review file with the required frontmatter (type: Review, okf_spec: MOMOTRON-PLAN, description) and a concerns table with id/class/severity/evidence/consequence/minimum fix. It lists 0 BLOCKING, 3 NONBLOCKING (R1-R3) and 2 DEFERRED (R4-R5) concerns, so 'pass' is consistent with the rule that only BLOCKING concerns force 'revise'. Neither the worker packet nor the controller packet declares acceptance checks (checks: []), so there was nothing to execute and no required check is missing. Spot checks of the review's evidence held up against the bundle. The worker wrote only to allowed paths.",
+    "revision": 15
+   },
    "id": "review-1:review/red-team#1",
    "n": 1,
    "node": "review/red-team",
@@ -121,9 +171,40 @@
     },
     "session": "momo-consolidate-prosevoi-review-red-team-c98637b87230564e31f8"
    },
-   "result": null,
+   "result": "execution/blobs/results/f3ed5404358f4a91a08b023db126ed61a763666188f29399c8552d39b4af0693.json",
    "run": "review-1",
-   "state": "running"
+   "state": "decided"
+  },
+  "review-1:review/verdict#1": {
+   "adapter": "internal",
+   "checks": [],
+   "claimant": "run:internal",
+   "claimed_at": "2026-11-17T00:25:39.544022Z",
+   "decision": {
+    "at": "2026-11-17T00:26:01.687254Z",
+    "controller": "agent-controller",
+    "decision": "choose:pass",
+    "effect": "selected pass",
+    "evidence": [
+     "controller-packet.json worker_result: {status: succeeded, outputs: {route: pass, candidates: [pass]}, summary: 'route proposed by predecessors: pass'}",
+     "packet.json and controller-packet.json: checks: [], so there are no acceptance checks to run",
+     "packet.json node.outcomes: [pass, revise], kind: gateway",
+     "execution/attempts/review-1@review~conformance#1/decision.json: accept; reviews/conformance-20261117T002315091950Z.md line 8 'Verdict: **pass**', no concerns",
+     "execution/attempts/review-1@review~red-team#1/decision.json: accept; reviews/red-team-review-1-review-red-team-1.md line 8 'Verdict: **pass**. No BLOCKING concerns remain.'",
+     "Red-team residual note (R1): the mechanical checks cannot fail if the B1 regression test is missing, so the B1 proof rests on the independent acceptance reproduction. This is NONBLOCKING and is carried forward for the operator's attention",
+     "No result.json is on disk for this attempt. The runner computed the gateway result and embedded it in controller-packet.json"
+    ],
+    "reason": "The review/verdict gateway's worker result is 'succeeded' and proposes route 'pass', with candidates ['pass']. Both predecessors succeeded, controllers accepted both, and both routed 'pass'. Conformance reported 0 concerns. Red-team reported 0 BLOCKING, 3 NONBLOCKING (R1-R3) and 2 DEFERRED (R4-R5), and only BLOCKING concerns force 'revise'. Neither the worker packet nor the controller packet declares acceptance checks (checks: []), so no required check is missing or unverified. 'pass' is one of the gateway's declared outcomes (pass, revise). This decision only routes the review. It does not resolve the downstream approval human gate, which is left to the operator.",
+    "revision": 18
+   },
+   "id": "review-1:review/verdict#1",
+   "n": 1,
+   "node": "review/verdict",
+   "packet": "execution/blobs/packets/b832bd513ad14f02629be48ddd85eb3c1d76354555e226e3d4e08f4172cfab09.json",
+   "receipt": null,
+   "result": "execution/blobs/results/ed71ca80a4a396464e13416a181cb24e84fea68d0d9cd5301b2ca97acfdf76e0.json",
+   "run": "review-1",
+   "state": "decided"
   }
  },
  "decisions": {
@@ -142,6 +223,57 @@
    ],
    "reason": "Worker result status is 'succeeded' with route 'pass' and 0 concerns. Neither the worker packet nor the controller packet declares any acceptance checks (checks: []), so there are no required checks left unrun or unverified. I re-ran the node's script executor (processes/planning-review/scripts/conformance.py) on a temporary copy of the bundle. It exited 0 and gave the same result (succeeded, 0 concerns, verdict pass). The review artifact named in the result exists and matches the reported verdict.",
    "revision": 5
+  },
+  "review-1:review/portability#1": {
+   "at": "2026-11-17T00:26:33.220875Z",
+   "controller": "agent-controller",
+   "decision": "accept",
+   "effect": "succeeded",
+   "evidence": [
+    "execution/attempts/review-1@review~portability#1/result.json: {\"status\": \"succeeded\", \"summary\": \"bundle is portable\", \"outputs\": {\"problems\": []}, \"artifacts\": []}",
+    "packet.json and controller-packet.json both declare checks: [], so there were no declared acceptance checks to run",
+    "processes/planning-review/process.yaml:41-44: the portability node is a script task running {python} {process}/scripts/portability.py {bundle} with cwd bundle",
+    "Independent re-run: MOMOTRON_RESULT=<tmpdir>/r.json python3 processes/planning-review/scripts/portability.py <bundle> -> exit 0; result {\"status\": \"succeeded\", \"summary\": \"bundle is portable\", \"outputs\": {\"problems\": []}}",
+    "The script checks that the core members (index.md, log.md, plan.yaml, context.md) exist, that the process closure digests match, that no symlinks point outside the bundle, that plan.yaml and plan-assets contain no home-directory paths, and that every member listed in index.md exists; all passed",
+    "Upstream dependencies succeeded: conformance passed with 0 concerns; red-team passed with 0 BLOCKING concerns; verdict selected pass",
+    "The next node, approval, is a human gate; this decision does not resolve or approve it"
+   ],
+   "reason": "Worker result status is 'succeeded' with summary 'bundle is portable' and an empty problems list. Neither the worker packet nor the controller packet declares any acceptance checks (checks: []), so there are no required checks to fail or leave unverified. To corroborate, the controller independently re-ran the node's own script executor (processes/planning-review/scripts/portability.py) against the bundle with output redirected to a temporary file. It exited 0 and returned the same result as the worker: succeeded, no problems.",
+   "revision": 22
+  },
+  "review-1:review/red-team#1": {
+   "at": "2026-11-17T00:25:39.519243Z",
+   "controller": "agent-controller",
+   "decision": "accept",
+   "effect": "succeeded",
+   "evidence": [
+    "result.json: status=succeeded, outputs.route=pass, outputs.review=reviews/red-team-review-1-review-red-team-1.md, artifacts=[same path]",
+    "reviews/red-team-review-1-review-red-team-1.md exists; frontmatter has type: Review, okf_spec: MOMOTRON-PLAN, description; table rows R1-R5 classified NONBLOCKING/DEFERRED with no BLOCKING",
+    "packet.json checks: [] and controller-packet.json checks: []: no declared acceptance checks to run",
+    "Dependency review/conformance succeeded with route=pass and 0 concerns (reviews/conformance-20261117T002315091950Z.md). The red-team review acknowledges it.",
+    "Spot-verified R1: plan.yaml lines 57-64 and 82-86 show the checks are only the unittest discover runs and tests/check_distribution.py. references/repro-nongit-routing.sh echoes exit codes rather than asserting them.",
+    "Spot-verified gate/bounds: processes/planning-review/process.yaml declares approval_gate: approval (type: gate). plan.yaml rework max_cycles: 2.",
+    "git status in the bundle shows new files only at reviews/red-team-review-1-review-red-team-1.md and this attempt's result.json and controller-packet.json, plus runner-owned execution files. No protected paths (plan.yaml, plan-assets/, processes/, planning/) were modified."
+   ],
+   "reason": "Worker result status is 'succeeded' and outputs match the red-team role contract: outputs.route='pass', outputs.review points to an existing review file with the required frontmatter (type: Review, okf_spec: MOMOTRON-PLAN, description) and a concerns table with id/class/severity/evidence/consequence/minimum fix. It lists 0 BLOCKING, 3 NONBLOCKING (R1-R3) and 2 DEFERRED (R4-R5) concerns, so 'pass' is consistent with the rule that only BLOCKING concerns force 'revise'. Neither the worker packet nor the controller packet declares acceptance checks (checks: []), so there was nothing to execute and no required check is missing. Spot checks of the review's evidence held up against the bundle. The worker wrote only to allowed paths.",
+   "revision": 15
+  },
+  "review-1:review/verdict#1": {
+   "at": "2026-11-17T00:26:01.687254Z",
+   "controller": "agent-controller",
+   "decision": "choose:pass",
+   "effect": "selected pass",
+   "evidence": [
+    "controller-packet.json worker_result: {status: succeeded, outputs: {route: pass, candidates: [pass]}, summary: 'route proposed by predecessors: pass'}",
+    "packet.json and controller-packet.json: checks: [], so there are no acceptance checks to run",
+    "packet.json node.outcomes: [pass, revise], kind: gateway",
+    "execution/attempts/review-1@review~conformance#1/decision.json: accept; reviews/conformance-20261117T002315091950Z.md line 8 'Verdict: **pass**', no concerns",
+    "execution/attempts/review-1@review~red-team#1/decision.json: accept; reviews/red-team-review-1-review-red-team-1.md line 8 'Verdict: **pass**. No BLOCKING concerns remain.'",
+    "Red-team residual note (R1): the mechanical checks cannot fail if the B1 regression test is missing, so the B1 proof rests on the independent acceptance reproduction. This is NONBLOCKING and is carried forward for the operator's attention",
+    "No result.json is on disk for this attempt. The runner computed the gateway result and embedded it in controller-packet.json"
+   ],
+   "reason": "The review/verdict gateway's worker result is 'succeeded' and proposes route 'pass', with candidates ['pass']. Both predecessors succeeded, controllers accepted both, and both routed 'pass'. Conformance reported 0 concerns. Red-team reported 0 BLOCKING, 3 NONBLOCKING (R1-R3) and 2 DEFERRED (R4-R5), and only BLOCKING concerns force 'revise'. Neither the worker packet nor the controller packet declares acceptance checks (checks: []), so no required check is missing or unverified. 'pass' is one of the gateway's declared outcomes (pass, revise). This decision only routes the review. It does not resolve the downstream approval human gate, which is left to the operator.",
+   "revision": 18
   }
  },
  "events": [
@@ -189,6 +321,46 @@
    "at": "2026-11-17T00:24:56.509499Z",
    "event": "resume reconciliation",
    "revision": 13
+  },
+  {
+   "at": "2026-11-17T00:25:11.768451Z",
+   "event": "resume reconciliation",
+   "revision": 14
+  },
+  {
+   "at": "2026-11-17T00:25:39.519331Z",
+   "event": "decision for review-1:review/red-team#1",
+   "revision": 15
+  },
+  {
+   "at": "2026-11-17T00:25:39.561908Z",
+   "event": "claim",
+   "revision": 16
+  },
+  {
+   "at": "2026-11-17T00:25:39.595288Z",
+   "event": "result submitted for review-1:review/verdict#1",
+   "revision": 17
+  },
+  {
+   "at": "2026-11-17T00:26:01.687385Z",
+   "event": "decision for review-1:review/verdict#1",
+   "revision": 18
+  },
+  {
+   "at": "2026-11-17T00:26:01.735020Z",
+   "event": "claim",
+   "revision": 19
+  },
+  {
+   "at": "2026-11-17T00:26:01.830923Z",
+   "event": "result submitted for review-1:review/portability#1",
+   "revision": 21
+  },
+  {
+   "at": "2026-11-17T00:26:33.220946Z",
+   "event": "decision for review-1:review/portability#1",
+   "revision": 22
   }
  ],
  "identity": {
@@ -199,7 +371,7 @@
  "observations": [],
  "plan_id": "consolidate-prosevoice-repair-1",
  "planning": null,
- "revision": 13,
+ "revision": 22,
  "runs": {
   "review-1": {
    "created_at": "2026-11-17T00:22:47.285027Z",
@@ -226,21 +398,23 @@
      "state": "pending"
     },
     "review/portability": {
-     "attempts": [],
+     "attempts": [
+      "review-1:review/portability#1"
+     ],
      "cycles": 0,
-     "state": "pending"
+     "state": "succeeded"
     },
     "review/red-team": {
      "attempts": [
       "review-1:review/red-team#1"
      ],
      "cycles": 0,
-     "state": "running"
+     "state": "succeeded"
     },
     "review/revise": {
      "attempts": [],
      "cycles": 0,
-     "state": "pending"
+     "state": "skipped"
     },
     "review/start": {
      "attempts": [],
@@ -248,9 +422,12 @@
      "state": "succeeded"
     },
     "review/verdict": {
-     "attempts": [],
+     "attempts": [
+      "review-1:review/verdict#1"
+     ],
      "cycles": 0,
-     "state": "pending"
+     "selection": "pass",
+     "state": "succeeded"
     }
    },
    "process_digest": "4a5ccf44386e350b1495ff9159799c9b9d13a3d029123e3d060a67991929a465",

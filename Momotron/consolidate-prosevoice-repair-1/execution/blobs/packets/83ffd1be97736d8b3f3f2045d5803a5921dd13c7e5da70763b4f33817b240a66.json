@@ -1,0 +1,163 @@
+{
+ "allowed_operations": [
+  "read-bundle",
+  "write-reviews"
+ ],
+ "artifact_dir": "/Users/james/workspace/dixson3/blog-voice/Momotron/consolidate-prosevoice-repair-1/execution/attempts/review-1@review~portability#1/artifacts",
+ "attempt": "review-1:review/portability#1",
+ "bindings": {},
+ "bundle": "/Users/james/workspace/dixson3/blog-voice/Momotron/consolidate-prosevoice-repair-1",
+ "checks": [],
+ "definition_digest": "15f7ddbe380d2daaae8b3147dc3d011117edce046488b96ab73e6162f46439d7",
+ "dependency_outputs": {
+  "review/conformance": {
+   "artifact_dir": "/Users/james/workspace/dixson3/blog-voice/Momotron/consolidate-prosevoice-repair-1/execution/attempts/review-1@review~conformance#1/artifacts",
+   "artifacts": [
+    "reviews/conformance-20261117T002315091950Z.md"
+   ],
+   "outputs": {
+    "concerns": [],
+    "review": "reviews/conformance-20261117T002315091950Z.md",
+    "route": "pass"
+   },
+   "state": "succeeded",
+   "summary": "0 concern(s); verdict pass"
+  },
+  "review/red-team": {
+   "artifact_dir": "/Users/james/workspace/dixson3/blog-voice/Momotron/consolidate-prosevoice-repair-1/execution/attempts/review-1@review~red-team#1/artifacts",
+   "artifacts": [
+    "reviews/red-team-review-1-review-red-team-1.md"
+   ],
+   "outputs": {
+    "concerns": [
+     {
+      "class": "NONBLOCKING",
+      "id": "R1",
+      "severity": "medium"
+     },
+     {
+      "class": "NONBLOCKING",
+      "id": "R2",
+      "severity": "medium"
+     },
+     {
+      "class": "NONBLOCKING",
+      "id": "R3",
+      "severity": "low"
+     },
+     {
+      "class": "DEFERRED",
+      "id": "R4",
+      "severity": "low"
+     },
+     {
+      "class": "DEFERRED",
+      "id": "R5",
+      "severity": "low"
+     }
+    ],
+    "review": "reviews/red-team-review-1-review-red-team-1.md",
+    "route": "pass"
+   },
+   "state": "succeeded",
+   "summary": "Red-team pass: 0 BLOCKING, 3 NONBLOCKING, 2 DEFERRED concerns; verdict pass. Main residual: the mechanical checks cannot fail if the B1 regression test is missing, so the independent acceptance reproduction carries the proof."
+  },
+  "review/verdict": {
+   "artifact_dir": "/Users/james/workspace/dixson3/blog-voice/Momotron/consolidate-prosevoice-repair-1/execution/attempts/review-1@review~verdict#1/artifacts",
+   "artifacts": [],
+   "outputs": {
+    "candidates": [
+     "pass"
+    ],
+    "route": "pass"
+   },
+   "selection": "pass",
+   "state": "succeeded",
+   "summary": "route proposed by predecessors: pass"
+  }
+ },
+ "independent": false,
+ "instructions": "Do only this node. Write the result JSON to result_path; put files in artifact_dir. Write permissions are exactly those in write_scope (allowed destinations; protected paths stay read-only), and never resolve a human gate.",
+ "node": {
+  "description": "",
+  "id": "review/portability",
+  "inputs": [],
+  "kind": "task",
+  "outcomes": [],
+  "outputs": [],
+  "params": {},
+  "process": "planning-review",
+  "source": {
+   "node": "portability",
+   "process": "planning-review"
+  },
+  "title": "Portability validation"
+ },
+ "objective": "Resolve acceptance blocker B1 by restoring essay-adjacent configuration and cache routing outside Git, then independently accept the completed prosevoice consolidation.",
+ "permissions": "You may write only these destinations:\n- /Users/james/workspace/dixson3/blog-voice/Momotron/consolidate-prosevoice-repair-1/execution/attempts/review-1@review~portability#1/result.json \u2014 result JSON (this attempt)\n- /Users/james/workspace/dixson3/blog-voice/Momotron/consolidate-prosevoice-repair-1/execution/attempts/review-1@review~portability#1/artifacts/ \u2014 files you produce (this attempt)\n- /Users/james/workspace/dixson3/blog-voice/Momotron/consolidate-prosevoice-repair-1/reviews/ \u2014 bundle reviews\nThese are the only paths under execution/ you may write. Everything below stays read-only, even where it lies inside an allowed directory:\n- /Users/james/workspace/dixson3/blog-voice/Momotron/consolidate-prosevoice-repair-1/plan.yaml\n- /Users/james/workspace/dixson3/blog-voice/Momotron/consolidate-prosevoice-repair-1/plan-assets/\n- /Users/james/workspace/dixson3/blog-voice/Momotron/consolidate-prosevoice-repair-1/processes/\n- /Users/james/workspace/dixson3/blog-voice/Momotron/consolidate-prosevoice-repair-1/planning/\n- /Users/james/workspace/dixson3/blog-voice/Momotron/consolidate-prosevoice-repair-1/execution/state.json\n- /Users/james/workspace/dixson3/blog-voice/Momotron/consolidate-prosevoice-repair-1/execution/blobs/\n- /Users/james/workspace/dixson3/blog-voice/Momotron/consolidate-prosevoice-repair-1/execution/attempts/ (every other attempt, and this attempt's packet.json)\nNever resolve a human gate or invent operator evidence.",
+ "phase": "review",
+ "plan_id": "consolidate-prosevoice-repair-1",
+ "process_dir": "/Users/james/workspace/dixson3/blog-voice/Momotron/consolidate-prosevoice-repair-1/processes/planning-review",
+ "result_path": "/Users/james/workspace/dixson3/blog-voice/Momotron/consolidate-prosevoice-repair-1/execution/attempts/review-1@review~portability#1/result.json",
+ "result_schema": {
+  "additionalProperties": false,
+  "properties": {
+   "artifacts": {
+    "items": {
+     "type": "string"
+    },
+    "type": "array"
+   },
+   "outputs": {
+    "type": "object"
+   },
+   "status": {
+    "enum": [
+     "succeeded",
+     "failed"
+    ]
+   },
+   "summary": {
+    "type": "string"
+   }
+  },
+  "required": [
+   "status"
+  ],
+  "type": "object"
+ },
+ "role": {
+  "path": null,
+  "text": null
+ },
+ "run": "review-1",
+ "run_kind": "review",
+ "schema": "momotron-packet/1",
+ "session": null,
+ "working_dir": "/Users/james/workspace/dixson3/blog-voice/Momotron/consolidate-prosevoice-repair-1",
+ "write_scope": {
+  "allowed": [
+   {
+    "path": "/Users/james/workspace/dixson3/blog-voice/Momotron/consolidate-prosevoice-repair-1/execution/attempts/review-1@review~portability#1/result.json",
+    "what": "result JSON (this attempt)"
+   },
+   {
+    "path": "/Users/james/workspace/dixson3/blog-voice/Momotron/consolidate-prosevoice-repair-1/execution/attempts/review-1@review~portability#1/artifacts/",
+    "what": "files you produce (this attempt)"
+   },
+   {
+    "path": "/Users/james/workspace/dixson3/blog-voice/Momotron/consolidate-prosevoice-repair-1/reviews/",
+    "what": "bundle reviews"
+   }
+  ],
+  "protected": [
+   "/Users/james/workspace/dixson3/blog-voice/Momotron/consolidate-prosevoice-repair-1/plan.yaml",
+   "/Users/james/workspace/dixson3/blog-voice/Momotron/consolidate-prosevoice-repair-1/plan-assets/",
+   "/Users/james/workspace/dixson3/blog-voice/Momotron/consolidate-prosevoice-repair-1/processes/",
+   "/Users/james/workspace/dixson3/blog-voice/Momotron/consolidate-prosevoice-repair-1/planning/",
+   "/Users/james/workspace/dixson3/blog-voice/Momotron/consolidate-prosevoice-repair-1/execution/state.json",
+   "/Users/james/workspace/dixson3/blog-voice/Momotron/consolidate-prosevoice-repair-1/execution/blobs/",
+   "/Users/james/workspace/dixson3/blog-voice/Momotron/consolidate-prosevoice-repair-1/execution/attempts/ (every other attempt, and this attempt's packet.json)"
+  ]
+ }
+}

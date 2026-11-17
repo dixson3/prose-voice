@@ -1,0 +1,13 @@
+{
+  "decision": "accept",
+  "reason": "Worker result status is 'succeeded' with summary 'bundle is portable' and an empty problems list. Neither the worker packet nor the controller packet declares any acceptance checks (checks: []), so there are no required checks to fail or leave unverified. To corroborate, the controller independently re-ran the node's own script executor (processes/planning-review/scripts/portability.py) against the bundle with output redirected to a temporary file. It exited 0 and returned the same result as the worker: succeeded, no problems.",
+  "evidence": [
+    "execution/attempts/review-1@review~portability#1/result.json: {\"status\": \"succeeded\", \"summary\": \"bundle is portable\", \"outputs\": {\"problems\": []}, \"artifacts\": []}",
+    "packet.json and controller-packet.json both declare checks: [], so there were no declared acceptance checks to run",
+    "processes/planning-review/process.yaml:41-44: the portability node is a script task running {python} {process}/scripts/portability.py {bundle} with cwd bundle",
+    "Independent re-run: MOMOTRON_RESULT=<tmpdir>/r.json python3 processes/planning-review/scripts/portability.py <bundle> -> exit 0; result {\"status\": \"succeeded\", \"summary\": \"bundle is portable\", \"outputs\": {\"problems\": []}}",
+    "The script checks that the core members (index.md, log.md, plan.yaml, context.md) exist, that the process closure digests match, that no symlinks point outside the bundle, that plan.yaml and plan-assets contain no home-directory paths, and that every member listed in index.md exists; all passed",
+    "Upstream dependencies succeeded: conformance passed with 0 concerns; red-team passed with 0 BLOCKING concerns; verdict selected pass",
+    "The next node, approval, is a human gate; this decision does not resolve or approve it"
+  ]
+}

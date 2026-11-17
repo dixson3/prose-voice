@@ -1,0 +1,13 @@
+{
+  "decision": "accept",
+  "reason": "Worker result status is 'succeeded' and outputs match the red-team role contract: outputs.route='pass', outputs.review points to an existing review file with the required frontmatter (type: Review, okf_spec: MOMOTRON-PLAN, description) and a concerns table with id/class/severity/evidence/consequence/minimum fix. It lists 0 BLOCKING, 3 NONBLOCKING (R1-R3) and 2 DEFERRED (R4-R5) concerns, so 'pass' is consistent with the rule that only BLOCKING concerns force 'revise'. Neither the worker packet nor the controller packet declares acceptance checks (checks: []), so there was nothing to execute and no required check is missing. Spot checks of the review's evidence held up against the bundle. The worker wrote only to allowed paths.",
+  "evidence": [
+    "result.json: status=succeeded, outputs.route=pass, outputs.review=reviews/red-team-review-1-review-red-team-1.md, artifacts=[same path]",
+    "reviews/red-team-review-1-review-red-team-1.md exists; frontmatter has type: Review, okf_spec: MOMOTRON-PLAN, description; table rows R1-R5 classified NONBLOCKING/DEFERRED with no BLOCKING",
+    "packet.json checks: [] and controller-packet.json checks: []: no declared acceptance checks to run",
+    "Dependency review/conformance succeeded with route=pass and 0 concerns (reviews/conformance-20261117T002315091950Z.md). The red-team review acknowledges it.",
+    "Spot-verified R1: plan.yaml lines 57-64 and 82-86 show the checks are only the unittest discover runs and tests/check_distribution.py. references/repro-nongit-routing.sh echoes exit codes rather than asserting them.",
+    "Spot-verified gate/bounds: processes/planning-review/process.yaml declares approval_gate: approval (type: gate). plan.yaml rework max_cycles: 2.",
+    "git status in the bundle shows new files only at reviews/red-team-review-1-review-red-team-1.md and this attempt's result.json and controller-packet.json, plus runner-owned execution files. No protected paths (plan.yaml, plan-assets/, processes/, planning/) were modified."
+  ]
+}

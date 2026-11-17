@@ -1,0 +1,38 @@
+{
+ "artifacts": [
+  "reviews/red-team-review-1-review-red-team-1.md"
+ ],
+ "outputs": {
+  "concerns": [
+   {
+    "class": "NONBLOCKING",
+    "id": "R1",
+    "severity": "medium"
+   },
+   {
+    "class": "NONBLOCKING",
+    "id": "R2",
+    "severity": "medium"
+   },
+   {
+    "class": "NONBLOCKING",
+    "id": "R3",
+    "severity": "low"
+   },
+   {
+    "class": "DEFERRED",
+    "id": "R4",
+    "severity": "low"
+   },
+   {
+    "class": "DEFERRED",
+    "id": "R5",
+    "severity": "low"
+   }
+  ],
+  "review": "reviews/red-team-review-1-review-red-team-1.md",
+  "route": "pass"
+ },
+ "status": "succeeded",
+ "summary": "Red-team pass: 0 BLOCKING, 3 NONBLOCKING, 2 DEFERRED concerns; verdict pass. Main residual: the mechanical checks cannot fail if the B1 regression test is missing, so the independent acceptance reproduction carries the proof."
+}

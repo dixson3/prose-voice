@@ -1,0 +1,13 @@
+{
+  "decision": "choose:pass",
+  "reason": "The review/verdict gateway's worker result is 'succeeded' and proposes route 'pass', with candidates ['pass']. Both predecessors succeeded, controllers accepted both, and both routed 'pass'. Conformance reported 0 concerns. Red-team reported 0 BLOCKING, 3 NONBLOCKING (R1-R3) and 2 DEFERRED (R4-R5), and only BLOCKING concerns force 'revise'. Neither the worker packet nor the controller packet declares acceptance checks (checks: []), so no required check is missing or unverified. 'pass' is one of the gateway's declared outcomes (pass, revise). This decision only routes the review. It does not resolve the downstream approval human gate, which is left to the operator.",
+  "evidence": [
+    "controller-packet.json worker_result: {status: succeeded, outputs: {route: pass, candidates: [pass]}, summary: 'route proposed by predecessors: pass'}",
+    "packet.json and controller-packet.json: checks: [], so there are no acceptance checks to run",
+    "packet.json node.outcomes: [pass, revise], kind: gateway",
+    "execution/attempts/review-1@review~conformance#1/decision.json: accept; reviews/conformance-20261117T002315091950Z.md line 8 'Verdict: **pass**', no concerns",
+    "execution/attempts/review-1@review~red-team#1/decision.json: accept; reviews/red-team-review-1-review-red-team-1.md line 8 'Verdict: **pass**. No BLOCKING concerns remain.'",
+    "Red-team residual note (R1): the mechanical checks cannot fail if the B1 regression test is missing, so the B1 proof rests on the independent acceptance reproduction. This is NONBLOCKING and is carried forward for the operator's attention",
+    "No result.json is on disk for this attempt. The runner computed the gateway result and embedded it in controller-packet.json"
+  ]
+}
