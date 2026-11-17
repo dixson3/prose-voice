@@ -1,0 +1,242 @@
+{
+ "approvals": [],
+ "attempts": {
+  "review-1:review/conformance#1": {
+   "adapter": "internal",
+   "checks": [],
+   "claimant": "run:internal",
+   "claimed_at": "2026-11-17T00:23:15.027272Z",
+   "decision": {
+    "at": "2026-11-17T00:23:49.550556Z",
+    "controller": "agent-controller",
+    "decision": "accept",
+    "effect": "succeeded",
+    "evidence": [
+     "execution/attempts/review-1@review~conformance#1/result.json: {status: succeeded, outputs.route: pass, outputs.concerns: [], artifacts: [reviews/conformance-20261117T002315091950Z.md]}",
+     "packet.json checks: [] and controller-packet.json checks: []; no acceptance checks are declared, so none were run",
+     "reviews/conformance-20261117T002315091950Z.md exists: 'Verdict: **pass**', concern table shows 'no concerns'",
+     "Independent re-run: MOMOTRON_RESULT=<tmp>/r.json python3 processes/planning-review/scripts/conformance.py <tmp copy of bundle, execution/ excluded> -> exit 0, result {status: succeeded, summary: '0 concern(s); verdict pass', route: pass, concerns: []}; the temporary copy was then deleted and no product files were written",
+     "processes/planning-review/process.yaml: the conformance node is a script executor (argv [python, scripts/conformance.py, bundle], cwd bundle) and is not a gateway or human gate",
+     "plan.yaml sha256 at review time: 79f1eda4b6f09ef586f25ed4297deb97d9089a766fc88948579e414befb37cca (packet definition_digest 15f7ddbe...39d7 is the momotron definition digest, not a raw file hash)"
+    ],
+    "reason": "Worker result status is 'succeeded' with route 'pass' and 0 concerns. Neither the worker packet nor the controller packet declares any acceptance checks (checks: []), so there are no required checks left unrun or unverified. I re-ran the node's script executor (processes/planning-review/scripts/conformance.py) on a temporary copy of the bundle. It exited 0 and gave the same result (succeeded, 0 concerns, verdict pass). The review artifact named in the result exists and matches the reported verdict.",
+    "revision": 5
+   },
+   "id": "review-1:review/conformance#1",
+   "n": 1,
+   "node": "review/conformance",
+   "packet": "execution/blobs/packets/8fe2520ad9c976d3964aebe87270b7384899481f6753baa928950a2a950fdd44.json",
+   "receipt": {
+    "adapter": "script",
+    "recorded_at": "2026-11-17T00:23:15.042076Z"
+   },
+   "result": "execution/blobs/results/72ae838a408af54a93718152f2e3c274b2d93d4c2f03af8b3cd48efba5292295.json",
+   "run": "review-1",
+   "state": "decided"
+  },
+  "review-1:review/red-team#1": {
+   "adapter": "acpx",
+   "claimant": "run:acpx",
+   "claimed_at": "2026-11-17T00:23:49.834341Z",
+   "decision": null,
+   "id": "review-1:review/red-team#1",
+   "n": 1,
+   "node": "review/red-team",
+   "packet": "execution/blobs/packets/24d2d9d24be889cc4c7d8444bc8635a999bf600f6c02c94e8c0c345b58c49cb7.json",
+   "receipt": {
+    "acpx_version": "0.22.0",
+    "adapter": "acpx",
+    "agent": "claude",
+    "cwd": "/Users/james/workspace/dixson3/blog-voice/Momotron/consolidate-prosevoice-repair-1",
+    "deadline": 1794878635.380929,
+    "effective": {
+     "agent": "claude",
+     "config": {},
+     "config_source": "project",
+     "model": "opus",
+     "permission": "approve-all",
+     "session_policy": "fresh-per-attempt",
+     "timeout": 3600
+    },
+    "identity": {
+     "attempt": "review-1:review/red-team#1",
+     "bundle_uid": "11517460395a4212b7b7c73be82d8e93",
+     "generation": 1,
+     "group": "attempt:review-1:review/red-team#1",
+     "host": "d3-mbp-m5.local",
+     "location": "/Users/james/workspace/dixson3/blog-voice/Momotron/consolidate-prosevoice-repair-1",
+     "node": "review/red-team",
+     "plan_id": "consolidate-prosevoice-repair-1",
+     "policy": "fresh-per-attempt",
+     "role": "processes/planning-review/agents/red-team.md",
+     "run": "review-1",
+     "schema": "momotron-session-identity/1",
+     "session_name": "momo-consolidate-prosevoi-review-red-team-c98637b87230564e31f8",
+     "session_plan": {
+      "action": "fresh",
+      "generation": 1,
+      "key": null,
+      "problem": null,
+      "reason": "fresh-per-attempt"
+     }
+    },
+    "launched_at": "2026-11-17T00:23:55.380876Z",
+    "log": "execution/attempts/review-1@review~red-team#1/adapter.log",
+    "native": {
+     "acp_session_id": "843a6cef-0fa9-4f5d-8937-6df0fa43ae71",
+     "acpx_record_id": "0e0ae486-ba6d-41b0-9832-1c1d9ad70fa6",
+     "agent_session_id": null,
+     "available": true,
+     "available_model_count": 14,
+     "closed": false,
+     "config_option_ids": [
+      "effort",
+      "fast",
+      "mode",
+      "model",
+      "ultracode"
+     ],
+     "current_model_id": "opus",
+     "model_control": "config_option",
+     "usage_tokens": null
+    },
+    "phase": "launched",
+    "pid": 25544,
+    "process": {
+     "pgid": 25544,
+     "started": "Mon Nov 16 16:23:55 2026"
+    },
+    "recorded_at": "2026-11-17T00:23:50.058401Z",
+    "selection": {
+     "acknowledged": true,
+     "effective_model": "opus",
+     "options": {
+      "model": {
+       "acknowledged": true,
+       "effective": "opus",
+       "requested": "opus"
+      }
+     },
+     "requested_model": "opus"
+    },
+    "session": "momo-consolidate-prosevoi-review-red-team-c98637b87230564e31f8"
+   },
+   "result": null,
+   "run": "review-1",
+   "state": "running"
+  }
+ },
+ "decisions": {
+  "review-1:review/conformance#1": {
+   "at": "2026-11-17T00:23:49.550556Z",
+   "controller": "agent-controller",
+   "decision": "accept",
+   "effect": "succeeded",
+   "evidence": [
+    "execution/attempts/review-1@review~conformance#1/result.json: {status: succeeded, outputs.route: pass, outputs.concerns: [], artifacts: [reviews/conformance-20261117T002315091950Z.md]}",
+    "packet.json checks: [] and controller-packet.json checks: []; no acceptance checks are declared, so none were run",
+    "reviews/conformance-20261117T002315091950Z.md exists: 'Verdict: **pass**', concern table shows 'no concerns'",
+    "Independent re-run: MOMOTRON_RESULT=<tmp>/r.json python3 processes/planning-review/scripts/conformance.py <tmp copy of bundle, execution/ excluded> -> exit 0, result {status: succeeded, summary: '0 concern(s); verdict pass', route: pass, concerns: []}; the temporary copy was then deleted and no product files were written",
+    "processes/planning-review/process.yaml: the conformance node is a script executor (argv [python, scripts/conformance.py, bundle], cwd bundle) and is not a gateway or human gate",
+    "plan.yaml sha256 at review time: 79f1eda4b6f09ef586f25ed4297deb97d9089a766fc88948579e414befb37cca (packet definition_digest 15f7ddbe...39d7 is the momotron definition digest, not a raw file hash)"
+   ],
+   "reason": "Worker result status is 'succeeded' with route 'pass' and 0 concerns. Neither the worker packet nor the controller packet declares any acceptance checks (checks: []), so there are no required checks left unrun or unverified. I re-ran the node's script executor (processes/planning-review/scripts/conformance.py) on a temporary copy of the bundle. It exited 0 and gave the same result (succeeded, 0 concerns, verdict pass). The review artifact named in the result exists and matches the reported verdict.",
+   "revision": 5
+  }
+ },
+ "events": [
+  {
+   "at": "2026-11-17T00:22:47.285340Z",
+   "event": "review run started by James Dixson",
+   "revision": 1
+  },
+  {
+   "at": "2026-11-17T00:23:15.037211Z",
+   "event": "claim",
+   "revision": 2
+  },
+  {
+   "at": "2026-11-17T00:23:15.116776Z",
+   "event": "result submitted for review-1:review/conformance#1",
+   "revision": 4
+  },
+  {
+   "at": "2026-11-17T00:23:49.550672Z",
+   "event": "decision for review-1:review/conformance#1",
+   "revision": 5
+  },
+  {
+   "at": "2026-11-17T00:23:49.848596Z",
+   "event": "claim",
+   "revision": 6
+  }
+ ],
+ "identity": {
+  "bundle_uid": "11517460395a4212b7b7c73be82d8e93",
+  "created_at": "2026-11-17T00:23:50.058134Z"
+ },
+ "locked_digest": null,
+ "observations": [],
+ "plan_id": "consolidate-prosevoice-repair-1",
+ "planning": null,
+ "revision": 9,
+ "runs": {
+  "review-1": {
+   "created_at": "2026-11-17T00:22:47.285027Z",
+   "digest": "15f7ddbe380d2daaae8b3147dc3d011117edce046488b96ab73e6162f46439d7",
+   "extended": false,
+   "id": "review-1",
+   "kind": "review",
+   "nodes": {
+    "review/approval": {
+     "attempts": [],
+     "cycles": 0,
+     "state": "pending"
+    },
+    "review/conformance": {
+     "attempts": [
+      "review-1:review/conformance#1"
+     ],
+     "cycles": 0,
+     "state": "succeeded"
+    },
+    "review/end": {
+     "attempts": [],
+     "cycles": 0,
+     "state": "pending"
+    },
+    "review/portability": {
+     "attempts": [],
+     "cycles": 0,
+     "state": "pending"
+    },
+    "review/red-team": {
+     "attempts": [
+      "review-1:review/red-team#1"
+     ],
+     "cycles": 0,
+     "state": "running"
+    },
+    "review/revise": {
+     "attempts": [],
+     "cycles": 0,
+     "state": "pending"
+    },
+    "review/start": {
+     "attempts": [],
+     "cycles": 0,
+     "state": "succeeded"
+    },
+    "review/verdict": {
+     "attempts": [],
+     "cycles": 0,
+     "state": "pending"
+    }
+   },
+   "process_digest": "4a5ccf44386e350b1495ff9159799c9b9d13a3d029123e3d060a67991929a465",
+   "started_by": "James Dixson",
+   "status": "active"
+  }
+ },
+ "schema_version": 2
+}

@@ -1,0 +1,12 @@
+{
+  "decision": "accept",
+  "reason": "Worker result status is 'succeeded' with route 'pass' and 0 concerns. Neither the worker packet nor the controller packet declares any acceptance checks (checks: []), so there are no required checks left unrun or unverified. I re-ran the node's script executor (processes/planning-review/scripts/conformance.py) on a temporary copy of the bundle. It exited 0 and gave the same result (succeeded, 0 concerns, verdict pass). The review artifact named in the result exists and matches the reported verdict.",
+  "evidence": [
+    "execution/attempts/review-1@review~conformance#1/result.json: {status: succeeded, outputs.route: pass, outputs.concerns: [], artifacts: [reviews/conformance-20261117T002315091950Z.md]}",
+    "packet.json checks: [] and controller-packet.json checks: []; no acceptance checks are declared, so none were run",
+    "reviews/conformance-20261117T002315091950Z.md exists: 'Verdict: **pass**', concern table shows 'no concerns'",
+    "Independent re-run: MOMOTRON_RESULT=<tmp>/r.json python3 processes/planning-review/scripts/conformance.py <tmp copy of bundle, execution/ excluded> -> exit 0, result {status: succeeded, summary: '0 concern(s); verdict pass', route: pass, concerns: []}; the temporary copy was then deleted and no product files were written",
+    "processes/planning-review/process.yaml: the conformance node is a script executor (argv [python, scripts/conformance.py, bundle], cwd bundle) and is not a gateway or human gate",
+    "plan.yaml sha256 at review time: 79f1eda4b6f09ef586f25ed4297deb97d9089a766fc88948579e414befb37cca (packet definition_digest 15f7ddbe...39d7 is the momotron definition digest, not a raw file hash)"
+  ]
+}

@@ -1,0 +1,111 @@
+{
+ "allowed_operations": [
+  "read-bundle",
+  "write-reviews"
+ ],
+ "artifact_dir": "/Users/james/workspace/dixson3/blog-voice/Momotron/consolidate-prosevoice-repair-1/execution/attempts/review-1@review~red-team#1/artifacts",
+ "attempt": "review-1:review/red-team#1",
+ "bindings": {},
+ "bundle": "/Users/james/workspace/dixson3/blog-voice/Momotron/consolidate-prosevoice-repair-1",
+ "checks": [],
+ "definition_digest": "15f7ddbe380d2daaae8b3147dc3d011117edce046488b96ab73e6162f46439d7",
+ "dependency_outputs": {
+  "review/conformance": {
+   "artifact_dir": "/Users/james/workspace/dixson3/blog-voice/Momotron/consolidate-prosevoice-repair-1/execution/attempts/review-1@review~conformance#1/artifacts",
+   "artifacts": [
+    "reviews/conformance-20261117T002315091950Z.md"
+   ],
+   "outputs": {
+    "concerns": [],
+    "review": "reviews/conformance-20261117T002315091950Z.md",
+    "route": "pass"
+   },
+   "state": "succeeded",
+   "summary": "0 concern(s); verdict pass"
+  }
+ },
+ "independent": false,
+ "instructions": "Do only this node. Write the result JSON to result_path; put files in artifact_dir. Write permissions are exactly those in write_scope (allowed destinations; protected paths stay read-only), and never resolve a human gate.",
+ "node": {
+  "description": "Attack the plan independently of its author. Read the conformance pass from the dependency outputs. Set outputs.route to \"pass\" or \"revise\".",
+  "id": "review/red-team",
+  "inputs": [],
+  "kind": "task",
+  "outcomes": [],
+  "outputs": [],
+  "params": {},
+  "process": "planning-review",
+  "source": {
+   "node": "red-team",
+   "process": "planning-review"
+  },
+  "title": "Independent red-team review"
+ },
+ "objective": "Resolve acceptance blocker B1 by restoring essay-adjacent configuration and cache routing outside Git, then independently accept the completed prosevoice consolidation.",
+ "permissions": "You may write only these destinations:\n- /Users/james/workspace/dixson3/blog-voice/Momotron/consolidate-prosevoice-repair-1/execution/attempts/review-1@review~red-team#1/result.json \u2014 result JSON (this attempt)\n- /Users/james/workspace/dixson3/blog-voice/Momotron/consolidate-prosevoice-repair-1/execution/attempts/review-1@review~red-team#1/artifacts/ \u2014 files you produce (this attempt)\n- /Users/james/workspace/dixson3/blog-voice/Momotron/consolidate-prosevoice-repair-1/reviews/ \u2014 bundle reviews\nThese are the only paths under execution/ you may write. Everything below stays read-only, even where it lies inside an allowed directory:\n- /Users/james/workspace/dixson3/blog-voice/Momotron/consolidate-prosevoice-repair-1/plan.yaml\n- /Users/james/workspace/dixson3/blog-voice/Momotron/consolidate-prosevoice-repair-1/plan-assets/\n- /Users/james/workspace/dixson3/blog-voice/Momotron/consolidate-prosevoice-repair-1/processes/\n- /Users/james/workspace/dixson3/blog-voice/Momotron/consolidate-prosevoice-repair-1/planning/\n- /Users/james/workspace/dixson3/blog-voice/Momotron/consolidate-prosevoice-repair-1/execution/state.json\n- /Users/james/workspace/dixson3/blog-voice/Momotron/consolidate-prosevoice-repair-1/execution/blobs/\n- /Users/james/workspace/dixson3/blog-voice/Momotron/consolidate-prosevoice-repair-1/execution/attempts/ (every other attempt, and this attempt's packet.json)\nNever resolve a human gate or invent operator evidence.",
+ "phase": "review",
+ "plan_id": "consolidate-prosevoice-repair-1",
+ "process_dir": "/Users/james/workspace/dixson3/blog-voice/Momotron/consolidate-prosevoice-repair-1/processes/planning-review",
+ "result_path": "/Users/james/workspace/dixson3/blog-voice/Momotron/consolidate-prosevoice-repair-1/execution/attempts/review-1@review~red-team#1/result.json",
+ "result_schema": {
+  "additionalProperties": false,
+  "properties": {
+   "artifacts": {
+    "items": {
+     "type": "string"
+    },
+    "type": "array"
+   },
+   "outputs": {
+    "type": "object"
+   },
+   "status": {
+    "enum": [
+     "succeeded",
+     "failed"
+    ]
+   },
+   "summary": {
+    "type": "string"
+   }
+  },
+  "required": [
+   "status"
+  ],
+  "type": "object"
+ },
+ "role": {
+  "path": "processes/planning-review/agents/red-team.md",
+  "text": "# Red-team reviewer (planning-review)\n\nYou review the candidate plan in the bundle named by the packet, independently of whoever\ndrafted it. Use only the packet and the bundle files.\n\nLook for: steps that can report success without achieving their objective; acceptance checks\nthat cannot fail; missing failure branches; irreversible or outward-facing actions without a\nhuman gate; unbounded work; machine-specific assumptions a cold reader elsewhere would get\nwrong; and conformance concerns from the dependency outputs left unaddressed.\n\nWrite `reviews/red-team-<attempt>.md` with frontmatter (`type: Review`, `okf_spec:\nMOMOTRON-PLAN`, `description`), then a table of concerns (id, class BLOCKING/NONBLOCKING/DEFERRED, severity\nhigh/medium/low, evidence with file and key, consequence, minimum fix).\n\nResult: `status: succeeded` once the pass is written; `outputs.route` is `pass` only when no\nBLOCKING concern remains, else `revise`; `outputs.review` is the review path.\n\n## Proportionate findings\n\nClassify every concern:\n\n- **BLOCKING**: a credible correctness or safety failure that could invalidate the intended\n  outcome. State the requirement at risk, a reproducible failure (steps or commands), its\n  consequence, the evidence and the minimum fix. Only BLOCKING concerns make the verdict `revise`.\n- **NONBLOCKING**: an improvement; it may stay open on a `pass`.\n- **DEFERRED**: belongs to a named later check (a later task, acceptance review, live trial or\n  human gate); say which and why.\n\nSeverity follows consequence, not novelty. Before proposing more verification, ask whether its\ncost exceeds the risk, whether it duplicates an independent check (tests, a fresh acceptance\nreviewer, a human gate), and whether it mainly hardens machinery an earlier review introduced;\nprefer direct behavioral checks and simplification. Evidence-format edge cases, speculative\nforged evidence and stylistic refinements are not BLOCKING unless ordinary execution is shown\nto accept an incorrect result. Do not expand scope from one review to the next. After a\nsimplification, one fresh review decides: if it cannot pass, the operator chooses the tradeoff\ninstead of another automatic cycle. None of this permits accepting a real safety failure.\n"
+ },
+ "run": "review-1",
+ "run_kind": "review",
+ "schema": "momotron-packet/1",
+ "session": null,
+ "working_dir": "/Users/james/workspace/dixson3/blog-voice/Momotron/consolidate-prosevoice-repair-1",
+ "write_scope": {
+  "allowed": [
+   {
+    "path": "/Users/james/workspace/dixson3/blog-voice/Momotron/consolidate-prosevoice-repair-1/execution/attempts/review-1@review~red-team#1/result.json",
+    "what": "result JSON (this attempt)"
+   },
+   {
+    "path": "/Users/james/workspace/dixson3/blog-voice/Momotron/consolidate-prosevoice-repair-1/execution/attempts/review-1@review~red-team#1/artifacts/",
+    "what": "files you produce (this attempt)"
+   },
+   {
+    "path": "/Users/james/workspace/dixson3/blog-voice/Momotron/consolidate-prosevoice-repair-1/reviews/",
+    "what": "bundle reviews"
+   }
+  ],
+  "protected": [
+   "/Users/james/workspace/dixson3/blog-voice/Momotron/consolidate-prosevoice-repair-1/plan.yaml",
+   "/Users/james/workspace/dixson3/blog-voice/Momotron/consolidate-prosevoice-repair-1/plan-assets/",
+   "/Users/james/workspace/dixson3/blog-voice/Momotron/consolidate-prosevoice-repair-1/processes/",
+   "/Users/james/workspace/dixson3/blog-voice/Momotron/consolidate-prosevoice-repair-1/planning/",
+   "/Users/james/workspace/dixson3/blog-voice/Momotron/consolidate-prosevoice-repair-1/execution/state.json",
+   "/Users/james/workspace/dixson3/blog-voice/Momotron/consolidate-prosevoice-repair-1/execution/blobs/",
+   "/Users/james/workspace/dixson3/blog-voice/Momotron/consolidate-prosevoice-repair-1/execution/attempts/ (every other attempt, and this attempt's packet.json)"
+  ]
+ }
+}
