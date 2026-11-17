@@ -25,9 +25,17 @@ run "$W/unrelated" "artifacts $W/parent/essays/e.md --project $W/nope --kind dra
 echo "--- git-backed essay routes to its git root"
 mkdir -p "$W/gitproj/a/b"; git -C "$W/gitproj" init -q; printf 'Hi.\n' > "$W/gitproj/a/b/g.md"
 run "$W/unrelated" "artifacts $W/gitproj/a/b/g.md --kind draft"
-echo "--- --set guidance anchored to invocation cwd"
-run "$W/unrelated" "config $W/parent/essays/e.md --set 'guidance.VOICE.md=[\"v.md\"]'"
-run "$W/unrelated" "check $W/parent/essays/e.md --set 'guidance.VOICE.md=[\"v.md\"]'"
+echo "--- --set guidance anchored to invocation cwd (library; resolve/check take no essay)"
+(cd "$W/unrelated" && uv run --quiet python -c "
+import sys; sys.path.insert(0, '$REPO/skills/prosevoice/scripts')
+from pathlib import Path
+from prosevoice_lib import config as c
+b = c.load_config(overrides=['guidance.VOICE.md=[\"v.md\"]'])
+s = c.config_for_essay(b, Path('$W/parent/essays/e.md'))
+print('project', s.project_root, s.project_selection)
+print('cwd', s.cwd)
+print('VOICE candidates', s.guidance_candidates('VOICE.md'))
+"); echo "exit=$?"; echo
 echo "--- not-yet-created essay directory"
 run "$W/unrelated" "artifacts $W/parent/new/x/d.md --apply"
 ls -la "$W/parent/new/x/.prosevoice" "$W/parent/new/x/.prosevoice/cache"; cat "$W/parent/new/x/.prosevoice/.gitignore"
