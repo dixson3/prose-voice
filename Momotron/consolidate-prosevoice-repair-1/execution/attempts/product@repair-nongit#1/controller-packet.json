@@ -1,0 +1,65 @@
+{
+ "schema": "momotron-controller-packet/1",
+ "attempt": "product:repair-nongit#1",
+ "node": {
+  "description": "# Repair B1 and finish acceptance\n\nThis successor operates on the existing implementation left by the predecessor; do not repeat foundation, consolidation, migration or integration. Keep their valid edits. The approved predecessor ended with the acceptance blocker in `references/acceptance-blocker.json`. Its unit suite (143 tests) and distribution check (273 assertions) passed, but the independent reviewer and controller reproduced a non-Git behavior regression. The repair must restore the intended behavior, not waive it. Product changes begin only after this repair plan's designated approval gate.\n\nUse the configured Opus 5.5 controller/worker ACP pair. Bind `repo` to the implementation checkout and `momotron` to the read-only reference checkout; use literal `cwd: repo` on tasks. Preserve the operator-installed `.agents/`, `.claude/` and `skills-lock.json`, all frozen plan history, and unrelated work. Commit plan bookkeeping under the standing instruction; no product commits, publication, global installs or migrations of real projects are authorized here.\n\n## repair-nongit\n\nRead the blocker and the current `config_for_essay` in `skills/prosevoice/scripts/prosevoice_lib/config.py`. It currently returns the invocation configuration when `git_root(essay.parent)` is absent. Consequently, an absolute non-Git essay invoked from an unrelated directory fails with `essay-outside-project`; invocation from a non-Git ancestor incorrectly places the cache under that ancestor. The predecessor required cache placement beside a non-Git essay.\n\nMake the smallest correction that selects the essay's directory as its derived project when there is no explicit `--project` and no Git root. Keep explicit project selection unchanged, including its existing-directory validation and outside-project errors. Keep Git-backed per-essay project routing unchanged. Preserve the original invocation cwd as the anchor for relative CLI guidance overrides; changing the derived project must not re-anchor `--set` paths. Use the existing shared configuration merge and resolver rather than introducing a parallel resolver. Treat the derived essay directory separately from an explicitly supplied project: if an artifact path is requested for a not-yet-created non-Git essay directory, path resolution and `artifacts --apply` must retain the existing ability to prepare that directory safely. Do not relax explicit `--project` validation to achieve this.\n\nRestore the non-Git essay-adjacent cache rule in `skills/prosevoice/SKILL.md`. Align root README and the skill README where they describe project selection or artifact placement, distinguishing essay commands from commands without an essay. The new namespace remains `.prosevoice`; this repair does not restore legacy runtime lookup. Do not change migration behavior except if the shared resolver change requires a directly related correction demonstrated by tests.\n\nAdd regression coverage to `tests/test_prosevoice_runtime.py` (and the existing config tests only if needed): invoke the actual CLI on an absolute non-Git essay from an unrelated directory and from a non-Git ancestor. Assert the exact cache/illustrations path is `<essay-dir>/.prosevoice/cache/<stem>.<purpose>.md`, and READY evaluates the essay rather than returning an outside-project error. Exercise a selected visual sidecar at that path. Cover retained explicit-project behavior, CLI-relative guidance override anchoring and path resolution/application for a not-yet-created non-Git essay directory. Existing Git-root and all-12-artifact tests must continue passing. Use temporary fixtures with isolated HOME/XDG; never migrate an operator project.\n\nRun the focused runtime suite, the full suite and the existing distribution checker. Record the targeted reproduction outcome, commands, exit codes and changes in this attempt's artifacts, then write its result JSON. Fail honestly if any requirement remains unresolved. Do not edit other attempts, the predecessor or this plan's definition/assets. The diagnostic notifications are not new task requests; continue the packet's task, and do not mistake your own receipt PID or growing adapter log for a competing worker.\n\n## acceptance\n\nIndependently verify the repair and the original acceptance requirements in `plan-assets/execution.md`, section `acceptance`, together with the unchanged contract and migration assets. Read the new regression test and reproduce the two non-Git invocation cases yourself. Verify explicit project behavior, Git-backed routing and CLI-relative override anchors were not changed accidentally. Run the full suite and distribution checker on the final tree; an unverified distribution is a nonzero failure, not a pass.\n\nThe predecessor's other acceptance checks were positive evidence, but do not blindly reuse them for changed behavior. Inspect the repair diff, ensure the single-skill/package/migration deliverables remain intact, and report any demonstrated new blocker. Review only: do not modify product files or approve a human gate. Once this acceptance and its controller pass, this repair completes the original consolidation objective; no extra completion gate or publication follows.\n",
+  "id": "repair-nongit",
+  "inputs": [],
+  "kind": "task",
+  "outcomes": [],
+  "outputs": [],
+  "params": {},
+  "process": null,
+  "source": {
+   "step": "repair-nongit"
+  },
+  "title": "Restore non-Git essay fallback and test it"
+ },
+ "role": "# Role: controller\n\nYou assess one submitted attempt and propose a decision. The runner validates your decision;\nit does not trust it.\n\nInput: the context packet, the worker result, and the acceptance-check results.\n\nReturn JSON only:\n`{\"decision\": \"accept\" | \"retry\" | \"block\" | \"fail\" | \"choose:<outcome>\", \"reason\": \"...\", \"evidence\": [\"...\"]}`\n\n- `accept` only when the result status is `succeeded` **and** every acceptance check passed.\n- `retry` only when the failure is plausibly transient or fixable and budget remains.\n- `choose:<outcome>` only on a gateway node, naming one of its declared outcomes.\n- You can never approve a human gate.\n",
+ "worker_result": {
+  "artifacts": [
+   "artifacts/check-distribution.log",
+   "artifacts/check-runtime.log",
+   "artifacts/check-unittest.log",
+   "artifacts/config_for_essay.after.py",
+   "artifacts/evidence.md",
+   "artifacts/exit-codes.txt",
+   "artifacts/final-status.txt",
+   "artifacts/pre-repair-runtime.log",
+   "artifacts/repro-nongit-routing.after.log"
+  ],
+  "outputs": {
+   "checks": {
+    "Distribution verification after repair": "273 assertions passed, 0 surfaces failed, 0 unverified, exit 0",
+    "Full regression": "148 tests OK, exit 0",
+    "Runtime and non-Git routing regression": "29 tests OK, exit 0"
+   },
+   "committed": false,
+   "files_changed": [
+    "skills/prosevoice/scripts/prosevoice_lib/config.py",
+    "skills/prosevoice/SKILL.md",
+    "skills/prosevoice/README.md",
+    "README.md",
+    "tests/test_prosevoice_runtime.py",
+    "tests/test_prosevoice_package.py"
+   ],
+   "migration_changed": false,
+   "product_files_edited": true,
+   "reproduction": {
+    "artifacts_from_nongit_parent": "exit 0; project <W>/essays essay-dir; <W>/essays/.prosevoice/cache/e.illustrations.md (was <W>/.prosevoice/cache/essays/)",
+    "ready_from_unrelated_cwd": "exit 1 blocked; sidecar <W>/essays/.prosevoice/cache/e.illustrations.md (was exit 2 essay-outside-project)"
+   }
+  },
+  "status": "succeeded",
+  "summary": "B1 repaired. config_for_essay now uses the essay's own directory as the derived project (project_selection 'essay-dir') when there is no explicit --project and no Git root. It goes through the shared read_config_file/build_config merge with the original cwd, so --set guidance anchors are unchanged, and it is not validated like --project, so artifacts --apply can create an essay directory that does not exist yet. Explicit --project and Git-backed routing are unchanged. SKILL.md restores the rule that a non-Git essay's cache sits in .prosevoice/cache/ beside it. The root README and skill README now distinguish essay commands from commands without an essay. Added 5 NonGitEssayRoutingTests: the real launcher run from an unrelated directory and from a non-Git ancestor, exact cache/illustrations paths, READY blocked then ok with a selected sidecar, explicit project, essay-dir config, cwd-anchored --set, and apply for a directory not yet created. One package test that asserted the regressed behavior was updated; it keeps the explicit --project outside-project assertion. With the fix reverted, 8 runtime tests fail. Checks: runtime 29 OK (exit 0), full 148 OK (exit 0), distribution 273 assertions, 0 failed, 0 unverified (exit 0). The blocker repro now gives ready exit 1 blocked and artifacts exit 0, both with the sidecar at essays/.prosevoice/cache/e.illustrations.md. No commits; migration unchanged."
+ },
+ "checks": [],
+ "decision_path": "/Users/james/workspace/dixson3/blog-voice/Momotron/consolidate-prosevoice-repair-1/execution/attempts/product@repair-nongit#1/decision.json",
+ "decision_schema": {
+  "decision": "accept|retry|block|fail|choose:<outcome>",
+  "reason": "string",
+  "evidence": [
+   "string"
+  ]
+ }
+}

@@ -1,0 +1,162 @@
+{
+ "schema": "momotron-packet/1",
+ "plan_id": "consolidate-prosevoice-repair-1",
+ "objective": "Resolve acceptance blocker B1 by restoring essay-adjacent configuration and cache routing outside Git, then independently accept the completed prosevoice consolidation.",
+ "definition_digest": "15f7ddbe380d2daaae8b3147dc3d011117edce046488b96ab73e6162f46439d7",
+ "run": "product",
+ "run_kind": "product",
+ "phase": "product",
+ "attempt": "product:acceptance#1",
+ "node": {
+  "id": "acceptance",
+  "kind": "task",
+  "title": "Independently verify the repair and completed consolidation",
+  "description": "# Repair B1 and finish acceptance\n\nThis successor operates on the existing implementation left by the predecessor; do not repeat foundation, consolidation, migration or integration. Keep their valid edits. The approved predecessor ended with the acceptance blocker in `references/acceptance-blocker.json`. Its unit suite (143 tests) and distribution check (273 assertions) passed, but the independent reviewer and controller reproduced a non-Git behavior regression. The repair must restore the intended behavior, not waive it. Product changes begin only after this repair plan's designated approval gate.\n\nUse the configured Opus 5.5 controller/worker ACP pair. Bind `repo` to the implementation checkout and `momotron` to the read-only reference checkout; use literal `cwd: repo` on tasks. Preserve the operator-installed `.agents/`, `.claude/` and `skills-lock.json`, all frozen plan history, and unrelated work. Commit plan bookkeeping under the standing instruction; no product commits, publication, global installs or migrations of real projects are authorized here.\n\n## repair-nongit\n\nRead the blocker and the current `config_for_essay` in `skills/prosevoice/scripts/prosevoice_lib/config.py`. It currently returns the invocation configuration when `git_root(essay.parent)` is absent. Consequently, an absolute non-Git essay invoked from an unrelated directory fails with `essay-outside-project`; invocation from a non-Git ancestor incorrectly places the cache under that ancestor. The predecessor required cache placement beside a non-Git essay.\n\nMake the smallest correction that selects the essay's directory as its derived project when there is no explicit `--project` and no Git root. Keep explicit project selection unchanged, including its existing-directory validation and outside-project errors. Keep Git-backed per-essay project routing unchanged. Preserve the original invocation cwd as the anchor for relative CLI guidance overrides; changing the derived project must not re-anchor `--set` paths. Use the existing shared configuration merge and resolver rather than introducing a parallel resolver. Treat the derived essay directory separately from an explicitly supplied project: if an artifact path is requested for a not-yet-created non-Git essay directory, path resolution and `artifacts --apply` must retain the existing ability to prepare that directory safely. Do not relax explicit `--project` validation to achieve this.\n\nRestore the non-Git essay-adjacent cache rule in `skills/prosevoice/SKILL.md`. Align root README and the skill README where they describe project selection or artifact placement, distinguishing essay commands from commands without an essay. The new namespace remains `.prosevoice`; this repair does not restore legacy runtime lookup. Do not change migration behavior except if the shared resolver change requires a directly related correction demonstrated by tests.\n\nAdd regression coverage to `tests/test_prosevoice_runtime.py` (and the existing config tests only if needed): invoke the actual CLI on an absolute non-Git essay from an unrelated directory and from a non-Git ancestor. Assert the exact cache/illustrations path is `<essay-dir>/.prosevoice/cache/<stem>.<purpose>.md`, and READY evaluates the essay rather than returning an outside-project error. Exercise a selected visual sidecar at that path. Cover retained explicit-project behavior, CLI-relative guidance override anchoring and path resolution/application for a not-yet-created non-Git essay directory. Existing Git-root and all-12-artifact tests must continue passing. Use temporary fixtures with isolated HOME/XDG; never migrate an operator project.\n\nRun the focused runtime suite, the full suite and the existing distribution checker. Record the targeted reproduction outcome, commands, exit codes and changes in this attempt's artifacts, then write its result JSON. Fail honestly if any requirement remains unresolved. Do not edit other attempts, the predecessor or this plan's definition/assets. The diagnostic notifications are not new task requests; continue the packet's task, and do not mistake your own receipt PID or growing adapter log for a competing worker.\n\n## acceptance\n\nIndependently verify the repair and the original acceptance requirements in `plan-assets/execution.md`, section `acceptance`, together with the unchanged contract and migration assets. Read the new regression test and reproduce the two non-Git invocation cases yourself. Verify explicit project behavior, Git-backed routing and CLI-relative override anchors were not changed accidentally. Run the full suite and distribution checker on the final tree; an unverified distribution is a nonzero failure, not a pass.\n\nThe predecessor's other acceptance checks were positive evidence, but do not blindly reuse them for changed behavior. Inspect the repair diff, ensure the single-skill/package/migration deliverables remain intact, and report any demonstrated new blocker. Review only: do not modify product files or approve a human gate. Once this acceptance and its controller pass, this repair completes the original consolidation objective; no extra completion gate or publication follows.\n",
+  "params": {},
+  "inputs": [],
+  "outputs": [],
+  "outcomes": [],
+  "process": null,
+  "source": {
+   "step": "acceptance"
+  }
+ },
+ "role": {
+  "path": "processes/_roles/reviewer.md",
+  "text": "# Role: reviewer\n\nGeneric review role. The legacy role names `conformance-reviewer` and `red-team-reviewer`\nresolve to this prompt; the node's description says which kind of pass to make.\n\nReview the candidate plan in the bundle named by the packet, independently of whoever drafted\nit. Use only the packet and the bundle files.\n\n- **Conformance pass**: check the candidate against its own contract. Every step has a stable\n  ID, an executor, acceptance checks that can fail and finite rework; dependencies are explicit;\n  criteria trace to steps; no machine path is embedded; references are captured.\n- **Red-team pass**: look for steps that can report success without achieving their\n  objective, missing failure branches, unsafe side effects, irreversible actions without a\n  human gate, and environment assumptions a cold reader on another machine would get wrong.\n\nWrite a review pass to `reviews/` with concerns (id, class, severity, evidence citing file and\nkey, consequence, minimum fix) and a verdict `pass` or `revise`; `revise` only for BLOCKING\nconcerns. Result: `status: succeeded` once the\npass is written; set `outputs.route` to the verdict when the node feeds a gateway.\n\n## Proportionate findings\n\nClassify every concern:\n\n- **BLOCKING**: a credible correctness or safety failure that could invalidate the intended\n  outcome. State the requirement at risk, a reproducible failure (steps or commands), its\n  consequence, the evidence and the minimum fix. Only BLOCKING concerns make the verdict `revise`.\n- **NONBLOCKING**: an improvement; it may stay open on a `pass`.\n- **DEFERRED**: belongs to a named later check (a later task, acceptance review, live trial or\n  human gate); say which and why.\n\nSeverity follows consequence, not novelty. Before proposing more verification, ask whether its\ncost exceeds the risk, whether it duplicates an independent check (tests, a fresh acceptance\nreviewer, a human gate), and whether it mainly hardens machinery an earlier review introduced;\nprefer direct behavioral checks and simplification. Evidence-format edge cases, speculative\nforged evidence and stylistic refinements are not BLOCKING unless ordinary execution is shown\nto accept an incorrect result. Do not expand scope from one review to the next. After a\nsimplification, one fresh review decides: if it cannot pass, the operator chooses the tradeoff\ninstead of another automatic cycle. None of this permits accepting a real safety failure.\n"
+ },
+ "bundle": "/Users/james/workspace/dixson3/blog-voice/Momotron/consolidate-prosevoice-repair-1",
+ "process_dir": null,
+ "dependency_outputs": {
+  "repair-nongit": {
+   "state": "succeeded",
+   "outputs": {
+    "checks": {
+     "Distribution verification after repair": "273 assertions passed, 0 surfaces failed, 0 unverified, exit 0",
+     "Full regression": "148 tests OK, exit 0",
+     "Runtime and non-Git routing regression": "29 tests OK, exit 0"
+    },
+    "committed": false,
+    "files_changed": [
+     "skills/prosevoice/scripts/prosevoice_lib/config.py",
+     "skills/prosevoice/SKILL.md",
+     "skills/prosevoice/README.md",
+     "README.md",
+     "tests/test_prosevoice_runtime.py",
+     "tests/test_prosevoice_package.py"
+    ],
+    "migration_changed": false,
+    "product_files_edited": true,
+    "reproduction": {
+     "artifacts_from_nongit_parent": "exit 0; project <W>/essays essay-dir; <W>/essays/.prosevoice/cache/e.illustrations.md (was <W>/.prosevoice/cache/essays/)",
+     "ready_from_unrelated_cwd": "exit 1 blocked; sidecar <W>/essays/.prosevoice/cache/e.illustrations.md (was exit 2 essay-outside-project)"
+    }
+   },
+   "summary": "B1 repaired. config_for_essay now uses the essay's own directory as the derived project (project_selection 'essay-dir') when there is no explicit --project and no Git root. It goes through the shared read_config_file/build_config merge with the original cwd, so --set guidance anchors are unchanged, and it is not validated like --project, so artifacts --apply can create an essay directory that does not exist yet. Explicit --project and Git-backed routing are unchanged. SKILL.md restores the rule that a non-Git essay's cache sits in .prosevoice/cache/ beside it. The root README and skill README now distinguish essay commands from commands without an essay. Added 5 NonGitEssayRoutingTests: the real launcher run from an unrelated directory and from a non-Git ancestor, exact cache/illustrations paths, READY blocked then ok with a selected sidecar, explicit project, essay-dir config, cwd-anchored --set, and apply for a directory not yet created. One package test that asserted the regressed behavior was updated; it keeps the explicit --project outside-project assertion. With the fix reverted, 8 runtime tests fail. Checks: runtime 29 OK (exit 0), full 148 OK (exit 0), distribution 273 assertions, 0 failed, 0 unverified (exit 0). The blocker repro now gives ready exit 1 blocked and artifacts exit 0, both with the sidecar at essays/.prosevoice/cache/e.illustrations.md. No commits; migration unchanged.",
+   "artifacts": [
+    "artifacts/check-distribution.log",
+    "artifacts/check-runtime.log",
+    "artifacts/check-unittest.log",
+    "artifacts/config_for_essay.after.py",
+    "artifacts/evidence.md",
+    "artifacts/exit-codes.txt",
+    "artifacts/final-status.txt",
+    "artifacts/pre-repair-runtime.log",
+    "artifacts/repro-nongit-routing.after.log"
+   ],
+   "artifact_dir": "/Users/james/workspace/dixson3/blog-voice/Momotron/consolidate-prosevoice-repair-1/execution/attempts/product@repair-nongit#1/artifacts"
+  }
+ },
+ "working_dir": "/Users/james/workspace/dixson3/blog-voice",
+ "checks": [
+  {
+   "argv": [
+    "uv",
+    "run",
+    "python",
+    "-m",
+    "unittest",
+    "discover",
+    "-s",
+    "tests"
+   ],
+   "name": "Acceptance regression"
+  },
+  {
+   "argv": [
+    "uv",
+    "run",
+    "tests/check_distribution.py"
+   ],
+   "timeout": 900,
+   "name": "Acceptance distributions"
+  }
+ ],
+ "allowed_operations": [
+  "read-bundle",
+  "write-artifacts",
+  "edit-working-dir"
+ ],
+ "session": null,
+ "independent": true,
+ "result_path": "/Users/james/workspace/dixson3/blog-voice/Momotron/consolidate-prosevoice-repair-1/execution/attempts/product@acceptance#1/result.json",
+ "artifact_dir": "/Users/james/workspace/dixson3/blog-voice/Momotron/consolidate-prosevoice-repair-1/execution/attempts/product@acceptance#1/artifacts",
+ "result_schema": {
+  "type": "object",
+  "required": [
+   "status"
+  ],
+  "additionalProperties": false,
+  "properties": {
+   "status": {
+    "enum": [
+     "succeeded",
+     "failed"
+    ]
+   },
+   "summary": {
+    "type": "string"
+   },
+   "outputs": {
+    "type": "object"
+   },
+   "artifacts": {
+    "type": "array",
+    "items": {
+     "type": "string"
+    }
+   }
+  }
+ },
+ "instructions": "Do only this node. Write the result JSON to result_path; put files in artifact_dir. Write permissions are exactly those in write_scope (allowed destinations; protected paths stay read-only), and never resolve a human gate.",
+ "bindings": {
+  "momotron": "/Users/james/workspace/dixson3/momotron",
+  "repo": "/Users/james/workspace/dixson3/blog-voice"
+ },
+ "write_scope": {
+  "allowed": [
+   {
+    "path": "/Users/james/workspace/dixson3/blog-voice/Momotron/consolidate-prosevoice-repair-1/execution/attempts/product@acceptance#1/result.json",
+    "what": "result JSON (this attempt)"
+   },
+   {
+    "path": "/Users/james/workspace/dixson3/blog-voice/Momotron/consolidate-prosevoice-repair-1/execution/attempts/product@acceptance#1/artifacts/",
+    "what": "files you produce (this attempt)"
+   },
+   {
+    "path": "/Users/james/workspace/dixson3/blog-voice/",
+    "what": "working directory (task changes)"
+   }
+  ],
+  "protected": [
+   "/Users/james/workspace/dixson3/blog-voice/Momotron/consolidate-prosevoice-repair-1/plan.yaml",
+   "/Users/james/workspace/dixson3/blog-voice/Momotron/consolidate-prosevoice-repair-1/plan-assets/",
+   "/Users/james/workspace/dixson3/blog-voice/Momotron/consolidate-prosevoice-repair-1/processes/",
+   "/Users/james/workspace/dixson3/blog-voice/Momotron/consolidate-prosevoice-repair-1/planning/",
+   "/Users/james/workspace/dixson3/blog-voice/Momotron/consolidate-prosevoice-repair-1/execution/state.json",
+   "/Users/james/workspace/dixson3/blog-voice/Momotron/consolidate-prosevoice-repair-1/execution/blobs/",
+   "/Users/james/workspace/dixson3/blog-voice/Momotron/consolidate-prosevoice-repair-1/execution/attempts/ (every other attempt, and this attempt's packet.json)"
+  ]
+ },
+ "permissions": "You may write only these destinations:\n- /Users/james/workspace/dixson3/blog-voice/Momotron/consolidate-prosevoice-repair-1/execution/attempts/product@acceptance#1/result.json \u2014 result JSON (this attempt)\n- /Users/james/workspace/dixson3/blog-voice/Momotron/consolidate-prosevoice-repair-1/execution/attempts/product@acceptance#1/artifacts/ \u2014 files you produce (this attempt)\n- /Users/james/workspace/dixson3/blog-voice/ \u2014 working directory (task changes)\nThese are the only paths under execution/ you may write. Everything below stays read-only, even where it lies inside an allowed directory:\n- /Users/james/workspace/dixson3/blog-voice/Momotron/consolidate-prosevoice-repair-1/plan.yaml\n- /Users/james/workspace/dixson3/blog-voice/Momotron/consolidate-prosevoice-repair-1/plan-assets/\n- /Users/james/workspace/dixson3/blog-voice/Momotron/consolidate-prosevoice-repair-1/processes/\n- /Users/james/workspace/dixson3/blog-voice/Momotron/consolidate-prosevoice-repair-1/planning/\n- /Users/james/workspace/dixson3/blog-voice/Momotron/consolidate-prosevoice-repair-1/execution/state.json\n- /Users/james/workspace/dixson3/blog-voice/Momotron/consolidate-prosevoice-repair-1/execution/blobs/\n- /Users/james/workspace/dixson3/blog-voice/Momotron/consolidate-prosevoice-repair-1/execution/attempts/ (every other attempt, and this attempt's packet.json)\nNever resolve a human gate or invent operator evidence."
+}

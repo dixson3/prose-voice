@@ -1,0 +1,37 @@
+{
+ "artifacts": [
+  "artifacts/check-distribution.log",
+  "artifacts/check-runtime.log",
+  "artifacts/check-unittest.log",
+  "artifacts/config_for_essay.after.py",
+  "artifacts/evidence.md",
+  "artifacts/exit-codes.txt",
+  "artifacts/final-status.txt",
+  "artifacts/pre-repair-runtime.log",
+  "artifacts/repro-nongit-routing.after.log"
+ ],
+ "outputs": {
+  "checks": {
+   "Distribution verification after repair": "273 assertions passed, 0 surfaces failed, 0 unverified, exit 0",
+   "Full regression": "148 tests OK, exit 0",
+   "Runtime and non-Git routing regression": "29 tests OK, exit 0"
+  },
+  "committed": false,
+  "files_changed": [
+   "skills/prosevoice/scripts/prosevoice_lib/config.py",
+   "skills/prosevoice/SKILL.md",
+   "skills/prosevoice/README.md",
+   "README.md",
+   "tests/test_prosevoice_runtime.py",
+   "tests/test_prosevoice_package.py"
+  ],
+  "migration_changed": false,
+  "product_files_edited": true,
+  "reproduction": {
+   "artifacts_from_nongit_parent": "exit 0; project <W>/essays essay-dir; <W>/essays/.prosevoice/cache/e.illustrations.md (was <W>/.prosevoice/cache/essays/)",
+   "ready_from_unrelated_cwd": "exit 1 blocked; sidecar <W>/essays/.prosevoice/cache/e.illustrations.md (was exit 2 essay-outside-project)"
+  }
+ },
+ "status": "succeeded",
+ "summary": "B1 repaired. config_for_essay now uses the essay's own directory as the derived project (project_selection 'essay-dir') when there is no explicit --project and no Git root. It goes through the shared read_config_file/build_config merge with the original cwd, so --set guidance anchors are unchanged, and it is not validated like --project, so artifacts --apply can create an essay directory that does not exist yet. Explicit --project and Git-backed routing are unchanged. SKILL.md restores the rule that a non-Git essay's cache sits in .prosevoice/cache/ beside it. The root README and skill README now distinguish essay commands from commands without an essay. Added 5 NonGitEssayRoutingTests: the real launcher run from an unrelated directory and from a non-Git ancestor, exact cache/illustrations paths, READY blocked then ok with a selected sidecar, explicit project, essay-dir config, cwd-anchored --set, and apply for a directory not yet created. One package test that asserted the regressed behavior was updated; it keeps the explicit --project outside-project assertion. With the fix reverted, 8 runtime tests fail. Checks: runtime 29 OK (exit 0), full 148 OK (exit 0), distribution 273 assertions, 0 failed, 0 unverified (exit 0). The blocker repro now gives ready exit 1 blocked and artifacts exit 0, both with the sidecar at essays/.prosevoice/cache/e.illustrations.md. No commits; migration unchanged."
+}
