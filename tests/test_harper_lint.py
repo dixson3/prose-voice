@@ -1,21 +1,17 @@
 """Harper normalization, output validation and per-document policy tests."""
 import contextlib
-import importlib.util
 import io
 import json
+import os
 import subprocess
-import sys
 import tempfile
 import unittest
 from pathlib import Path
 from unittest.mock import patch
 
-SCRIPTS = Path(__file__).resolve().parents[1] / "skills/pv-prosevoice/scripts"
-with patch.object(sys, "path", [str(SCRIPTS), *sys.path]):
-    spec = importlib.util.spec_from_file_location("harper_lint", SCRIPTS / "harper_lint.py")
-    assert spec is not None and spec.loader is not None
-    harper = importlib.util.module_from_spec(spec)
-    spec.loader.exec_module(harper)
+import _prosevoice_path  # noqa: F401  (adds the source skill to sys.path)
+from prosevoice_lib import cli
+from prosevoice_lib import policy as harper
 
 
 def lint(**changes):
@@ -88,9 +84,20 @@ class HarperTests(unittest.TestCase):
                 self.assertRaises(RuntimeError):
             harper.lint_file("harper", Path("doc.md"), "us", "dict", [])
 
+    def run_main(self, argv, cwd):
+        old = Path.cwd()
+        os.chdir(cwd)
+        try:
+            out = io.StringIO()
+            with contextlib.redirect_stdout(out):
+                code = cli.main(argv)
+        finally:
+            os.chdir(old)
+        return json.loads(out.getvalue()), code
+
     def test_policy_isolation_repeatable_overrides_and_temp_cleanup(self):
         with tempfile.TemporaryDirectory() as temporary:
-            root = Path(temporary)
+            root = Path(temporary).resolve()
 
             def write(relative, content):
                 path = root / relative
@@ -98,16 +105,15 @@ class HarperTests(unittest.TestCase):
                 path.write_text(content, encoding="utf-8")
                 return path
 
-            home = root / "home"
             bundled = root / "bundled"
             write("bundled/dictionary.txt", "base\n")
             write("bundled/ignore-rules.txt", "BaseRule\n")
-            write("home/.prose-voice/dictionary.txt", "user\n")
-            write("home/.prose-voice/ignore-rules.txt", "UserRule\n")
+            write("xdg/prosevoice/dictionary.txt", "user\n")
+            write("xdg/prosevoice/ignore-rules.txt", "UserRule\n")
             for project in ("one", "two"):
                 subprocess.run(["git", "init", "-q", str(root / project)], check=True)
-                write(f"{project}/.prose-voice/dictionary.txt", f"{project}\n")
-                write(f"{project}/.prose-voice/ignore-rules.txt", f"{project}Rule\n")
+                write(f"{project}/.prosevoice/dictionary.txt", f"{project}\n")
+                write(f"{project}/.prosevoice/ignore-rules.txt", f"{project}Rule\n")
             doc1 = write("one/chapter/doc.md", "alot")
             doc2 = write("two/chapter/doc.md", "alot")
             doc3 = write("one/another/doc.md", "alot")
@@ -121,18 +127,23 @@ class HarperTests(unittest.TestCase):
                 seen.append((path, set(path.read_text().splitlines()), set(rules)))
                 return [lint()]
 
-            args = [str(doc1), str(doc2), str(doc3), "--json", "--dialect", "uk"]
+            env = {"HOME": str(root / "home"), "XDG_CONFIG_HOME": str(root / "xdg"),
+                   "GIT_CEILING_DIRECTORIES": str(root)}
+            args = ["lint", str(doc1), str(doc2), str(doc3), "--dialect", "uk"]
             for path in extras:
                 args += ["--user-dict", str(path)]
             for path in extra_rules:
                 args += ["--user-ignore", str(path)]
-            with patch.object(Path, "home", return_value=home), patch.object(harper, "POLICY", bundled), \
+            def resource(*parts):
+                return bundled / parts[-1]
+
+            with patch.dict(os.environ, env), patch.object(harper, "resource", resource), \
                     patch.object(harper.shutil, "which", return_value="harper"), \
                     patch.object(harper, "harper_version", return_value="harper 1"), \
-                    patch.object(harper, "lint_file", side_effect=run_lint), \
-                    contextlib.redirect_stdout(io.StringIO()) as stdout:
-                self.assertEqual(harper.main(args), 0)
-            report = json.loads(stdout.getvalue())
+                    patch.object(harper, "lint_file", side_effect=run_lint):
+                payload, code = self.run_main(args, root)
+            self.assertEqual(code, 0)
+            report = payload["data"]
             self.assertEqual((report["status"], report["harper_version"], report["dialect"]),
                              ("ran", "harper 1", "uk"))
             self.assertEqual(report["counts"]["fixable"], 2)
@@ -148,26 +159,33 @@ class HarperTests(unittest.TestCase):
                 seen.append(Path(args[3]))
                 raise RuntimeError("bad output")
 
-            with patch.object(Path, "home", return_value=home), patch.object(harper, "POLICY", bundled), \
+            with patch.dict(os.environ, env), patch.object(harper, "resource", resource), \
                     patch.object(harper.shutil, "which", return_value="harper"), \
                     patch.object(harper, "harper_version", return_value="harper 1"), \
-                    patch.object(harper, "lint_file", side_effect=fail), \
-                    contextlib.redirect_stderr(io.StringIO()):
-                self.assertEqual(harper.main([str(doc1)]), 2)
+                    patch.object(harper, "lint_file", side_effect=fail):
+                payload, code = self.run_main(["lint", str(doc1)], root)
+            self.assertEqual((payload["status"], code), ("error", 2))
+            self.assertEqual(payload["diagnostics"][0]["code"], "harper-failed")
             self.assertFalse(seen[0].exists())
 
     def test_missing_harper_and_markdown_only(self):
         with tempfile.TemporaryDirectory() as temporary:
-            doc = Path(temporary) / "doc.md"
+            root = Path(temporary).resolve()
+            doc = root / "doc.md"
             doc.write_text("alot")
-            with patch.object(harper.shutil, "which", return_value=None), \
-                    contextlib.redirect_stdout(io.StringIO()) as stdout:
-                self.assertEqual(harper.main([str(doc), "--json"]), 4)
-                self.assertEqual(json.loads(stdout.getvalue())["status"], "skipped")
+            env = {"HOME": str(root), "XDG_CONFIG_HOME": str(root / "xdg"), "GIT_CEILING_DIRECTORIES": str(root)}
+            with patch.dict(os.environ, env), patch.object(harper.shutil, "which", return_value=None):
+                payload, code = self.run_main(["lint", str(doc)], root)
+            # Legacy exit 4 is now exit 0 with data.status "skipped" and a harper-unavailable diagnostic.
+            self.assertEqual((payload["status"], code), ("ok", 0))
+            self.assertEqual(payload["data"]["status"], "skipped")
+            self.assertEqual([d["code"] for d in payload["diagnostics"]], ["harper-unavailable"])
             invalid = doc.with_suffix(".txt")
             invalid.write_text("alot")
-            with contextlib.redirect_stderr(io.StringIO()):
-                self.assertEqual(harper.main([str(invalid)]), 2)
+            with patch.dict(os.environ, env):
+                payload, code = self.run_main(["lint", str(invalid)], root)
+            self.assertEqual((payload["status"], code), ("error", 2))
+            self.assertEqual(payload["diagnostics"][0]["code"], "not-markdown")
 
 
 if __name__ == "__main__":
