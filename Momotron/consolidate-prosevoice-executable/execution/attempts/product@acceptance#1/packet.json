@@ -1,0 +1,354 @@
+{
+ "schema": "momotron-packet/1",
+ "plan_id": "consolidate-prosevoice-executable",
+ "objective": "Consolidate pv-prosevoice and pv-preflight into one prosevoice skill with shared Python support, strict layered configuration, explicit legacy migration, and validated source and wheel installations.",
+ "definition_digest": "7fa7754b3f688b29d9c47f1c686c75dc393dc62bd961a346dcaec16d57faa3f3",
+ "run": "product",
+ "run_kind": "product",
+ "phase": "product",
+ "attempt": "product:acceptance#1",
+ "node": {
+  "id": "acceptance",
+  "kind": "task",
+  "title": "Independently verify contracts and final source changes",
+  "description": "# Step execution and acceptance\n\nEvery step reads `plan-assets/contract.md` and `plan-assets/migration.md`; perform only the section matching the dispatched step. Keep test fixtures temporary and isolated from real home/XDG, installed tooling and operator projects. Store command logs and a concise evidence report in the dispatched attempt's artifact directory. Commands in plan.yaml are failing acceptance checks, not permission to skip the wider assertions here. A failed requirement must fail the node rather than be documented as complete. Rework is limited to two cycles per task; exhausted failures return to the operator through the runner. Do not resolve gates yourself.\n\n## foundation\n\nCapture source status and implement package skeleton, resource lookup, strict shared config, init and command envelope. Add Hatchling metadata with MIT attribution to James Dixson using the current year if creating license/module attribution. Implement tests/test_prosevoice_config.py and tests/test_prosevoice_package.py. Tests cover every config tier/provenance, XDG fallback/invalid paths, explicit and non-Git roots, relative anchors, duplicate and unknown keys, list replacement per filename without losing other guides, empty/unfilled fallback, optional illustrations, idempotent initialization and custom cache ignores. Package tests initially cover source resource lookup, unrelated cwd and CLI envelope/exit behavior. Keep old source helpers available until their callers are migrated in the next steps. Run the complete current suite after this step, without weakening the 19 existing assertions.\n\n## consolidate\n\nMove runtime responsibilities and editorial resources into the single skill and update all its agent/helper callers to the new CLI. Eliminate READY's sibling import and Harper's private legacy path resolver together. Port the existing three test modules to new imports without weakening behavioral coverage. Add tests/test_prosevoice_runtime.py for the 12 artifact paths in both modes, nested essay directories, full source/visual READY cases, exact premise fingerprints, policy unions/isolation, lint offsets/spelling restrictions/errors and isolated new-skill launcher imports. Add tests/test_prosevoice_rules.py for new-rule target discovery, target deduplication, preview nonmutation, apply idempotence, malformed blocks and unrelated-content preservation. Implement the conservative shared parser needed by migration. A copied tree containing only prosevoice must run READY and policy without old siblings. Preserve all editorial invariants in contract.md; record an instruction-by-instruction mapping of prior responsibilities to their new locations in this step's evidence report.\n\n## migration\n\nImplement the bounded migration helper described in migration.md, using shared runtime functions rather than duplicate config or policy resolution. Add tests/test_prosevoice_migration.py with success fixtures for no-config projects, ordered/external guides, user-only and mixed fallback, cache/adjacent modes, duplicate stems in nested directories, active visual choices/no-image, blank templates, policy/custom ignores and every recognized rule target/remnant. Assert effective guidance/policy and READY outcomes before/after and unchanged original essays/assets/external data/unrelated AGENTS bytes. Include differing destinations, equal reruns, invalid/duplicate config, unknown semantics, malformed/duplicate/nested blocks, symlink escapes, missing installation and unmet user dependencies. Preview and blocked preflight must leave the fixture tree unchanged. Failure injection verifies resume before and after a replacement, before rule activation and with intervening edits; reruns must not produce repeated backups. Ordinary runtime must ignore retained old data entirely. Recovery instructions are part of acceptance; no generic rollback infrastructure is required.\n\n## integration\n\nRemove the two legacy source skill trees and entrypoints only after consolidated tests pass; this is tracked source refactoring, not permission to remove installed tooling. Update root README/AGENTS, consolidated skill README, examples where needed, protocol references, all live instruction/agent command references and installer validation instructions. Keep CLAUDE.md as its include wrapper. Document exact CLI, config schema/provenance/path anchors, installation, migration preview/apply/user dependencies, retained legacy data and recovery. Preserve template headings and generic examples, one line per paragraph and valid GFM. Search only live product source/docs/tests for obsolete runtime references, allowing literals in migration, fixtures and historical records; do not sweep Momotron or operator-installed tooling.\n\nAdd a stdlib PEP 723 developer check script `tests/check_distribution.py`. It builds the wheel with uv/Hatchling into a temporary directory and installs it in an isolated uv environment. From unrelated cwd with isolated home/XDG, exercise console help/version/config, init/template lookup, policy, artifact resolution and READY source/visual outcomes. Assert required SKILL/agent/protocol/policy/template resources are present; unavailable legacy siblings cannot be relied on. Also copy only skills/prosevoice and exercise its thin launcher. Run `npx skills add <absolute-source-repo> -s prosevoice -a claude-code -a pi -y` in a scratch Git repo with isolated HOME/XDG and no inherited harness targets; execute the installed check/resolve/rule preview and apply/READY against filled fixture guides. Check actual installed paths and require only the new skill. Script exits nonzero on failed commands/assertions and preserves diagnostic output; dependency/network failures are reported as unverified, never passes. Keep installer and wheel checks in one focused script rather than a new testing framework.\n\n## acceptance\n\nIndependently review the final diff and evidence against both contracts and investigation. Run unittest discovery and the distribution script once on the final tree. Compare baseline to final status to confirm `.agents/`, `.claude/`, skills-lock.json and frozen bundle history were preserved and the momotron reference remains unchanged. Verify every live editorial responsibility and exact helper behavior is preserved; report any actual behavior difference as a blocker. Confirm no legacy runtime fallback remains, all 12 artifact kinds route correctly, migration fails closed and resumes safely, and docs match implemented parser/config. Record commands/results, important diff findings and residual limits (optional external editorial tools are not certification of their services). Complete the plan when the authorized implementation and verification pass, reporting the outcome and remaining limitations. No additional completion gate is needed. No automatic publication, product commits, installer updates in real home, or migrations of real projects follow it. Plan bookkeeping commits remain authorized by the standing repository instruction.\n",
+  "params": {},
+  "inputs": [],
+  "outputs": [],
+  "outcomes": [],
+  "process": null,
+  "source": {
+   "step": "acceptance"
+  }
+ },
+ "role": {
+  "path": "processes/_roles/reviewer.md",
+  "text": "# Role: reviewer\n\nGeneric review role. The legacy role names `conformance-reviewer` and `red-team-reviewer`\nresolve to this prompt; the node's description says which kind of pass to make.\n\nReview the candidate plan in the bundle named by the packet, independently of whoever drafted\nit. Use only the packet and the bundle files.\n\n- **Conformance pass**: check the candidate against its own contract. Every step has a stable\n  ID, an executor, acceptance checks that can fail and finite rework; dependencies are explicit;\n  criteria trace to steps; no machine path is embedded; references are captured.\n- **Red-team pass**: look for steps that can report success without achieving their\n  objective, missing failure branches, unsafe side effects, irreversible actions without a\n  human gate, and environment assumptions a cold reader on another machine would get wrong.\n\nWrite a review pass to `reviews/` with concerns (id, class, severity, evidence citing file and\nkey, consequence, minimum fix) and a verdict `pass` or `revise`; `revise` only for BLOCKING\nconcerns. Result: `status: succeeded` once the\npass is written; set `outputs.route` to the verdict when the node feeds a gateway.\n\n## Proportionate findings\n\nClassify every concern:\n\n- **BLOCKING**: a credible correctness or safety failure that could invalidate the intended\n  outcome. State the requirement at risk, a reproducible failure (steps or commands), its\n  consequence, the evidence and the minimum fix. Only BLOCKING concerns make the verdict `revise`.\n- **NONBLOCKING**: an improvement; it may stay open on a `pass`.\n- **DEFERRED**: belongs to a named later check (a later task, acceptance review, live trial or\n  human gate); say which and why.\n\nSeverity follows consequence, not novelty. Before proposing more verification, ask whether its\ncost exceeds the risk, whether it duplicates an independent check (tests, a fresh acceptance\nreviewer, a human gate), and whether it mainly hardens machinery an earlier review introduced;\nprefer direct behavioral checks and simplification. Evidence-format edge cases, speculative\nforged evidence and stylistic refinements are not BLOCKING unless ordinary execution is shown\nto accept an incorrect result. Do not expand scope from one review to the next. After a\nsimplification, one fresh review decides: if it cannot pass, the operator chooses the tradeoff\ninstead of another automatic cycle. None of this permits accepting a real safety failure.\n"
+ },
+ "bundle": "/Users/james/workspace/dixson3/blog-voice/Momotron/consolidate-prosevoice-executable",
+ "process_dir": null,
+ "dependency_outputs": {
+  "foundation": {
+   "state": "succeeded",
+   "outputs": {
+    "baseline_tests": "19 tests OK",
+    "checks": {
+     "Config and source package contracts": "50 tests OK, exit 0",
+     "Existing behavior remains covered": "69 tests OK, exit 0"
+    },
+    "commands_deferred": [
+     "check",
+     "rule",
+     "policy",
+     "lint",
+     "extract",
+     "premise",
+     "ready",
+     "migrate"
+    ],
+    "commands_implemented": [
+     "version",
+     "config",
+     "init",
+     "resolve",
+     "artifacts"
+    ],
+    "committed": false,
+    "files_added": [
+     "pyproject.toml",
+     "uv.lock",
+     "skills/prosevoice/scripts/prosevoice.py",
+     "skills/prosevoice/scripts/prosevoice_lib/__init__.py",
+     "skills/prosevoice/scripts/prosevoice_lib/cli.py",
+     "skills/prosevoice/scripts/prosevoice_lib/config.py",
+     "skills/prosevoice/scripts/prosevoice_lib/errors.py",
+     "skills/prosevoice/templates/VOICE.md",
+     "skills/prosevoice/templates/AUDIENCE.md",
+     "skills/prosevoice/templates/ILLUSTRATIONS.md",
+     "tests/_prosevoice_path.py",
+     "tests/test_prosevoice_config.py",
+     "tests/test_prosevoice_package.py"
+    ],
+    "legacy_sources_unchanged": true,
+    "preserved_untracked": [
+     ".agents/",
+     ".claude/",
+     "skills-lock.json"
+    ]
+   },
+   "summary": "Added skills/prosevoice with a thin PEP 723 launcher and the prosevoice_lib package (cwd-independent resource lookup that prefers packaged _skill/; strict layered config builtin<user<project<CLI with per-leaf provenance, XDG/home user dir, explicit/Git/cwd project selection, tier-relative anchors, per-filename guidance replacement; guide resolution; 12-kind cache/adjacent artifact paths; idempotent init and cache-ignore merge; JSON envelope with exit 0/1/2) exposing version, config, init, resolve and artifacts. Added a Hatchling pyproject (MIT, James Dixson, console entry prosevoice_lib.cli:main), seed templates, tests/test_prosevoice_config.py and tests/test_prosevoice_package.py. Both checks pass: prosevoice tests 50 OK, full suite 69 OK (the 19 original tests unmodified). Ruff is clean and the wheel builds. Legacy helpers and existing tests are byte-unchanged. Remaining commands (check, rule, policy, lint, extract, premise, ready, migrate) are deferred to later steps.",
+   "artifacts": [
+    "artifacts/evidence.md",
+    "artifacts/baseline-status.txt",
+    "artifacts/baseline-tests.log",
+    "artifacts/check-config-package.log",
+    "artifacts/check-full-suite.log",
+    "artifacts/wheel-build.log",
+    "artifacts/final-status.txt"
+   ],
+   "artifact_dir": "/Users/james/workspace/dixson3/blog-voice/Momotron/consolidate-prosevoice-executable/execution/attempts/product@foundation#1/artifacts"
+  },
+  "consolidate": {
+   "state": "succeeded",
+   "outputs": {
+    "checks": {
+     "Consolidated runtime and rule regression": "110 tests OK, exit 0"
+    },
+    "commands_deferred": [
+     "migrate"
+    ],
+    "commands_implemented": [
+     "version",
+     "config",
+     "init",
+     "check",
+     "resolve",
+     "artifacts",
+     "rule",
+     "policy",
+     "lint",
+     "extract",
+     "premise",
+     "ready"
+    ],
+    "committed": false,
+    "interface_differences": [
+     "READY blocked exit 3 -> 1; Harper unavailable exit 4 -> 0 with data.status skipped and harper-unavailable diagnostic",
+     "all helper output wrapped in the JSON envelope; results under data",
+     "--cwd replaced by --project; essay operations default to each essay's own Git root",
+     "build_user_dict --global/--ignore renamed --bundled-dictionary/--bundled-ignore",
+     "rule no longer strips legacy blog-voice/pv-protocol blocks (migration-only)"
+    ],
+    "legacy_sources_unchanged": true,
+    "remaining_for_later_steps": [
+     "migrate command",
+     "legacy tree removal and doc updates",
+     "tests/check_distribution.py"
+    ],
+    "ruff": "All checks passed",
+    "wheel_resources": "SKILL.md, PROSEVOICE-PROTOCOL.md, agents (12), harper (2), templates (3)"
+   },
+   "summary": "Moved all runtime responsibilities and editorial resources into skills/prosevoice. New prosevoice_lib modules: essay.py (extract, premise, READY via the shared config; sibling import removed), policy.py (additive Harper policy and lint wrapper; private legacy resolver removed) and rules.py (check, PROSEVOICE-PROTOCOL.md targets with OpenCode/path dedup, conservative parameterized managed-block parser shared with migration, preview-by-default rule that refuses all writes on malformed blocks). The CLI now exposes check, rule, policy, lint, extract, premise and ready under the 0/1/2 envelope. Essay operations without --project use each essay's own Git root, which preserves per-project policy isolation. SKILL.md and the 12 agents were copied and their callers rewritten to the pv CLI; the editorial text is otherwise unchanged. pyproject ships SKILL, agents, protocol, Harper policy and templates. The three legacy test modules were ported with all 19 tests and their assertions intact; tests/test_prosevoice_runtime.py (23 tests) and tests/test_prosevoice_rules.py (18 tests) were added. 110 tests OK, ruff clean, wheel builds with all resources. Legacy skill trees are byte-unchanged, pending removal in the integration step.",
+   "artifacts": [
+    "artifacts/evidence.md",
+    "artifacts/check-unittest.log",
+    "artifacts/ruff.log",
+    "artifacts/wheel-build.log",
+    "artifacts/wheel-contents.txt",
+    "artifacts/agents-diff.txt",
+    "artifacts/skill-diff.txt",
+    "artifacts/final-status.txt"
+   ],
+   "artifact_dir": "/Users/james/workspace/dixson3/blog-voice/Momotron/consolidate-prosevoice-executable/execution/attempts/product@consolidate#1/artifacts"
+  },
+  "migration": {
+   "state": "succeeded",
+   "outputs": {
+    "checks": {
+     "Full runtime regression": "142 tests OK, exit 0",
+     "Migration preservation, conflicts and interrupted apply": "32 tests OK, exit 0"
+    },
+    "commands_implemented": [
+     "version",
+     "config",
+     "init",
+     "check",
+     "resolve",
+     "artifacts",
+     "rule",
+     "policy",
+     "lint",
+     "extract",
+     "premise",
+     "ready",
+     "migrate"
+    ],
+    "committed": false,
+    "files_added": [
+     "skills/prosevoice/scripts/prosevoice_lib/migration.py",
+     "tests/test_prosevoice_migration.py",
+     "tests/fixtures/legacy_rules/PV-PROTOCOL.v1.md",
+     "tests/fixtures/legacy_rules/PV-PROTOCOL.v2.md",
+     "tests/fixtures/legacy_rules/PV-PROTOCOL.v3.md",
+     "tests/fixtures/legacy_rules/PV-PROTOCOL.v4.md",
+     "tests/fixtures/legacy_rules/BLOG_VOICE.md"
+    ],
+    "files_modified": [
+     "skills/prosevoice/scripts/prosevoice_lib/cli.py",
+     "skills/prosevoice/scripts/prosevoice_lib/config.py",
+     "skills/prosevoice/scripts/prosevoice_lib/policy.py",
+     "skills/prosevoice/scripts/prosevoice_lib/essay.py",
+     "tests/test_prosevoice_runtime.py"
+    ],
+    "interpretations_for_review": [
+     "An active anchor with no decision anywhere does not block migration; its already-blocked READY outcome is preserved and reported. Unmappable decisions do block.",
+     "Manifests in .prosevoice/migrations/ are not git-ignored by migration; integration docs should state the policy.",
+     "Legacy rule recognition is limited to the five released protocol texts; anything else blocks for manual review."
+    ],
+    "legacy_sources_unchanged": true,
+    "remaining_for_later_steps": [
+     "legacy tree removal and doc updates (integration)",
+     "tests/check_distribution.py (integration)"
+    ],
+    "ruff": "All checks passed"
+   },
+   "summary": "Implemented `prosevoice migrate` (skills/prosevoice/scripts/prosevoice_lib/migration.py), bounded to the contract in migration.md. Project/user scopes; preview by default, with no writes on preview or blocked preflight. Strict legacy config validation and translation to schema_version 1. Byte-exact copies of guides and policy. Cache sidecars are copied with link rebasing, and nested duplicate stems are handled. Known-hash recognition of PV-PROTOCOL.md/BLOG_VOICE.md files and pv-protocol/blog-voice blocks at every supported target, using the shared conservative block parser and requiring a prosevoice installation. Equivalence of guidance, policy union, artifact mode and READY visuals is verified through the shared resolver before rules are activated last. A manifest with before/after hashes, staged bytes and backups supports resume, and conflict detection names the file and manifest. Recovery instructions are returned in the report. Small shared-layer refactors (build_config, state_of, text parsers, image_outcome) avoid duplicate resolution logic. Added tests/test_prosevoice_migration.py (32 tests) and legacy rule fixtures. Migration checks: 32 OK; full suite: 142 OK; ruff clean; wheel builds. Legacy skill trees unchanged; nothing committed.",
+   "artifacts": [
+    "artifacts/evidence.md",
+    "artifacts/baseline-status.txt",
+    "artifacts/baseline-tests.log",
+    "artifacts/check-migration.log",
+    "artifacts/check-full-suite.log",
+    "artifacts/ruff.log",
+    "artifacts/wheel-build.log",
+    "artifacts/final-status.txt"
+   ],
+   "artifact_dir": "/Users/james/workspace/dixson3/blog-voice/Momotron/consolidate-prosevoice-executable/execution/attempts/product@migration#1/artifacts"
+  },
+  "integration": {
+   "state": "succeeded",
+   "outputs": {
+    "checks": {
+     "Final source regression": "143 tests OK, exit 0",
+     "Isolated skill install, copied launcher and installed wheel": "273 assertions passed, 0 failed, 0 unverified, exit 0 (rerun after Pyright correction)"
+    },
+    "committed": false,
+    "corrections": [
+     "check_distribution.py Helper.__call__: explicit raise after CHECK.ok(False) in JSONDecodeError branch (Pyright possibly-unbound payload)"
+    ],
+    "files_added": [
+     "tests/check_distribution.py"
+    ],
+    "files_modified": [
+     "tests/test_prosevoice_runtime.py",
+     "skills/prosevoice/scripts/prosevoice_lib/essay.py",
+     "skills/prosevoice/SKILL.md",
+     "README.md"
+    ],
+    "legacy_sources_removed": true,
+    "preserved_untracked": [
+     ".agents/",
+     ".claude/",
+     "skills-lock.json"
+    ],
+    "pyright": "tests/check_distribution.py: 0 errors, 0 warnings",
+    "residual_limits": [
+     "installer check uses the local source path, project scope, claude-code and pi only",
+     "real harper-cli lint is not exercised by the distribution check",
+     "uv/npm caches shared with the developer caches (no skill or harness state)"
+    ],
+    "retained_from_prior_attempts": [
+     "legacy skill tree removal",
+     "README.md/AGENTS.md rewrite",
+     "READY data.limitations field"
+    ],
+    "ruff": "All checks passed"
+   },
+   "summary": "Completed integration. The legacy skill trees stay removed (consolidated tests pass). The retained README/AGENTS/skill docs were verified against the implemented CLI/config/rules/migration, and READY data.limitations was documented. tests/check_distribution.py (stdlib PEP 723) was added. It covers three surfaces with isolated HOME/XDG: (1) wheel built with uv/Hatchling and installed in an isolated uv venv, with resources and console exercised from an unrelated cwd; (2) the copied skills/prosevoice-only launcher; (3) npx skills add <abs repo> -s prosevoice -a claude-code -a pi -y in a scratch Git repo, checking installed paths, byte-identical tree, the SKILL_DIR block, check/resolve/rule preview+apply (idempotent, AGENTS bytes preserved) and READY source/visual outcomes. Exit codes: 1 = failure, 2 = unverified. Added a READY limitations unit test and fixed ruff findings. Final checks: unittest 143 OK; distribution check 273 assertions, 0 failed, 0 unverified, exit 0; ruff clean; a mutation control confirms the checker fails. Nothing committed; .agents/.claude/skills-lock.json and Momotron history untouched. Second turn: added an explicit unreachable raise after CHECK.ok(False, ...) in check_distribution.py's JSON-decode branch so Pyright no longer reports payload possibly unbound. Behavior is unchanged. Pyright reports 0 errors, ruff is clean, and a rerun of the distribution check gives 273 assertions, 0 failed, 0 unverified, exit 0.",
+   "artifacts": [
+    "artifacts/check-distribution.log",
+    "artifacts/check-unittest.log",
+    "artifacts/checker-mutation.log",
+    "artifacts/evidence.md",
+    "artifacts/final-diffstat.txt",
+    "artifacts/final-status.txt",
+    "artifacts/legacy-reference-sweep.txt",
+    "artifacts/pyright.log",
+    "artifacts/ruff.log"
+   ],
+   "artifact_dir": "/Users/james/workspace/dixson3/blog-voice/Momotron/consolidate-prosevoice-executable/execution/attempts/product@integration#4/artifacts"
+  }
+ },
+ "working_dir": "/Users/james/workspace/dixson3/blog-voice",
+ "checks": [
+  {
+   "argv": [
+    "uv",
+    "run",
+    "python",
+    "-m",
+    "unittest",
+    "discover",
+    "-s",
+    "tests"
+   ],
+   "name": "Acceptance regression"
+  },
+  {
+   "argv": [
+    "uv",
+    "run",
+    "tests/check_distribution.py"
+   ],
+   "timeout": 900,
+   "name": "Acceptance distributions"
+  }
+ ],
+ "allowed_operations": [
+  "read-bundle",
+  "write-artifacts",
+  "edit-working-dir"
+ ],
+ "session": null,
+ "independent": true,
+ "result_path": "/Users/james/workspace/dixson3/blog-voice/Momotron/consolidate-prosevoice-executable/execution/attempts/product@acceptance#1/result.json",
+ "artifact_dir": "/Users/james/workspace/dixson3/blog-voice/Momotron/consolidate-prosevoice-executable/execution/attempts/product@acceptance#1/artifacts",
+ "result_schema": {
+  "type": "object",
+  "required": [
+   "status"
+  ],
+  "additionalProperties": false,
+  "properties": {
+   "status": {
+    "enum": [
+     "succeeded",
+     "failed"
+    ]
+   },
+   "summary": {
+    "type": "string"
+   },
+   "outputs": {
+    "type": "object"
+   },
+   "artifacts": {
+    "type": "array",
+    "items": {
+     "type": "string"
+    }
+   }
+  }
+ },
+ "instructions": "Do only this node. Write the result JSON to result_path; put files in artifact_dir. Write permissions are exactly those in write_scope (allowed destinations; protected paths stay read-only), and never resolve a human gate.",
+ "bindings": {
+  "momotron": "/Users/james/workspace/dixson3/momotron",
+  "repo": "/Users/james/workspace/dixson3/blog-voice"
+ },
+ "write_scope": {
+  "allowed": [
+   {
+    "path": "/Users/james/workspace/dixson3/blog-voice/Momotron/consolidate-prosevoice-executable/execution/attempts/product@acceptance#1/result.json",
+    "what": "result JSON (this attempt)"
+   },
+   {
+    "path": "/Users/james/workspace/dixson3/blog-voice/Momotron/consolidate-prosevoice-executable/execution/attempts/product@acceptance#1/artifacts/",
+    "what": "files you produce (this attempt)"
+   },
+   {
+    "path": "/Users/james/workspace/dixson3/blog-voice/",
+    "what": "working directory (task changes)"
+   }
+  ],
+  "protected": [
+   "/Users/james/workspace/dixson3/blog-voice/Momotron/consolidate-prosevoice-executable/plan.yaml",
+   "/Users/james/workspace/dixson3/blog-voice/Momotron/consolidate-prosevoice-executable/plan-assets/",
+   "/Users/james/workspace/dixson3/blog-voice/Momotron/consolidate-prosevoice-executable/processes/",
+   "/Users/james/workspace/dixson3/blog-voice/Momotron/consolidate-prosevoice-executable/planning/",
+   "/Users/james/workspace/dixson3/blog-voice/Momotron/consolidate-prosevoice-executable/execution/state.json",
+   "/Users/james/workspace/dixson3/blog-voice/Momotron/consolidate-prosevoice-executable/execution/blobs/",
+   "/Users/james/workspace/dixson3/blog-voice/Momotron/consolidate-prosevoice-executable/execution/attempts/ (every other attempt, and this attempt's packet.json)"
+  ]
+ },
+ "permissions": "You may write only these destinations:\n- /Users/james/workspace/dixson3/blog-voice/Momotron/consolidate-prosevoice-executable/execution/attempts/product@acceptance#1/result.json \u2014 result JSON (this attempt)\n- /Users/james/workspace/dixson3/blog-voice/Momotron/consolidate-prosevoice-executable/execution/attempts/product@acceptance#1/artifacts/ \u2014 files you produce (this attempt)\n- /Users/james/workspace/dixson3/blog-voice/ \u2014 working directory (task changes)\nThese are the only paths under execution/ you may write. Everything below stays read-only, even where it lies inside an allowed directory:\n- /Users/james/workspace/dixson3/blog-voice/Momotron/consolidate-prosevoice-executable/plan.yaml\n- /Users/james/workspace/dixson3/blog-voice/Momotron/consolidate-prosevoice-executable/plan-assets/\n- /Users/james/workspace/dixson3/blog-voice/Momotron/consolidate-prosevoice-executable/processes/\n- /Users/james/workspace/dixson3/blog-voice/Momotron/consolidate-prosevoice-executable/planning/\n- /Users/james/workspace/dixson3/blog-voice/Momotron/consolidate-prosevoice-executable/execution/state.json\n- /Users/james/workspace/dixson3/blog-voice/Momotron/consolidate-prosevoice-executable/execution/blobs/\n- /Users/james/workspace/dixson3/blog-voice/Momotron/consolidate-prosevoice-executable/execution/attempts/ (every other attempt, and this attempt's packet.json)\nNever resolve a human gate or invent operator evidence."
+}

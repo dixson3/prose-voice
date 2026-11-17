@@ -1,4 +1,6 @@
  AGENTS.md                                          |  25 +-
+ .../artifacts/final-diffstat.txt                   |  34 ---
+ .../artifacts/final-status.txt                     |   4 +-
  README.md                                          | 247 +++++++++++-----
  skills/pv-preflight/PV-PROTOCOL.md                 |   3 -
  skills/pv-preflight/SKILL.md                       | 110 -------
@@ -31,4 +33,4 @@
  tests/test_harper_lint.py                          |  80 ++++--
  tests/test_harper_policy.py                        |  63 ++--
  tests/test_narrative_scope.py                      | 141 ++++-----
- 33 files changed, 351 insertions(+), 2633 deletions(-)
+ 35 files changed, 354 insertions(+), 2668 deletions(-)

@@ -1,4 +1,5 @@
  M AGENTS.md
+ M Momotron/consolidate-prosevoice-executable/execution/attempts/product@integration#4/artifacts/final-status.txt
  M README.md
  D skills/pv-preflight/PV-PROTOCOL.md
  D skills/pv-preflight/SKILL.md
@@ -33,7 +34,8 @@
  M tests/test_narrative_scope.py
 ?? .agents/
 ?? .claude/
-?? Momotron/consolidate-prosevoice-executable/execution/attempts/product@integration#4/artifacts/
+?? Momotron/consolidate-prosevoice-executable/execution/attempts/product@integration#4/artifacts/evidence.md
+?? Momotron/consolidate-prosevoice-executable/execution/attempts/product@integration#4/result.json
 ?? Momotron/consolidate-prosevoice/execution/.publish.lock
 ?? Momotron/consolidate-prosevoice/execution/attempts/planning-1@planning~investigate~investigate#1/artifacts/fixtures/
 ?? pyproject.toml

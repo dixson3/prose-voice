@@ -13,6 +13,97 @@
   }
  ],
  "attempts": {
+  "product:acceptance#1": {
+   "adapter": "acpx",
+   "claimant": "run:acpx",
+   "claimed_at": "2026-11-17T00:10:57.045269Z",
+   "decision": null,
+   "id": "product:acceptance#1",
+   "n": 1,
+   "node": "acceptance",
+   "packet": "execution/blobs/packets/b72eb6683286e66259f1d0db496b607d882d2af98c33ce92bab7a79a09f740e5.json",
+   "receipt": {
+    "acpx_version": "0.22.0",
+    "adapter": "acpx",
+    "agent": "claude",
+    "cwd": "/Users/james/workspace/dixson3/blog-voice",
+    "deadline": 1794877863.824665,
+    "effective": {
+     "agent": "claude",
+     "config": {},
+     "config_source": "project",
+     "model": "opus",
+     "permission": "approve-all",
+     "session_policy": "fresh-per-attempt",
+     "timeout": 3600
+    },
+    "identity": {
+     "attempt": "product:acceptance#1",
+     "bundle_uid": "caa4bb0e2178465197995adceda728b2",
+     "generation": 1,
+     "group": "attempt:product:acceptance#1",
+     "host": "d3-mbp-m5.local",
+     "location": "/Users/james/workspace/dixson3/blog-voice/Momotron/consolidate-prosevoice-executable",
+     "node": "acceptance",
+     "plan_id": "consolidate-prosevoice-executable",
+     "policy": "fresh-per-attempt",
+     "role": "processes/_roles/reviewer.md",
+     "run": "product",
+     "schema": "momotron-session-identity/1",
+     "session_name": "momo-consolidate-prosevoi-acceptance-9d79e2f9ed19a7441964",
+     "session_plan": {
+      "action": "fresh",
+      "generation": 1,
+      "key": null,
+      "problem": null,
+      "reason": "fresh-per-attempt"
+     }
+    },
+    "launched_at": "2026-11-17T00:11:03.824614Z",
+    "log": "execution/attempts/product@acceptance#1/adapter.log",
+    "native": {
+     "acp_session_id": "58845e86-ba7b-412c-b309-04fd3d763b40",
+     "acpx_record_id": "e0089bd7-7b02-4295-8bdd-b305d4ce7d3b",
+     "agent_session_id": null,
+     "available": true,
+     "available_model_count": 14,
+     "closed": false,
+     "config_option_ids": [
+      "effort",
+      "fast",
+      "mode",
+      "model",
+      "ultracode"
+     ],
+     "current_model_id": "opus",
+     "model_control": "config_option",
+     "usage_tokens": null
+    },
+    "phase": "launched",
+    "pid": 7851,
+    "process": {
+     "pgid": 7851,
+     "started": "Mon Nov 16 16:11:03 2026"
+    },
+    "recorded_at": "2026-11-17T00:10:57.316347Z",
+    "selection": {
+     "acknowledged": true,
+     "effective_model": "opus",
+     "options": {
+      "model": {
+       "acknowledged": true,
+       "effective": "opus",
+       "requested": "opus"
+      }
+     },
+     "requested_model": "opus"
+    },
+    "session": "momo-consolidate-prosevoi-acceptance-9d79e2f9ed19a7441964"
+   },
+   "result": null,
+   "run": "product",
+   "state": "running"
+  },
   "product:consolidate#1": {
    "adapter": "acpx",
    "claimant": "run:acpx",
@@ -558,7 +649,24 @@
    "adapter": "acpx",
    "claimant": "run:acpx",
    "claimed_at": "2026-11-17T00:00:56.581436Z",
-   "decision": null,
+   "decision": {
+    "at": "2026-11-17T00:10:56.721239Z",
+    "controller": "agent-controller",
+    "decision": "accept",
+    "effect": "succeeded",
+    "evidence": [
+     "Check 'Final source regression': argv ['uv','run','python','-m','unittest','discover','-s','tests'] in /Users/james/workspace/dixson3/blog-voice. Exit 0, 'Ran 143 tests ... OK' (controller rerun; log /tmp/ctrl-int4-unittest.log). Matches the worker's artifacts/check-unittest.log.",
+     "Check 'Isolated skill install, copied launcher and installed wheel': argv ['uv','run','tests/check_distribution.py'] in /Users/james/workspace/dixson3/blog-voice, run under a 900s alarm. Exit 0, 'assertions passed: 273; surfaces failed: 0; unverified: 0 / all distribution checks passed'. The wheel, copy and install surfaces all passed (controller rerun; log /tmp/ctrl-int4-dist.log). Matches the worker's artifacts/check-distribution.log.",
+     "git status --porcelain was identical before and after the distribution check, so the check did not mutate the repository.",
+     "skills/ contains only prosevoice. The pv-prosevoice and pv-preflight sources are deleted in the working tree. CLAUDE.md content is '@AGENTS.md'.",
+     ".agents/, .claude/ and skills-lock.json remain untracked and present. The worker reports nothing was committed.",
+     "A grep of README.md, AGENTS.md and skills/prosevoice/*.md for legacy names found only the migration section, the retired-identity rule and the old-script-to-command mapping, which the integration spec allows.",
+     "The worker artifacts include evidence.md (doc-vs-implementation review, legacy sweep, residual limits), ruff.log (clean), pyright.log (0 errors), and checker-mutation.log, a negative control in which the checker exits 1 when KINDS is mutated.",
+     "Residual limits, not blockers: the installer check uses the local source path at project scope for claude-code and pi only; real harper-cli lint is not exercised; uv/npm caches are shared with the developer's caches."
+    ],
+    "reason": "Worker result status is 'succeeded' and both acceptance checks declared in the worker packet passed when the controller reran them on the final tree in working_dir /Users/james/workspace/dixson3/blog-voice (the controller packet carried no executed check results). The legacy skill trees are removed, only skills/prosevoice remains, CLAUDE.md is still the @AGENTS.md wrapper, the untracked .agents/, .claude/ and skills-lock.json are preserved, and the checks left git status unchanged. The remaining legacy-name references are migration documentation and history, which the node allows.",
+    "revision": 320
+   },
    "id": "product:integration#4",
    "n": 4,
    "node": "integration",
@@ -641,9 +749,9 @@
     },
     "session": "momo-consolidate-prosevoi-integration-92e2da4a48fa10ad3672"
    },
-   "result": null,
+   "result": "execution/blobs/results/6848af80f5145dff80f9528b5c6517aa343d6f39d9ed2bbc7d3f9c257ece88ca.json",
    "run": "product",
-   "state": "running"
+   "state": "decided"
   },
   "product:migration#1": {
    "adapter": "acpx",
@@ -1003,6 +1111,24 @@
    ],
    "reason": "The worker never ran the integration step. Its result is status=failed with reason model-unadvertised: the adapter rejected model 'claude-opus-5-5' because the agent does not advertise it, and it has no fallback. The required check 'Isolated skill install, copied launcher and installed wheel' fails because tests/check_distribution.py does not exist, so the distribution validation this node owns was not delivered. The failure comes from the adapter/model configuration and is not a fixable product defect. Retrying with the same configuration would fail the same way. This is attempt #3 and the node allows two rework cycles. The operator has to correct the executor/model configuration, or re-dispatch with a supported model, before this node can proceed.",
    "revision": 290
+  },
+  "product:integration#4": {
+   "at": "2026-11-17T00:10:56.721239Z",
+   "controller": "agent-controller",
+   "decision": "accept",
+   "effect": "succeeded",
+   "evidence": [
+    "Check 'Final source regression': argv ['uv','run','python','-m','unittest','discover','-s','tests'] in /Users/james/workspace/dixson3/blog-voice. Exit 0, 'Ran 143 tests ... OK' (controller rerun; log /tmp/ctrl-int4-unittest.log). Matches the worker's artifacts/check-unittest.log.",
+    "Check 'Isolated skill install, copied launcher and installed wheel': argv ['uv','run','tests/check_distribution.py'] in /Users/james/workspace/dixson3/blog-voice, run under a 900s alarm. Exit 0, 'assertions passed: 273; surfaces failed: 0; unverified: 0 / all distribution checks passed'. The wheel, copy and install surfaces all passed (controller rerun; log /tmp/ctrl-int4-dist.log). Matches the worker's artifacts/check-distribution.log.",
+    "git status --porcelain was identical before and after the distribution check, so the check did not mutate the repository.",
+    "skills/ contains only prosevoice. The pv-prosevoice and pv-preflight sources are deleted in the working tree. CLAUDE.md content is '@AGENTS.md'.",
+    ".agents/, .claude/ and skills-lock.json remain untracked and present. The worker reports nothing was committed.",
+    "A grep of README.md, AGENTS.md and skills/prosevoice/*.md for legacy names found only the migration section, the retired-identity rule and the old-script-to-command mapping, which the integration spec allows.",
+    "The worker artifacts include evidence.md (doc-vs-implementation review, legacy sweep, residual limits), ruff.log (clean), pyright.log (0 errors), and checker-mutation.log, a negative control in which the checker exits 1 when KINDS is mutated.",
+    "Residual limits, not blockers: the installer check uses the local source path at project scope for claude-code and pi only; real harper-cli lint is not exercised; uv/npm caches are shared with the developer's caches."
+   ],
+   "reason": "Worker result status is 'succeeded' and both acceptance checks declared in the worker packet passed when the controller reran them on the final tree in working_dir /Users/james/workspace/dixson3/blog-voice (the controller packet carried no executed check results). The legacy skill trees are removed, only skills/prosevoice remains, CLAUDE.md is still the @AGENTS.md wrapper, the untracked .agents/, .claude/ and skills-lock.json are preserved, and the checks left git status unchanged. The remaining legacy-name references are migration documentation and history, which the node allows.",
+   "revision": 320
   },
   "product:migration#1": {
    "at": "2026-11-16T23:38:25.814273Z",
@@ -2546,6 +2672,21 @@
    "at": "2026-11-17T00:06:59.752607Z",
    "event": "resume reconciliation",
    "revision": 318
+  },
+  {
+   "at": "2026-11-17T00:09:56.201213Z",
+   "event": "resume reconciliation",
+   "revision": 319
+  },
+  {
+   "at": "2026-11-17T00:10:56.721335Z",
+   "event": "decision for product:integration#4",
+   "revision": 320
+  },
+  {
+   "at": "2026-11-17T00:10:57.096298Z",
+   "event": "claim",
+   "revision": 321
   }
  ],
  "identity": {
@@ -2608,7 +2749,7 @@
    "verified": null
   }
  },
- "revision": 318,
+ "revision": 324,
  "runs": {
   "product": {
    "created_at": "2026-11-16T22:44:19.682979Z",
@@ -2617,9 +2758,11 @@
    "kind": "product",
    "nodes": {
     "acceptance": {
-     "attempts": [],
+     "attempts": [
+      "product:acceptance#1"
+     ],
      "cycles": 0,
-     "state": "pending"
+     "state": "running"
     },
     "consolidate": {
      "attempts": [
@@ -2643,7 +2786,7 @@
       "product:integration#4"
      ],
      "cycles": 0,
-     "state": "running"
+     "state": "succeeded"
     },
     "migration": {
      "attempts": [

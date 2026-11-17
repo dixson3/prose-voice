@@ -1,0 +1,14 @@
+{
+ "decision": "accept",
+ "reason": "Worker result status is 'succeeded' and both acceptance checks declared in the worker packet passed when the controller reran them on the final tree in working_dir /Users/james/workspace/dixson3/blog-voice (the controller packet carried no executed check results). The legacy skill trees are removed, only skills/prosevoice remains, CLAUDE.md is still the @AGENTS.md wrapper, the untracked .agents/, .claude/ and skills-lock.json are preserved, and the checks left git status unchanged. The remaining legacy-name references are migration documentation and history, which the node allows.",
+ "evidence": [
+  "Check 'Final source regression': argv ['uv','run','python','-m','unittest','discover','-s','tests'] in /Users/james/workspace/dixson3/blog-voice. Exit 0, 'Ran 143 tests ... OK' (controller rerun; log /tmp/ctrl-int4-unittest.log). Matches the worker's artifacts/check-unittest.log.",
+  "Check 'Isolated skill install, copied launcher and installed wheel': argv ['uv','run','tests/check_distribution.py'] in /Users/james/workspace/dixson3/blog-voice, run under a 900s alarm. Exit 0, 'assertions passed: 273; surfaces failed: 0; unverified: 0 / all distribution checks passed'. The wheel, copy and install surfaces all passed (controller rerun; log /tmp/ctrl-int4-dist.log). Matches the worker's artifacts/check-distribution.log.",
+  "git status --porcelain was identical before and after the distribution check, so the check did not mutate the repository.",
+  "skills/ contains only prosevoice. The pv-prosevoice and pv-preflight sources are deleted in the working tree. CLAUDE.md content is '@AGENTS.md'.",
+  ".agents/, .claude/ and skills-lock.json remain untracked and present. The worker reports nothing was committed.",
+  "A grep of README.md, AGENTS.md and skills/prosevoice/*.md for legacy names found only the migration section, the retired-identity rule and the old-script-to-command mapping, which the integration spec allows.",
+  "The worker artifacts include evidence.md (doc-vs-implementation review, legacy sweep, residual limits), ruff.log (clean), pyright.log (0 errors), and checker-mutation.log, a negative control in which the checker exits 1 when KINDS is mutated.",
+  "Residual limits, not blockers: the installer check uses the local source path at project scope for claude-code and pi only; real harper-cli lint is not exercised; uv/npm caches are shared with the developer's caches."
+ ]
+}

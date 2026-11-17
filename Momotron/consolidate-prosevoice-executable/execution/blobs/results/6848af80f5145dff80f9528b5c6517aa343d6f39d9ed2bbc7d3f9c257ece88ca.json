@@ -1,0 +1,52 @@
+{
+ "artifacts": [
+  "artifacts/check-distribution.log",
+  "artifacts/check-unittest.log",
+  "artifacts/checker-mutation.log",
+  "artifacts/evidence.md",
+  "artifacts/final-diffstat.txt",
+  "artifacts/final-status.txt",
+  "artifacts/legacy-reference-sweep.txt",
+  "artifacts/pyright.log",
+  "artifacts/ruff.log"
+ ],
+ "outputs": {
+  "checks": {
+   "Final source regression": "143 tests OK, exit 0",
+   "Isolated skill install, copied launcher and installed wheel": "273 assertions passed, 0 failed, 0 unverified, exit 0 (rerun after Pyright correction)"
+  },
+  "committed": false,
+  "corrections": [
+   "check_distribution.py Helper.__call__: explicit raise after CHECK.ok(False) in JSONDecodeError branch (Pyright possibly-unbound payload)"
+  ],
+  "files_added": [
+   "tests/check_distribution.py"
+  ],
+  "files_modified": [
+   "tests/test_prosevoice_runtime.py",
+   "skills/prosevoice/scripts/prosevoice_lib/essay.py",
+   "skills/prosevoice/SKILL.md",
+   "README.md"
+  ],
+  "legacy_sources_removed": true,
+  "preserved_untracked": [
+   ".agents/",
+   ".claude/",
+   "skills-lock.json"
+  ],
+  "pyright": "tests/check_distribution.py: 0 errors, 0 warnings",
+  "residual_limits": [
+   "installer check uses the local source path, project scope, claude-code and pi only",
+   "real harper-cli lint is not exercised by the distribution check",
+   "uv/npm caches shared with the developer caches (no skill or harness state)"
+  ],
+  "retained_from_prior_attempts": [
+   "legacy skill tree removal",
+   "README.md/AGENTS.md rewrite",
+   "READY data.limitations field"
+  ],
+  "ruff": "All checks passed"
+ },
+ "status": "succeeded",
+ "summary": "Completed integration. The legacy skill trees stay removed (consolidated tests pass). The retained README/AGENTS/skill docs were verified against the implemented CLI/config/rules/migration, and READY data.limitations was documented. tests/check_distribution.py (stdlib PEP 723) was added. It covers three surfaces with isolated HOME/XDG: (1) wheel built with uv/Hatchling and installed in an isolated uv venv, with resources and console exercised from an unrelated cwd; (2) the copied skills/prosevoice-only launcher; (3) npx skills add <abs repo> -s prosevoice -a claude-code -a pi -y in a scratch Git repo, checking installed paths, byte-identical tree, the SKILL_DIR block, check/resolve/rule preview+apply (idempotent, AGENTS bytes preserved) and READY source/visual outcomes. Exit codes: 1 = failure, 2 = unverified. Added a READY limitations unit test and fixed ruff findings. Final checks: unittest 143 OK; distribution check 273 assertions, 0 failed, 0 unverified, exit 0; ruff clean; a mutation control confirms the checker fails. Nothing committed; .agents/.claude/skills-lock.json and Momotron history untouched. Second turn: added an explicit unreachable raise after CHECK.ok(False, ...) in check_distribution.py's JSON-decode branch so Pyright no longer reports payload possibly unbound. Behavior is unchanged. Pyright reports 0 errors, ruff is clean, and a rerun of the distribution check gives 273 assertions, 0 failed, 0 unverified, exit 0."
+}
