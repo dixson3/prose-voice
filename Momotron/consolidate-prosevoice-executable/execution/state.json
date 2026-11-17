@@ -2692,6 +2692,11 @@
    "at": "2026-11-17T00:11:19.160921Z",
    "event": "resume reconciliation",
    "revision": 325
+  },
+  {
+   "at": "2026-11-17T00:11:34.505266Z",
+   "event": "resume reconciliation",
+   "revision": 326
   }
  ],
  "identity": {
@@ -2754,7 +2759,7 @@
    "verified": null
   }
  },
- "revision": 325,
+ "revision": 326,
  "runs": {
   "product": {
    "created_at": "2026-11-16T22:44:19.682979Z",
