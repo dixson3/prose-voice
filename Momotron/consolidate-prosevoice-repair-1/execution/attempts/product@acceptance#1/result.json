@@ -1,0 +1,42 @@
+{
+  "status": "succeeded",
+  "summary": "Acceptance passes with no blockers, and B1 is resolved. Both checks pass on the final tree: unittest 148 OK (exit 0), and check_distribution.py 273 assertions, 0 failed, 0 unverified (exit 0). I reproduced the cases independently with an isolated HOME/XDG and the real launcher. A non-Git absolute essay run from an unrelated cwd, and from a non-Git ancestor, now gives READY exit 1 blocked (visual-unresolved) instead of exit 2 essay-outside-project, and artifacts exit 0 with project_selection essay-dir. Both use <essay-dir>/.prosevoice/cache/e.illustrations.md. With a selected sidecar at that path, READY returns ok, exit 0. Explicit --project is unchanged: an outside project still gives essay-outside-project, a missing one gives project-missing, and an enclosing project keeps its relative cache path. Git-backed essays still route to the Git root (essay-git). --set guidance stays anchored at the invocation cwd after the essay-dir switch. artifacts --apply prepares a not-yet-created non-Git essay directory without touching the ancestor. In the diff, config_for_essay uses the shared read_config_file/build_config path, so there is no parallel resolver, and migration is untouched. SKILL.md restores the beside-essay rule, and both READMEs match. NonGitEssayRoutingTests covers the required cases. .agents/, .claude/, skills-lock.json, CLAUDE.md, the frozen Momotron history and the momotron reference HEAD 6b1bf02 are preserved. The single prosevoice skill remains, and no legacy runtime fallback was added. With this acceptance, the original consolidation objective is complete.",
+  "outputs": {
+    "verdict": "pass",
+    "route": "pass",
+    "checks": {
+      "Acceptance regression": "148 tests OK, exit 0",
+      "Acceptance distributions": "273 assertions passed, 0 surfaces failed, 0 unverified, exit 0"
+    },
+    "reproduction": {
+      "ready_from_unrelated_cwd": "exit 1 blocked; sidecar <W>/parent/essays/.prosevoice/cache/e.illustrations.md; exit 0 ok once selected",
+      "artifacts_from_nongit_ancestor": "exit 0; essay-dir; <W>/parent/essays/.prosevoice/cache/e.illustrations.md",
+      "explicit_project": "unchanged (essay-outside-project / project-missing / explicit relative cache)",
+      "git_backed": "unchanged (essay-git, <gitroot>/.prosevoice/cache/a/b/g.draft.md)",
+      "cli_guidance_anchor": "unchanged (cwd-anchored after essay-dir derivation)",
+      "uncreated_essay_dir_apply": "exit 0; cache and /cache/ ignore created beside the future essay only"
+    },
+    "blockers": [],
+    "nonblocking": [
+      "N1: when cwd equals the non-Git essay directory, project_selection is labelled 'cwd' rather than 'essay-dir'; the paths are identical",
+      "N2: READY blocked exit moved from 3 to 1 (documented contract change)"
+    ],
+    "residual_limits": [
+      "Optional external tools (Harper, web, raster) not certified; real harper-cli not exercised by the distribution check",
+      "Installer check covers local source path, project scope, claude-code and pi only"
+    ],
+    "preserved": [".agents/", ".claude/", "skills-lock.json", "CLAUDE.md include wrapper", "Momotron bundle history (no tracked diff)", "momotron reference HEAD 6b1bf023bf30147ab6855a3f8e8d000a76a95a2b"],
+    "product_files_edited": false,
+    "committed": false
+  },
+  "artifacts": [
+    "artifacts/evidence.md",
+    "artifacts/check-unittest.log",
+    "artifacts/check-distribution.log",
+    "artifacts/exit-codes.txt",
+    "artifacts/repro-acceptance.sh",
+    "artifacts/repro-acceptance.log",
+    "artifacts/final-status.txt",
+    "artifacts/final-diffstat.txt"
+  ]
+}

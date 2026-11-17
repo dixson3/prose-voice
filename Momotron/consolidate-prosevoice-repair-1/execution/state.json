@@ -17,7 +17,25 @@
    "adapter": "acpx",
    "claimant": "run:acpx",
    "claimed_at": "2026-11-17T00:52:26.561045Z",
-   "decision": null,
+   "decision": {
+    "at": "2026-11-17T00:55:41.975847Z",
+    "controller": "agent-controller",
+    "decision": "accept",
+    "effect": "succeeded",
+    "evidence": [
+     "check 'Acceptance regression': argv [uv run python -m unittest discover -s tests], cwd /Users/james/workspace/dixson3/blog-voice, exit 0, 'Ran 148 tests in 9.016s OK'",
+     "check 'Acceptance distributions': argv [uv run tests/check_distribution.py], cwd /Users/james/workspace/dixson3/blog-voice, timeout 900s, exit 0, 'assertions passed: 273; surfaces failed: 0; unverified: 0; all distribution checks passed'",
+     "the GNU timeout binary is not available on darwin; both checks finished well under their limits (dist ~5s, unittest ~9s)",
+     "controller repro, unrelated cwd: ready exit 0 status ok, sidecar <W>/parent/essays/.prosevoice/cache/e.illustrations.md; artifacts --kind illustrations exit 0, project_selection essay-dir, same path",
+     "controller repro, non-Git ancestor cwd <W>/parent: artifacts exit 0 essay-dir, same essay-adjacent path; ready exit 0; ancestor contains only 'essays' (no .prosevoice under ancestor)",
+     "the fixture essay had no illus anchors, so READY was ok rather than blocked; the worker's repro with an anchor showed blocked (exit 1) then ok (exit 0) once a sidecar was selected",
+     "worker result: explicit --project behavior (essay-outside-project, project-missing), Git-backed essay-git routing and cwd-anchored --set guidance reported unchanged; no parallel resolver; migration untouched; .agents/, .claude/, skills-lock.json preserved",
+     "nonblocking per worker: N1 project_selection labelled 'cwd' when cwd equals the essay dir (same paths); N2 READY blocked exit is 1 (documented contract)",
+     "controller made no product edits and resolved no human gate"
+    ],
+    "reason": "Worker result status is 'succeeded' with verdict pass and no blockers. The controller packet had no executed check results, so the controller ran both checks declared in the worker packet in working_dir /Users/james/workspace/dixson3/blog-voice. Both passed on the final tree: 'Acceptance regression' ran 148 tests, OK, exit 0. 'Acceptance distributions' gave 273 assertions passed, 0 surfaces failed, 0 unverified, exit 0, in about 5s, well within the 900s timeout. A controller reproduction with isolated HOME/XDG confirms B1 is resolved: an absolute non-Git essay run from an unrelated cwd and from a non-Git ancestor routes to project_selection essay-dir, its sidecar is <essay-dir>/.prosevoice/cache/e.illustrations.md, READY evaluates the essay instead of returning essay-outside-project, and nothing is written under the ancestor.",
+    "revision": 58
+   },
    "id": "product:acceptance#1",
    "n": 1,
    "node": "acceptance",
@@ -100,9 +118,9 @@
     },
     "session": "momo-consolidate-prosevoi-acceptance-d75f36dd8fb83a3bb014"
    },
-   "result": null,
+   "result": "execution/blobs/results/1240fdafec718c6f04f555beefce175c3fed60f2cf51a335ee04557c1ac8ee7a.json",
    "run": "product",
-   "state": "running"
+   "state": "decided"
   },
   "product:repair-nongit#1": {
    "adapter": "acpx",
@@ -424,6 +442,25 @@
   "repo": "/Users/james/workspace/dixson3/blog-voice"
  },
  "decisions": {
+  "product:acceptance#1": {
+   "at": "2026-11-17T00:55:41.975847Z",
+   "controller": "agent-controller",
+   "decision": "accept",
+   "effect": "succeeded",
+   "evidence": [
+    "check 'Acceptance regression': argv [uv run python -m unittest discover -s tests], cwd /Users/james/workspace/dixson3/blog-voice, exit 0, 'Ran 148 tests in 9.016s OK'",
+    "check 'Acceptance distributions': argv [uv run tests/check_distribution.py], cwd /Users/james/workspace/dixson3/blog-voice, timeout 900s, exit 0, 'assertions passed: 273; surfaces failed: 0; unverified: 0; all distribution checks passed'",
+    "the GNU timeout binary is not available on darwin; both checks finished well under their limits (dist ~5s, unittest ~9s)",
+    "controller repro, unrelated cwd: ready exit 0 status ok, sidecar <W>/parent/essays/.prosevoice/cache/e.illustrations.md; artifacts --kind illustrations exit 0, project_selection essay-dir, same path",
+    "controller repro, non-Git ancestor cwd <W>/parent: artifacts exit 0 essay-dir, same essay-adjacent path; ready exit 0; ancestor contains only 'essays' (no .prosevoice under ancestor)",
+    "the fixture essay had no illus anchors, so READY was ok rather than blocked; the worker's repro with an anchor showed blocked (exit 1) then ok (exit 0) once a sidecar was selected",
+    "worker result: explicit --project behavior (essay-outside-project, project-missing), Git-backed essay-git routing and cwd-anchored --set guidance reported unchanged; no parallel resolver; migration untouched; .agents/, .claude/, skills-lock.json preserved",
+    "nonblocking per worker: N1 project_selection labelled 'cwd' when cwd equals the essay dir (same paths); N2 READY blocked exit is 1 (documented contract)",
+    "controller made no product edits and resolved no human gate"
+   ],
+   "reason": "Worker result status is 'succeeded' with verdict pass and no blockers. The controller packet had no executed check results, so the controller ran both checks declared in the worker packet in working_dir /Users/james/workspace/dixson3/blog-voice. Both passed on the final tree: 'Acceptance regression' ran 148 tests, OK, exit 0. 'Acceptance distributions' gave 273 assertions passed, 0 surfaces failed, 0 unverified, exit 0, in about 5s, well within the 900s timeout. A controller reproduction with isolated HOME/XDG confirms B1 is resolved: an absolute non-Git essay run from an unrelated cwd and from a non-Git ancestor routes to project_selection essay-dir, its sidecar is <essay-dir>/.prosevoice/cache/e.illustrations.md, READY evaluates the essay instead of returning essay-outside-project, and nothing is written under the ancestor.",
+   "revision": 58
+  },
   "product:repair-nongit#1": {
    "at": "2026-11-17T00:52:26.260553Z",
    "controller": "agent-controller",
@@ -736,6 +773,16 @@
    "at": "2026-11-17T00:54:34.354027Z",
    "event": "resume reconciliation",
    "revision": 56
+  },
+  {
+   "at": "2026-11-17T00:54:49.687725Z",
+   "event": "resume reconciliation",
+   "revision": 57
+  },
+  {
+   "at": "2026-11-17T00:55:41.975967Z",
+   "event": "decision for product:acceptance#1",
+   "revision": 58
   }
  ],
  "identity": {
@@ -756,11 +803,12 @@
  ],
  "plan_id": "consolidate-prosevoice-repair-1",
  "planning": null,
- "revision": 56,
+ "revision": 58,
  "runs": {
   "product": {
    "created_at": "2026-11-17T00:47:33.140990Z",
    "digest": "15f7ddbe380d2daaae8b3147dc3d011117edce046488b96ab73e6162f46439d7",
+   "finished_at": "2026-11-17T00:55:41.975956Z",
    "id": "product",
    "kind": "product",
    "nodes": {
@@ -769,7 +817,7 @@
       "product:acceptance#1"
      ],
      "cycles": 0,
-     "state": "running"
+     "state": "succeeded"
     },
     "repair-nongit": {
      "attempts": [
@@ -780,7 +828,7 @@
     }
    },
    "process_digest": null,
-   "status": "active"
+   "status": "completed"
   },
   "review-1": {
    "approval_recorded": true,

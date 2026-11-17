@@ -1,0 +1,77 @@
+{
+ "schema": "momotron-controller-packet/1",
+ "attempt": "product:acceptance#1",
+ "node": {
+  "description": "# Repair B1 and finish acceptance\n\nThis successor operates on the existing implementation left by the predecessor; do not repeat foundation, consolidation, migration or integration. Keep their valid edits. The approved predecessor ended with the acceptance blocker in `references/acceptance-blocker.json`. Its unit suite (143 tests) and distribution check (273 assertions) passed, but the independent reviewer and controller reproduced a non-Git behavior regression. The repair must restore the intended behavior, not waive it. Product changes begin only after this repair plan's designated approval gate.\n\nUse the configured Opus 5.5 controller/worker ACP pair. Bind `repo` to the implementation checkout and `momotron` to the read-only reference checkout; use literal `cwd: repo` on tasks. Preserve the operator-installed `.agents/`, `.claude/` and `skills-lock.json`, all frozen plan history, and unrelated work. Commit plan bookkeeping under the standing instruction; no product commits, publication, global installs or migrations of real projects are authorized here.\n\n## repair-nongit\n\nRead the blocker and the current `config_for_essay` in `skills/prosevoice/scripts/prosevoice_lib/config.py`. It currently returns the invocation configuration when `git_root(essay.parent)` is absent. Consequently, an absolute non-Git essay invoked from an unrelated directory fails with `essay-outside-project`; invocation from a non-Git ancestor incorrectly places the cache under that ancestor. The predecessor required cache placement beside a non-Git essay.\n\nMake the smallest correction that selects the essay's directory as its derived project when there is no explicit `--project` and no Git root. Keep explicit project selection unchanged, including its existing-directory validation and outside-project errors. Keep Git-backed per-essay project routing unchanged. Preserve the original invocation cwd as the anchor for relative CLI guidance overrides; changing the derived project must not re-anchor `--set` paths. Use the existing shared configuration merge and resolver rather than introducing a parallel resolver. Treat the derived essay directory separately from an explicitly supplied project: if an artifact path is requested for a not-yet-created non-Git essay directory, path resolution and `artifacts --apply` must retain the existing ability to prepare that directory safely. Do not relax explicit `--project` validation to achieve this.\n\nRestore the non-Git essay-adjacent cache rule in `skills/prosevoice/SKILL.md`. Align root README and the skill README where they describe project selection or artifact placement, distinguishing essay commands from commands without an essay. The new namespace remains `.prosevoice`; this repair does not restore legacy runtime lookup. Do not change migration behavior except if the shared resolver change requires a directly related correction demonstrated by tests.\n\nAdd regression coverage to `tests/test_prosevoice_runtime.py` (and the existing config tests only if needed): invoke the actual CLI on an absolute non-Git essay from an unrelated directory and from a non-Git ancestor. Assert the exact cache/illustrations path is `<essay-dir>/.prosevoice/cache/<stem>.<purpose>.md`, and READY evaluates the essay rather than returning an outside-project error. Exercise a selected visual sidecar at that path. Cover retained explicit-project behavior, CLI-relative guidance override anchoring and path resolution/application for a not-yet-created non-Git essay directory. Existing Git-root and all-12-artifact tests must continue passing. Use temporary fixtures with isolated HOME/XDG; never migrate an operator project.\n\nRun the focused runtime suite, the full suite and the existing distribution checker. Record the targeted reproduction outcome, commands, exit codes and changes in this attempt's artifacts, then write its result JSON. Fail honestly if any requirement remains unresolved. Do not edit other attempts, the predecessor or this plan's definition/assets. The diagnostic notifications are not new task requests; continue the packet's task, and do not mistake your own receipt PID or growing adapter log for a competing worker.\n\n## acceptance\n\nIndependently verify the repair and the original acceptance requirements in `plan-assets/execution.md`, section `acceptance`, together with the unchanged contract and migration assets. Read the new regression test and reproduce the two non-Git invocation cases yourself. Verify explicit project behavior, Git-backed routing and CLI-relative override anchors were not changed accidentally. Run the full suite and distribution checker on the final tree; an unverified distribution is a nonzero failure, not a pass.\n\nThe predecessor's other acceptance checks were positive evidence, but do not blindly reuse them for changed behavior. Inspect the repair diff, ensure the single-skill/package/migration deliverables remain intact, and report any demonstrated new blocker. Review only: do not modify product files or approve a human gate. Once this acceptance and its controller pass, this repair completes the original consolidation objective; no extra completion gate or publication follows.\n",
+  "id": "acceptance",
+  "inputs": [],
+  "kind": "task",
+  "outcomes": [],
+  "outputs": [],
+  "params": {},
+  "process": null,
+  "source": {
+   "step": "acceptance"
+  },
+  "title": "Independently verify the repair and completed consolidation"
+ },
+ "role": "# Role: controller\n\nYou assess one submitted attempt and propose a decision. The runner validates your decision;\nit does not trust it.\n\nInput: the context packet, the worker result, and the acceptance-check results.\n\nReturn JSON only:\n`{\"decision\": \"accept\" | \"retry\" | \"block\" | \"fail\" | \"choose:<outcome>\", \"reason\": \"...\", \"evidence\": [\"...\"]}`\n\n- `accept` only when the result status is `succeeded` **and** every acceptance check passed.\n- `retry` only when the failure is plausibly transient or fixable and budget remains.\n- `choose:<outcome>` only on a gateway node, naming one of its declared outcomes.\n- You can never approve a human gate.\n",
+ "worker_result": {
+  "artifacts": [
+   "artifacts/evidence.md",
+   "artifacts/check-unittest.log",
+   "artifacts/check-distribution.log",
+   "artifacts/exit-codes.txt",
+   "artifacts/repro-acceptance.sh",
+   "artifacts/repro-acceptance.log",
+   "artifacts/final-status.txt",
+   "artifacts/final-diffstat.txt"
+  ],
+  "outputs": {
+   "blockers": [],
+   "checks": {
+    "Acceptance distributions": "273 assertions passed, 0 surfaces failed, 0 unverified, exit 0",
+    "Acceptance regression": "148 tests OK, exit 0"
+   },
+   "committed": false,
+   "nonblocking": [
+    "N1: when cwd equals the non-Git essay directory, project_selection is labelled 'cwd' rather than 'essay-dir'; the paths are identical",
+    "N2: READY blocked exit moved from 3 to 1 (documented contract change)"
+   ],
+   "preserved": [
+    ".agents/",
+    ".claude/",
+    "skills-lock.json",
+    "CLAUDE.md include wrapper",
+    "Momotron bundle history (no tracked diff)",
+    "momotron reference HEAD 6b1bf023bf30147ab6855a3f8e8d000a76a95a2b"
+   ],
+   "product_files_edited": false,
+   "reproduction": {
+    "artifacts_from_nongit_ancestor": "exit 0; essay-dir; <W>/parent/essays/.prosevoice/cache/e.illustrations.md",
+    "cli_guidance_anchor": "unchanged (cwd-anchored after essay-dir derivation)",
+    "explicit_project": "unchanged (essay-outside-project / project-missing / explicit relative cache)",
+    "git_backed": "unchanged (essay-git, <gitroot>/.prosevoice/cache/a/b/g.draft.md)",
+    "ready_from_unrelated_cwd": "exit 1 blocked; sidecar <W>/parent/essays/.prosevoice/cache/e.illustrations.md; exit 0 ok once selected",
+    "uncreated_essay_dir_apply": "exit 0; cache and /cache/ ignore created beside the future essay only"
+   },
+   "residual_limits": [
+    "Optional external tools (Harper, web, raster) not certified; real harper-cli not exercised by the distribution check",
+    "Installer check covers local source path, project scope, claude-code and pi only"
+   ],
+   "route": "pass",
+   "verdict": "pass"
+  },
+  "status": "succeeded",
+  "summary": "Acceptance passes with no blockers, and B1 is resolved. Both checks pass on the final tree: unittest 148 OK (exit 0), and check_distribution.py 273 assertions, 0 failed, 0 unverified (exit 0). I reproduced the cases independently with an isolated HOME/XDG and the real launcher. A non-Git absolute essay run from an unrelated cwd, and from a non-Git ancestor, now gives READY exit 1 blocked (visual-unresolved) instead of exit 2 essay-outside-project, and artifacts exit 0 with project_selection essay-dir. Both use <essay-dir>/.prosevoice/cache/e.illustrations.md. With a selected sidecar at that path, READY returns ok, exit 0. Explicit --project is unchanged: an outside project still gives essay-outside-project, a missing one gives project-missing, and an enclosing project keeps its relative cache path. Git-backed essays still route to the Git root (essay-git). --set guidance stays anchored at the invocation cwd after the essay-dir switch. artifacts --apply prepares a not-yet-created non-Git essay directory without touching the ancestor. In the diff, config_for_essay uses the shared read_config_file/build_config path, so there is no parallel resolver, and migration is untouched. SKILL.md restores the beside-essay rule, and both READMEs match. NonGitEssayRoutingTests covers the required cases. .agents/, .claude/, skills-lock.json, CLAUDE.md, the frozen Momotron history and the momotron reference HEAD 6b1bf02 are preserved. The single prosevoice skill remains, and no legacy runtime fallback was added. With this acceptance, the original consolidation objective is complete."
+ },
+ "checks": [],
+ "decision_path": "/Users/james/workspace/dixson3/blog-voice/Momotron/consolidate-prosevoice-repair-1/execution/attempts/product@acceptance#1/decision.json",
+ "decision_schema": {
+  "decision": "accept|retry|block|fail|choose:<outcome>",
+  "reason": "string",
+  "evidence": [
+   "string"
+  ]
+ }
+}
