@@ -17,7 +17,25 @@
    "adapter": "acpx",
    "claimant": "run:acpx",
    "claimed_at": "2026-11-17T00:10:57.045269Z",
-   "decision": null,
+   "decision": {
+    "at": "2026-11-17T00:16:21.228275Z",
+    "controller": "agent-controller",
+    "decision": "block",
+    "effect": "blocked",
+    "evidence": [
+     "Worker result: status=failed, verdict=revise, product_files_edited=false, committed=false, blockers=[B1 behavior-difference BLOCKING]",
+     "Controller packet had checks=[], so the controller ran both checks declared in packet.json itself in working_dir /Users/james/workspace/dixson3/blog-voice",
+     "Check 'Acceptance regression': argv [uv run python -m unittest discover -s tests] -> exit 0; Ran 143 tests in 8.334s, OK",
+     "Check 'Acceptance distributions': argv [uv run tests/check_distribution.py] (timeout 900s, completed well within it) -> exit 0; 'assertions passed: 273; surfaces failed: 0; unverified: 0', 'all distribution checks passed'",
+     "Independent rerun of artifacts/repro-nongit-routing.sh: OLD ready_preconditions.py exit 3, sidecar <W>/essays/.prose-voice/cache/e.illustrations.md; NEW pv ready exit 2, code essay-outside-project; NEW pv artifacts from non-Git parent exit 0, project_selection=cwd, path <W>/.prosevoice/cache/essays/e.illustrations.md",
+     "skills/prosevoice/scripts/prosevoice_lib/config.py:366-384 config_for_essay returns the invocation config when git_root(essay.parent) is None ('an essay outside any Git repository uses config')",
+     "skills/prosevoice/SKILL.md:54 says the project is the nearest Git root of the invocation directory, else the invocation directory; it has no essay-adjacent cache rule for non-Git essays",
+     "Minimum fix (worker-proposed, not applied by controller): use essay.parent as the project for non-Git essays without --project, restore the SKILL sentence, align the README and add a runtime test. Or the operator explicitly accepts and records the change.",
+     "Controller made no product edits and resolved no gates"
+    ],
+    "reason": "The worker result status is 'failed' with verdict 'revise' because of one BLOCKING behavior difference (B1), so the attempt cannot be accepted even though both declared acceptance checks pass. B1 is confirmed independently. With no --project and no Git root, config_for_essay falls back to the invocation config. 'pv ready' on a non-Git essay run from an unrelated cwd now exits 2 (essay-outside-project), where the old helper exited 3 with the sidecar beside the essay. From a non-Git parent, artifacts now route to <cwd>/.prosevoice/cache/<rel>/ instead of <essay dir>/.prose-voice/cache/. The old SKILL rule 'Without a git root, use .prose-voice/cache/ beside the essay' is gone, and the change is not among the recorded interface differences. Retrying this verification-only acceptance node cannot clear B1: the fix needs product edits outside this node's scope (config_for_essay, SKILL.md, README, a runtime test), or the operator must explicitly accept and record the behavior change. Either path needs the operator, so block rather than retry.",
+    "revision": 342
+   },
    "id": "product:acceptance#1",
    "n": 1,
    "node": "acceptance",
@@ -100,9 +118,9 @@
     },
     "session": "momo-consolidate-prosevoi-acceptance-9d79e2f9ed19a7441964"
    },
-   "result": null,
+   "result": "execution/blobs/results/cee96506a4231152d9626d9dfb79a8a545a5e18287ab63165a76b982727414ad.json",
    "run": "product",
-   "state": "running"
+   "state": "decided"
   },
   "product:consolidate#1": {
    "adapter": "acpx",
@@ -1057,6 +1075,25 @@
   "repo": "/Users/james/workspace/dixson3/blog-voice"
  },
  "decisions": {
+  "product:acceptance#1": {
+   "at": "2026-11-17T00:16:21.228275Z",
+   "controller": "agent-controller",
+   "decision": "block",
+   "effect": "blocked",
+   "evidence": [
+    "Worker result: status=failed, verdict=revise, product_files_edited=false, committed=false, blockers=[B1 behavior-difference BLOCKING]",
+    "Controller packet had checks=[], so the controller ran both checks declared in packet.json itself in working_dir /Users/james/workspace/dixson3/blog-voice",
+    "Check 'Acceptance regression': argv [uv run python -m unittest discover -s tests] -> exit 0; Ran 143 tests in 8.334s, OK",
+    "Check 'Acceptance distributions': argv [uv run tests/check_distribution.py] (timeout 900s, completed well within it) -> exit 0; 'assertions passed: 273; surfaces failed: 0; unverified: 0', 'all distribution checks passed'",
+    "Independent rerun of artifacts/repro-nongit-routing.sh: OLD ready_preconditions.py exit 3, sidecar <W>/essays/.prose-voice/cache/e.illustrations.md; NEW pv ready exit 2, code essay-outside-project; NEW pv artifacts from non-Git parent exit 0, project_selection=cwd, path <W>/.prosevoice/cache/essays/e.illustrations.md",
+    "skills/prosevoice/scripts/prosevoice_lib/config.py:366-384 config_for_essay returns the invocation config when git_root(essay.parent) is None ('an essay outside any Git repository uses config')",
+    "skills/prosevoice/SKILL.md:54 says the project is the nearest Git root of the invocation directory, else the invocation directory; it has no essay-adjacent cache rule for non-Git essays",
+    "Minimum fix (worker-proposed, not applied by controller): use essay.parent as the project for non-Git essays without --project, restore the SKILL sentence, align the README and add a runtime test. Or the operator explicitly accepts and records the change.",
+    "Controller made no product edits and resolved no gates"
+   ],
+   "reason": "The worker result status is 'failed' with verdict 'revise' because of one BLOCKING behavior difference (B1), so the attempt cannot be accepted even though both declared acceptance checks pass. B1 is confirmed independently. With no --project and no Git root, config_for_essay falls back to the invocation config. 'pv ready' on a non-Git essay run from an unrelated cwd now exits 2 (essay-outside-project), where the old helper exited 3 with the sidecar beside the essay. From a non-Git parent, artifacts now route to <cwd>/.prosevoice/cache/<rel>/ instead of <essay dir>/.prose-voice/cache/. The old SKILL rule 'Without a git root, use .prose-voice/cache/ beside the essay' is gone, and the change is not among the recorded interface differences. Retrying this verification-only acceptance node cannot clear B1: the fix needs product edits outside this node's scope (config_for_essay, SKILL.md, README, a runtime test), or the operator must explicitly accept and record the behavior change. Either path needs the operator, so block rather than retry.",
+   "revision": 342
+  },
   "product:consolidate#1": {
    "at": "2026-11-16T23:18:07.154300Z",
    "controller": "agent-controller",
@@ -2767,6 +2804,16 @@
    "at": "2026-11-17T00:15:08.979880Z",
    "event": "resume reconciliation",
    "revision": 340
+  },
+  {
+   "at": "2026-11-17T00:15:24.290255Z",
+   "event": "resume reconciliation",
+   "revision": 341
+  },
+  {
+   "at": "2026-11-17T00:16:21.228357Z",
+   "event": "decision for product:acceptance#1",
+   "revision": 342
   }
  ],
  "identity": {
@@ -2829,7 +2876,7 @@
    "verified": null
   }
  },
- "revision": 340,
+ "revision": 342,
  "runs": {
   "product": {
    "created_at": "2026-11-16T22:44:19.682979Z",
@@ -2842,7 +2889,7 @@
       "product:acceptance#1"
      ],
      "cycles": 0,
-     "state": "running"
+     "state": "blocked"
     },
     "consolidate": {
      "attempts": [

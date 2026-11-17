@@ -1,0 +1,50 @@
+{
+ "artifacts": [
+  "artifacts/evidence.md",
+  "artifacts/check-unittest.log",
+  "artifacts/check-distribution.log",
+  "artifacts/repro-nongit-routing.sh",
+  "artifacts/repro-nongit-routing.log",
+  "artifacts/final-status.txt",
+  "artifacts/final-diffstat.txt",
+  "artifacts/momotron-reference.txt"
+ ],
+ "outputs": {
+  "blockers": [
+   {
+    "class": "behavior-difference",
+    "consequence": "READY/artifacts error (exit 2) for non-Git essays invoked from another directory; from a non-Git parent, reports and illustration decisions route to a different cache",
+    "evidence": "skills/prosevoice/scripts/prosevoice_lib/config.py config_for_essay/artifact_paths; old skills/pv-preflight/scripts/pv_config.py artifact_paths (base = essay.parent when no git root); old pv-prosevoice SKILL.md 'Without a git root, use .prose-voice/cache/ beside the essay'",
+    "id": "B1",
+    "minimum_fix": "config_for_essay: when no --project and no Git root, select essay.parent as project; restore SKILL.md sentence; align README; add a runtime test. Or operator explicitly accepts and records the change.",
+    "reproduction": "artifacts/repro-nongit-routing.sh <repo>; log in artifacts/repro-nongit-routing.log",
+    "severity": "BLOCKING"
+   }
+  ],
+  "checks": {
+   "Acceptance distributions": "273 assertions passed, 0 surfaces failed, 0 unverified, exit 0",
+   "Acceptance regression": "143 tests OK, exit 0"
+  },
+  "committed": false,
+  "nonblocking": [
+   "Contract-mandated interface changes (envelope, exit codes, --project, init, user label, Harper skipped as exit 0) are documented",
+   "Migration manifests are not git-ignored (documented)",
+   "Momotron reference HEAD moved via operator's own commits; tests/conftest.py has an uncommitted formatter-only reflow not referenced by any product attempt; no pre-product hash was recorded"
+  ],
+  "preserved": [
+   ".agents/",
+   ".claude/",
+   "skills-lock.json",
+   "Momotron bundle history (no tracked diff)",
+   "CLAUDE.md include wrapper"
+  ],
+  "product_files_edited": false,
+  "residual_limits": [
+   "Optional external tools (Harper, web, raster) not certified; real harper-cli not exercised by the distribution check",
+   "Installer check covers local source path, project scope, claude-code and pi only"
+  ],
+  "verdict": "revise"
+ },
+ "status": "failed",
+ "summary": "Acceptance found one BLOCKING behavior difference, so the plan is not complete. Both acceptance checks pass on the final tree: unittest 143 OK (exit 0) and check_distribution.py with 273 assertions, 0 failed, 0 unverified (exit 0). Independent checks confirmed: agents/SKILL/protocol/templates/Harper policy preserved apart from namespace and CLI wording; premise and extract outputs byte-equal to the old scripts; READY logic identical; no legacy runtime fallback; all 12 artifact kinds; migration fails closed (user dependency, conflicts, malformed blocks, missing install), leaves preview/blocked trees unchanged, is idempotent and keeps unrelated AGENTS bytes; docs match the parser; .agents/.claude/skills-lock.json and bundle history preserved. Blocker B1: an essay outside any Git repository no longer gets its cache beside the essay. Run from an unrelated cwd, `pv ready`/`pv artifacts` now exit 2 (essay-outside-project), where the old helper evaluated it (exit 3, essays/.prose-voice/cache). From a non-Git parent, artifacts route to <cwd>/.prosevoice/cache/<rel>/ instead. The old SKILL rule 'Without a git root, use .prose-voice/cache/ beside the essay' was dropped, and the change is not among the recorded interface differences. Minimum fix: in config_for_essay, use the essay's directory as the project for non-Git essays without --project, restore the SKILL sentence, align the README and add a test. Alternatively, the operator explicitly accepts the change. Reproduction: artifacts/repro-nongit-routing.sh."
+}
