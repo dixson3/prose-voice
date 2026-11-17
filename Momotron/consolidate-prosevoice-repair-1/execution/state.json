@@ -1,6 +1,109 @@
 {
- "approvals": [],
+ "approvals": [
+  {
+   "actor": "James Dixson",
+   "at": "2026-11-17T00:47:33.135862Z",
+   "authority": "designated-gate",
+   "digest": "15f7ddbe380d2daaae8b3147dc3d011117edce046488b96ab73e6162f46439d7",
+   "evidence": "Operator selected Approve and run (Recommended) for the reviewed non-Git routing repair and final acceptance with the Opus 5.5 ACP pair; product changes remain uncommitted.",
+   "gate": "review/approval",
+   "review_process": "planning-review",
+   "review_process_digest": "4a5ccf44386e350b1495ff9159799c9b9d13a3d029123e3d060a67991929a465",
+   "review_run": "review-1"
+  }
+ ],
  "attempts": {
+  "product:repair-nongit#1": {
+   "adapter": "acpx",
+   "claimant": "run:acpx",
+   "claimed_at": "2026-11-17T00:47:33.620328Z",
+   "decision": null,
+   "id": "product:repair-nongit#1",
+   "n": 1,
+   "node": "repair-nongit",
+   "packet": "execution/blobs/packets/73039a8c06d88419631b5e4e4570ba1ba6d79b1fdde9caf5a95a340f8b966e5e.json",
+   "receipt": {
+    "acpx_version": "0.22.0",
+    "adapter": "acpx",
+    "agent": "claude",
+    "cwd": "/Users/james/workspace/dixson3/blog-voice",
+    "deadline": 1794880061.278676,
+    "effective": {
+     "agent": "claude",
+     "config": {},
+     "config_source": "project",
+     "model": "opus",
+     "permission": "approve-all",
+     "session_policy": "fresh-per-attempt",
+     "timeout": 3600
+    },
+    "identity": {
+     "attempt": "product:repair-nongit#1",
+     "bundle_uid": "11517460395a4212b7b7c73be82d8e93",
+     "generation": 1,
+     "group": "attempt:product:repair-nongit#1",
+     "host": "d3-mbp-m5.local",
+     "location": "/Users/james/workspace/dixson3/blog-voice/Momotron/consolidate-prosevoice-repair-1",
+     "node": "repair-nongit",
+     "plan_id": "consolidate-prosevoice-repair-1",
+     "policy": "fresh-per-attempt",
+     "role": "processes/_roles/worker.md",
+     "run": "product",
+     "schema": "momotron-session-identity/1",
+     "session_name": "momo-consolidate-prosevoi-repair-nongit-f8df057a969b0a639f40",
+     "session_plan": {
+      "action": "fresh",
+      "generation": 1,
+      "key": null,
+      "problem": null,
+      "reason": "fresh-per-attempt"
+     }
+    },
+    "launched_at": "2026-11-17T00:47:41.278634Z",
+    "log": "execution/attempts/product@repair-nongit#1/adapter.log",
+    "native": {
+     "acp_session_id": "88c4eb06-a82e-468e-9605-30ba4d409a78",
+     "acpx_record_id": "4f180e1a-6077-4f60-8b82-5c5279d99ac4",
+     "agent_session_id": null,
+     "available": true,
+     "available_model_count": 14,
+     "closed": false,
+     "config_option_ids": [
+      "effort",
+      "fast",
+      "mode",
+      "model",
+      "ultracode"
+     ],
+     "current_model_id": "opus",
+     "model_control": "config_option",
+     "usage_tokens": null
+    },
+    "phase": "launched",
+    "pid": 35611,
+    "process": {
+     "pgid": 35611,
+     "started": "Mon Nov 16 16:47:41 2026"
+    },
+    "recorded_at": "2026-11-17T00:47:33.844526Z",
+    "selection": {
+     "acknowledged": true,
+     "effective_model": "opus",
+     "options": {
+      "model": {
+       "acknowledged": true,
+       "effective": "opus",
+       "requested": "opus"
+      }
+     },
+     "requested_model": "opus"
+    },
+    "session": "momo-consolidate-prosevoi-repair-nongit-f8df057a969b0a639f40"
+   },
+   "result": null,
+   "run": "product",
+   "state": "running"
+  },
   "review-1:review/conformance#1": {
    "adapter": "internal",
    "checks": [],
@@ -207,6 +310,10 @@
    "state": "decided"
   }
  },
+ "bindings": {
+  "momotron": "/Users/james/workspace/dixson3/momotron",
+  "repo": "/Users/james/workspace/dixson3/blog-voice"
+ },
  "decisions": {
   "review-1:review/conformance#1": {
    "at": "2026-11-17T00:23:49.550556Z",
@@ -361,29 +468,90 @@
    "at": "2026-11-17T00:26:33.220946Z",
    "event": "decision for review-1:review/portability#1",
    "revision": 22
+  },
+  {
+   "at": "2026-11-17T00:47:33.141016Z",
+   "event": "gate review/approval approve by James Dixson",
+   "revision": 23
+  },
+  {
+   "at": "2026-11-17T00:47:33.269277Z",
+   "event": "bindings recorded: ['momotron', 'repo']",
+   "revision": 24
+  },
+  {
+   "at": "2026-11-17T00:47:33.630229Z",
+   "event": "claim",
+   "revision": 25
+  },
+  {
+   "at": "2026-11-17T00:47:46.139192Z",
+   "event": "resume reconciliation",
+   "revision": 29
   }
  ],
  "identity": {
   "bundle_uid": "11517460395a4212b7b7c73be82d8e93",
   "created_at": "2026-11-17T00:23:50.058134Z"
  },
- "locked_digest": null,
- "observations": [],
+ "locked_digest": "15f7ddbe380d2daaae8b3147dc3d011117edce046488b96ab73e6162f46439d7",
+ "observations": [
+  {
+   "at": "2026-11-17T00:47:33.268929Z",
+   "bindings": {
+    "momotron": "/Users/james/workspace/dixson3/momotron",
+    "repo": "/Users/james/workspace/dixson3/blog-voice"
+   },
+   "host": "d3-mbp-m5.local",
+   "kind": "bindings"
+  }
+ ],
  "plan_id": "consolidate-prosevoice-repair-1",
  "planning": null,
- "revision": 22,
+ "revision": 29,
  "runs": {
+  "product": {
+   "created_at": "2026-11-17T00:47:33.140990Z",
+   "digest": "15f7ddbe380d2daaae8b3147dc3d011117edce046488b96ab73e6162f46439d7",
+   "id": "product",
+   "kind": "product",
+   "nodes": {
+    "acceptance": {
+     "attempts": [],
+     "cycles": 0,
+     "state": "pending"
+    },
+    "repair-nongit": {
+     "attempts": [
+      "product:repair-nongit#1"
+     ],
+     "cycles": 0,
+     "state": "running"
+    }
+   },
+   "process_digest": null,
+   "status": "active"
+  },
   "review-1": {
+   "approval_recorded": true,
    "created_at": "2026-11-17T00:22:47.285027Z",
    "digest": "15f7ddbe380d2daaae8b3147dc3d011117edce046488b96ab73e6162f46439d7",
    "extended": false,
+   "finished_at": "2026-11-17T00:47:33.130872Z",
    "id": "review-1",
    "kind": "review",
    "nodes": {
     "review/approval": {
      "attempts": [],
      "cycles": 0,
-     "state": "pending"
+     "gate": {
+      "actor": "James Dixson",
+      "at": "2026-11-17T00:47:33.126347Z",
+      "evidence": "Operator selected Approve and run (Recommended) for the reviewed non-Git routing repair and final acceptance with the Opus 5.5 ACP pair; product changes remain uncommitted.",
+      "outcome": "approve"
+     },
+     "selection": "approve",
+     "state": "succeeded"
     },
     "review/conformance": {
      "attempts": [
@@ -395,7 +563,7 @@
     "review/end": {
      "attempts": [],
      "cycles": 0,
-     "state": "pending"
+     "state": "succeeded"
     },
     "review/portability": {
      "attempts": [
@@ -432,7 +600,7 @@
    },
    "process_digest": "4a5ccf44386e350b1495ff9159799c9b9d13a3d029123e3d060a67991929a465",
    "started_by": "James Dixson",
-   "status": "active"
+   "status": "approved"
   }
  },
  "schema_version": 2
