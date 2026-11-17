@@ -1,0 +1,47 @@
+{
+ "plan_id": "consolidate-prosevoice-executable",
+ "locked_digest": "7fa7754b3f688b29d9c47f1c686c75dc393dc62bd961a346dcaec16d57faa3f3",
+ "approvals": [
+  {
+   "actor": "James Dixson",
+   "at": "2026-11-16T22:44:19.674859Z",
+   "authority": "designated-gate",
+   "digest": "7fa7754b3f688b29d9c47f1c686c75dc393dc62bd961a346dcaec16d57faa3f3",
+   "evidence": "Operator explicitly approved the corrected successor: successor approved",
+   "gate": "review/approval",
+   "review_process": "planning-review",
+   "review_process_digest": "4a5ccf44386e350b1495ff9159799c9b9d13a3d029123e3d060a67991929a465",
+   "review_run": "review-1"
+  }
+ ],
+ "runs": {
+  "product": {
+   "kind": "product",
+   "status": "active",
+   "nodes": {
+    "acceptance": "blocked",
+    "consolidate": "succeeded",
+    "foundation": "succeeded",
+    "integration": "succeeded",
+    "migration": "succeeded"
+   }
+  },
+  "review-1": {
+   "kind": "review",
+   "status": "approved",
+   "nodes": {
+    "review/approval": "succeeded",
+    "review/conformance": "succeeded",
+    "review/end": "succeeded",
+    "review/portability": "succeeded",
+    "review/red-team": "succeeded",
+    "review/revise": "skipped",
+    "review/start": "succeeded",
+    "review/verdict": "succeeded"
+   }
+  }
+ },
+ "planning": null,
+ "copied_at": "2026-11-17T00:18:06.210584Z",
+ "note": "historical evidence only; no result, gate or planning state is reused"
+}

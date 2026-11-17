@@ -1,0 +1,60 @@
+schema_version: 1
+id: planning-review
+type: Process
+okf_spec: MOMOTRON-PROCESS
+version: 1.1.0
+kind: review
+approval_gate: approval
+title: Planning review
+description: >-
+  Mechanical conformance, independent red-team review, a verdict, portability validation and
+  human approval of the current candidate definition. A "revise" verdict ends the run after
+  recording resolutions; revising the definition changes its digest, so the next review run
+  starts fresh against the new candidate.
+outputs: [review-passes]
+nodes:
+  - id: start
+    type: start
+  - id: conformance
+    type: task
+    title: Mechanical conformance
+    description: Check the candidate definition against the momotron plan contract.
+    executor: {kind: script, argv: ["{python}", "{process}/scripts/conformance.py", "{bundle}"], cwd: bundle}
+  - id: red-team
+    type: task
+    title: Independent red-team review
+    description: >-
+      Attack the plan independently of its author. Read the conformance pass from the
+      dependency outputs. Set outputs.route to "pass" or "revise".
+    executor: {kind: agent, role: agents/red-team.md, allowed_operations: [read-bundle, write-reviews]}
+    rework: {max_cycles: 2}
+  - id: verdict
+    type: gateway
+    title: Verdict
+    outcomes: [pass, revise]
+    default: revise
+  - id: revise
+    type: task
+    title: Record revision request
+    description: Record which concerns require definition changes. Do not edit plan.yaml here.
+    executor: {kind: agent, role: agents/reviser.md, allowed_operations: [read-bundle, write-reviews]}
+  - id: portability
+    type: task
+    title: Portability validation
+    executor: {kind: script, argv: ["{python}", "{process}/scripts/portability.py", "{bundle}"], cwd: bundle}
+  - id: approval
+    type: gate
+    title: Human approval
+    description: A human approves or rejects the current candidate digest.
+    outcomes: [approve, reject]
+  - id: end
+    type: end
+edges:
+  - {from: start, to: conformance}
+  - {from: conformance, to: red-team}
+  - {from: red-team, to: verdict}
+  - {from: verdict, to: portability, outcome: pass}
+  - {from: verdict, to: revise, outcome: revise}
+  - {from: portability, to: approval}
+  - {from: approval, to: end, outcome: approve}
+  - {from: revise, to: end}

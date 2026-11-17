@@ -1,0 +1,58 @@
+OLD ready_preconditions.py (expect exit 3, sidecar under essays/.prose-voice/cache):
+{
+  "ready": false,
+  "image": {
+    "/var/folders/xc/y6k9w0m55k37b1571xch_2cw0000gn/T/tmp.10GW39An3j/essays/e.md": {
+      "resolved": false,
+      "sidecar": "/private/var/folders/xc/y6k9w0m55k37b1571xch_2cw0000gn/T/tmp.10GW39An3j/essays/.prose-voice/cache/e.illustrations.md",
+      "sidecar_present": false,
+      "planned_visual_count": 1,
+      "blockers": [
+        "illus:a1: no sidecar block"
+      ]
+    }
+  },
+  "source": {
+    "resolved": true,
+    "needs_source_count": 0,
+    "locations": []
+  }
+}
+exit 3
+NEW pv ready (observed exit 2, essay-outside-project):
+{
+  "schema_version": 1,
+  "command": "ready",
+  "status": "error",
+  "data": {},
+  "diagnostics": [
+    {
+      "code": "essay-outside-project",
+      "message": "cache artifacts require the essay to be inside the selected project",
+      "paths": [
+        "/private/var/folders/xc/y6k9w0m55k37b1571xch_2cw0000gn/T/tmp.10GW39An3j/essays/e.md",
+        "/private/var/folders/xc/y6k9w0m55k37b1571xch_2cw0000gn/T/tmp.10GW39An3j/elsewhere"
+      ]
+    }
+  ]
+}
+exit 2
+NEW pv artifacts from non-Git parent (observed <W>/.prosevoice/cache/essays/, old <W>/essays/.prose-voice/cache/):
+{
+  "schema_version": 1,
+  "command": "artifacts",
+  "status": "ok",
+  "data": {
+    "essay": "/private/var/folders/xc/y6k9w0m55k37b1571xch_2cw0000gn/T/tmp.10GW39An3j/essays/e.md",
+    "project": "/private/var/folders/xc/y6k9w0m55k37b1571xch_2cw0000gn/T/tmp.10GW39An3j",
+    "project_selection": "cwd",
+    "location": "cache",
+    "applied": false,
+    "ignore_updated": false,
+    "paths": {
+      "illustrations": "/private/var/folders/xc/y6k9w0m55k37b1571xch_2cw0000gn/T/tmp.10GW39An3j/.prosevoice/cache/essays/e.illustrations.md"
+    }
+  },
+  "diagnostics": []
+}
+exit 0

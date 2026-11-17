@@ -1,0 +1,109 @@
+---
+schema_version: 1
+id: consolidate-prosevoice-repair-1
+type: Plan
+okf_spec: MOMOTRON-PLAN
+title: Restore non-Git essay artifact routing
+objective: >-
+  Resolve acceptance blocker B1 by restoring essay-adjacent configuration
+  and cache routing outside Git, then independently accept the completed
+  prosevoice consolidation.
+motivation: >-
+  The consolidated runtime passed its suites but changed non-Git essay
+  behavior. Restore the approved behavior rather than accept the regression.
+review_process: planning-review
+bindings:
+  repo:
+    description: Existing prosevoice implementation checkout, supplied at run.
+  momotron:
+    description: Read-only momotron reference checkout, supplied at run.
+scope:
+  include:
+    - Non-Git per-essay fallback, matching documentation and regression tests.
+    - Independent verification of B1 and the original acceptance requirements.
+  exclude:
+    - Repeating the already accepted implementation steps or redesigning them.
+    - Changes to the reference checkout or installed operator tooling.
+    - Product commits, publishing, global installs or real-project migration.
+environment:
+  tools: [uv, git, npx]
+  assumptions:
+    - The existing implementation and its uncommitted edits are retained.
+    - >-
+      Opus 5.5 controller and workers execute through the configured
+      ACP adapter.
+inputs:
+  - references/request.md
+  - references/acceptance-blocker.json
+  - references/repro-nongit-routing.sh
+outputs:
+  - skills/prosevoice/scripts/prosevoice_lib/config.py
+  - skills/prosevoice/SKILL.md
+  - README.md
+  - tests/test_prosevoice_runtime.py
+epics:
+  - id: routing-repair
+    title: Restore the non-Git fallback and finish acceptance
+steps:
+  - id: repair-nongit
+    title: Restore non-Git essay fallback and test it
+    type: task
+    epic: routing-repair
+    depends_on: []
+    description_asset: plan-assets/repair.md
+    attachments: [plan-assets/contract.md, plan-assets/migration.md]
+    executor: {kind: agent, role: worker, cwd: repo}
+    rework: {max_cycles: 2}
+    checks:
+      - name: Runtime and non-Git routing regression
+        argv: [uv, run, python, -m, unittest, discover, -s, tests,
+               -p, test_prosevoice_runtime.py]
+      - name: Full regression
+        argv: [uv, run, python, -m, unittest, discover, -s, tests]
+      - name: Distribution verification after repair
+        argv: [uv, run, tests/check_distribution.py]
+        timeout: 900
+  - id: acceptance
+    title: Independently verify the repair and completed consolidation
+    type: task
+    epic: routing-repair
+    depends_on: [repair-nongit]
+    description_asset: plan-assets/repair.md
+    attachments:
+      - plan-assets/contract.md
+      - plan-assets/migration.md
+      - plan-assets/execution.md
+    executor:
+      kind: agent
+      role: reviewer
+      independent: true
+      cwd: repo
+    rework: {max_cycles: 2}
+    checks:
+      - name: Acceptance regression
+        argv: [uv, run, python, -m, unittest, discover, -s, tests]
+      - name: Acceptance distributions
+        argv: [uv, run, tests/check_distribution.py]
+        timeout: 900
+criteria:
+  - id: b1-resolved
+    text: >-
+      Non-Git essays without --project use their own directory for project
+      configuration and cache paths, independent of invocation directory.
+      Explicit project selection and Git-backed routing remain unchanged.
+    verified_by: [repair-nongit, acceptance]
+  - id: preservation
+    text: >-
+      CLI override path anchors and per-essay policy isolation are preserved;
+      docs describe the restored fallback and regression tests exercise it.
+    verified_by: [repair-nongit, acceptance]
+  - id: complete-consolidation
+    text: >-
+      Original editorial, migration, packaging and write-authority contracts
+      pass independent acceptance with no unresolved blocking findings.
+    verified_by: [acceptance]
+successor_of:
+  plan: consolidate-prosevoice-executable
+  run: product
+  digest: 7fa7754b3f688b29d9c47f1c686c75dc393dc62bd961a346dcaec16d57faa3f3
+  repairs: '1'

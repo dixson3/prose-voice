@@ -1,0 +1,155 @@
+{
+ "plan_id": "consolidate-prosevoice",
+ "locked_digest": null,
+ "approvals": [
+  {
+   "actor": "James Dixson",
+   "at": "2026-11-16T22:11:16.666138Z",
+   "authority": "designated-gate",
+   "candidate_revision": 2,
+   "digest": "ae99cb96b3383d30177e5c86b7dd9a58574ff4173295d3e4215557dcf576452e",
+   "evidence": "Operator approved the plan and requested execution: approve the plan; run with controller/worker pair under opus-5-5 with acpx",
+   "gate": "review/approval",
+   "review_process": "planning-review",
+   "review_process_digest": "4a5ccf44386e350b1495ff9159799c9b9d13a3d029123e3d060a67991929a465",
+   "review_run": "review-2"
+  }
+ ],
+ "runs": {
+  "planning-1": {
+   "kind": "planning",
+   "status": "cancelled",
+   "nodes": {
+    "planning/draft/draft": "succeeded",
+    "planning/draft/end": "succeeded",
+    "planning/draft/publish": "succeeded",
+    "planning/draft/start": "succeeded",
+    "planning/end": "pending",
+    "planning/investigate/end": "succeeded",
+    "planning/investigate/investigate": "succeeded",
+    "planning/investigate/start": "succeeded",
+    "planning/review/end": "pending",
+    "planning/review/review": "cancelled",
+    "planning/review/start": "succeeded",
+    "planning/scope/capture": "succeeded",
+    "planning/scope/end": "succeeded",
+    "planning/scope/scope": "succeeded",
+    "planning/scope/scope-approval": "succeeded",
+    "planning/scope/start": "succeeded",
+    "planning/start": "succeeded"
+   }
+  },
+  "planning-2": {
+   "kind": "planning",
+   "status": "completed",
+   "nodes": {
+    "revision/end": "succeeded",
+    "revision/publish": "succeeded",
+    "revision/review/end": "succeeded",
+    "revision/review/review": "succeeded",
+    "revision/review/start": "succeeded",
+    "revision/revise": "succeeded",
+    "revision/start": "succeeded"
+   }
+  },
+  "product": {
+   "kind": "product",
+   "status": "active",
+   "nodes": {
+    "acceptance": "pending",
+    "consolidate": "pending",
+    "foundation": "pending",
+    "integration": "pending",
+    "migration": "pending"
+   }
+  },
+  "review-1": {
+   "kind": "review",
+   "status": "cancelled",
+   "nodes": {
+    "review/approval": "cancelled",
+    "review/conformance": "succeeded",
+    "review/end": "cancelled",
+    "review/portability": "cancelled",
+    "review/red-team": "succeeded",
+    "review/revise": "skipped",
+    "review/start": "succeeded",
+    "review/verdict": "succeeded"
+   }
+  },
+  "review-2": {
+   "kind": "review",
+   "status": "approved",
+   "nodes": {
+    "review/approval": "succeeded",
+    "review/conformance": "succeeded",
+    "review/end": "succeeded",
+    "review/portability": "succeeded",
+    "review/red-team": "succeeded",
+    "review/revise": "skipped",
+    "review/start": "succeeded",
+    "review/verdict": "succeeded"
+   }
+  }
+ },
+ "planning": {
+  "status": "approved",
+  "planning_process": "planning",
+  "revision_process": "planning-revision",
+  "workflow_digest": "2057290e9bb2f0de8955332667826c077f40d451f440c09c5288810d929733e1",
+  "rounds": [
+   {
+    "candidate_revision": 0,
+    "finished_at": "2026-11-16T03:34:01.402429Z",
+    "kind": "planning",
+    "n": 1,
+    "outcome": "cancelled",
+    "process": "planning",
+    "review_run": null,
+    "run": "planning-1",
+    "started_at": "2026-11-16T03:09:31.293050Z"
+   },
+   {
+    "candidate_revision": 1,
+    "finished_at": "2026-11-16T22:11:16.684055Z",
+    "kind": "revision",
+    "n": 2,
+    "outcome": "approved",
+    "process": "planning-revision",
+    "review_run": "review-2",
+    "run": "planning-2",
+    "started_at": "2026-11-16T03:34:05.476203Z"
+   }
+  ],
+  "candidate_history": [
+   {
+    "at": "2026-11-16T03:09:31.277961Z",
+    "digest": "94335c0b749da97a3cb2f4364ad6908c346043687029ecabd2b0c61bbe9fd7b4",
+    "revision": 0,
+    "source": "bootstrap"
+   },
+   {
+    "at": "2026-11-16T03:28:41.311736Z",
+    "attempt": "planning-1:planning/draft/publish#1",
+    "base_revision": 0,
+    "digest": "c6385c6bf564919856e5020caf269801ba9bb283f0d64caa24d062f90f8427a9",
+    "publication": "planning/publications/001-planning-1@planning~draft~publish#1",
+    "revision": 1,
+    "source": "publish",
+    "source_attempt": "planning-1:planning/draft/draft#1"
+   },
+   {
+    "at": "2026-11-16T03:35:21.447297Z",
+    "attempt": "planning-2:revision/publish#1",
+    "base_revision": 1,
+    "digest": "ae99cb96b3383d30177e5c86b7dd9a58574ff4173295d3e4215557dcf576452e",
+    "publication": "planning/publications/002-planning-2@revision~publish#1",
+    "revision": 2,
+    "source": "publish",
+    "source_attempt": "planning-2:revision/revise#1"
+   }
+  ]
+ },
+ "copied_at": "2026-11-16T22:16:30.193375Z",
+ "note": "historical evidence only; no result, gate or planning state is reused"
+}
