@@ -1,0 +1,83 @@
+skills/prosevoice/README.md:55:The former helper scripts map to commands as follows: `preflight.py check|resolve|seed|rule|artifacts` → `pv check`, `pv resolve`, `pv init`, `pv rule`, `pv artifacts`; `build_user_dict.py` → `pv policy`; `harper_lint.py` → `pv lint`; `extract_prose.py` → `pv extract`; `premise_fingerprint.py` → `pv premise`; `ready_preconditions.py` → `pv ready`. There are no aliases for the old names. Every command prints one JSON envelope and exits 0 (ok), 1 (blocked) or 2 (error); READY blocked was previously exit 3, and a missing `harper-cli` previously exited 4 and is now `data.status: skipped` with exit 0. `--cwd` is replaced by `--project`, and the policy options `--global`/`--ignore` are now `--bundled-dictionary`/`--bundled-ignore`.
+skills/prosevoice/SKILL.md:99:To uninstall the rule before removing the skill, run `pv rule --remove --apply`. Legacy `.prose-voice/` data and older rule identities are never read by these commands; converting them is a separate, explicit migration.
+skills/prosevoice/scripts/prosevoice_lib/cli.py:330:    p.add_argument("--legacy-user-dir", metavar="PATH", help="legacy user directory (default ~/.prose-voice)")
+skills/prosevoice/scripts/prosevoice_lib/essay.py:3:Ported without behavioral change from the former ``extract_prose.py``,
+skills/prosevoice/scripts/prosevoice_lib/essay.py:4:``premise_fingerprint.py`` and ``ready_preconditions.py`` helpers. READY resolves the
+skills/prosevoice/scripts/prosevoice_lib/migration.py:3:``prosevoice migrate`` is the only runtime code that reads ``.prose-voice`` trees, the
+skills/prosevoice/scripts/prosevoice_lib/migration.py:4:legacy ``~/.prose-voice`` user directory and legacy rule identities (``PV-PROTOCOL.md``,
+skills/prosevoice/scripts/prosevoice_lib/migration.py:9:  project (default)  <project>/.prose-voice -> <project>/.prosevoice, plus project rule
+skills/prosevoice/scripts/prosevoice_lib/migration.py:11:  user               legacy user dir (default ~/.prose-voice) -> the prosevoice user dir
+skills/prosevoice/scripts/prosevoice_lib/migration.py:59:LEGACY_DIR = ".prose-voice"
+skills/prosevoice/scripts/prosevoice_lib/migration.py:60:LEGACY_USER_DIR = ".prose-voice"
+skills/prosevoice/scripts/prosevoice_lib/migration.py:63:LEGACY_RULE_FILES = ("PV-PROTOCOL.md", "BLOG_VOICE.md")
+skills/prosevoice/scripts/prosevoice_lib/migration.py:65:    "pv-protocol": ("<!-- BEGIN pv-protocol (managed by pv-preflight; edits are overwritten) -->",
+skills/prosevoice/scripts/prosevoice_lib/migration.py:73:    "978dcac0f665833c56254122e45d3803952e429cb4c3c232e34e768124f8df88": "PV-PROTOCOL.md (b01e89e)",
+skills/prosevoice/scripts/prosevoice_lib/migration.py:74:    "bb15fade5e7b0c150ea3a6dc159b8f7cdce5443ff0186aec3a776ed48091d56a": "PV-PROTOCOL.md (041bbdd)",
+skills/prosevoice/scripts/prosevoice_lib/migration.py:75:    "dd19c186040a666ad591960ef9cf45d0d3567215115e9f4945373db8aac97f67": "PV-PROTOCOL.md (6624722)",
+skills/prosevoice/scripts/prosevoice_lib/migration.py:76:    "a823fb76dbbec46c5b0ed4208dabecb5849aa557be1e3c0612a9828410f59217": "PV-PROTOCOL.md (6959b63)",
+skills/prosevoice/scripts/prosevoice_lib/migration.py:502:        plan.blockers.append(_blk("legacy-dir-symlink", "the legacy .prose-voice directory is a symlink; "
+skills/prosevoice/scripts/prosevoice_lib/migration.py:1020:        ("Removing legacy pv-prosevoice / pv-preflight skill installations is an explicit installer task, e.g. "
+skills/prosevoice/scripts/prosevoice_lib/migration.py:1021:         "npx skills remove pv-prosevoice pv-preflight; migration never edits installer locks or symlinks."),
+skills/prosevoice/scripts/prosevoice_lib/policy.py:3:Ported without behavioral change from the former ``build_user_dict.py`` and
+skills/prosevoice/scripts/prosevoice_lib/policy.py:4:``harper_lint.py`` helpers; the legacy private path resolver is replaced by the shared
+tests/check_distribution.py:48:LEGACY = ("pv-prosevoice", "pv-preflight", "PV-PROTOCOL")
+tests/check_distribution.py:258:    CHECK.ok(not any(marker in json.dumps(policy) for marker in LEGACY + (".prose-voice",)),
+tests/fixtures/legacy_rules/PV-PROTOCOL.v1.md:3:Always-loaded trigger contract for `pv-prosevoice`: persuasive or explanatory narrative essays,
+tests/fixtures/legacy_rules/PV-PROTOCOL.v1.md:5:reference resolution, setup and rule installation live in `pv-preflight`.
+tests/fixtures/legacy_rules/PV-PROTOCOL.v1.md:8:`<git-root>/.prose-voice/` then `~/.prose-voice/` (non-empty, no `pv-template: unfilled` marker).
+tests/fixtures/legacy_rules/PV-PROTOCOL.v1.md:14:`pv-preflight artifacts <essay.md> --apply` before writing. Keep final visual assets with the essay.
+tests/fixtures/legacy_rules/PV-PROTOCOL.v2.md:3:Always-loaded trigger contract for `pv-prosevoice`: persuasive or explanatory narrative essays,
+tests/fixtures/legacy_rules/PV-PROTOCOL.v2.md:5:reference resolution, setup and rule installation live in `pv-preflight`.
+tests/fixtures/legacy_rules/PV-PROTOCOL.v2.md:8:`<git-root>/.prose-voice/` then `~/.prose-voice/` (non-empty, no `pv-template: unfilled` marker).
+tests/fixtures/legacy_rules/PV-PROTOCOL.v2.md:14:`pv-preflight artifacts <essay.md> --apply` before writing. Keep final visual assets with the essay.
+tests/fixtures/legacy_rules/PV-PROTOCOL.v3.md:3:When writing or reviewing persuasive or explanatory narrative essays, load `pv-prosevoice`.
+tests/fixtures/legacy_rules/PV-PROTOCOL.v4.md:3:When writing or reviewing persuasive or explanatory narrative essays, load `pv-prosevoice`. Also invoke it after editing an identified essay and before presenting essay prose you authored or rewrote this turn. Follow its preflight, exclusions and write-authority rules; preflight handles missing guidance. Unrelated Markdown, intermediate artifacts and exports do not trigger it. The skill owns the workflow; this rule only reminds the agent when to load it.
+tests/test_prosevoice_config.py:206:        self.write_json(self.project / ".prose-voice/config.json",
+tests/test_prosevoice_config.py:208:        self.write(self.project / ".prose-voice/VOICE.md", FILLED)
+tests/test_prosevoice_config.py:209:        self.write(self.home / ".prose-voice/AUDIENCE.md", FILLED)
+tests/test_prosevoice_config.py:216:        self.assertFalse([p for p in tried if ".prose-voice" in p])
+tests/test_prosevoice_migration.py:56:        self.legacy = self.project / ".prose-voice"
+tests/test_prosevoice_migration.py:59:        self.legacy_user = self.home / ".prose-voice"
+tests/test_prosevoice_migration.py:182:            "guidance": {"VOICE.md": ["../shared/VOICE.md", ".prose-voice/team/VOICE.md"]}}))
+tests/test_prosevoice_migration.py:258:        self.assertEqual(rewrites, {"cand/flow1-v2.png": "../../../.prose-voice/cache/a/cand/flow1-v2.png"})
+tests/test_prosevoice_migration.py:264:        self.assertIn("![candidate](../../../.prose-voice/cache/a/cand/flow1-v2.png)", new_a)
+tests/test_prosevoice_migration.py:266:        self.assertTrue((self.new / "cache/a" / "../../../.prose-voice/cache/a/cand/flow1-v2.png").resolve().is_file())
+tests/test_prosevoice_migration.py:333:        self.write(rules_dir / "PV-PROTOCOL.md", legacy_rule("PV-PROTOCOL.v1.md") + "\n")
+tests/test_prosevoice_migration.py:337:                       + legacy_block(PV_BEGIN, PV_END, legacy_rule("PV-PROTOCOL.v4.md")).replace("\n", "\r\n")
+tests/test_prosevoice_migration.py:347:        self.assertFalse((rules_dir / "PV-PROTOCOL.md").exists())
+tests/test_prosevoice_migration.py:360:        self.assertEqual(backups, {"PV-PROTOCOL.md", "BLOG_VOICE.md", "AGENTS.md"})
+tests/test_prosevoice_migration.py:374:        for name in ("PV-PROTOCOL.v1.md", "PV-PROTOCOL.v2.md", "PV-PROTOCOL.v3.md", "PV-PROTOCOL.v4.md"):
+tests/test_prosevoice_migration.py:376:                path = self.write(self.project / ".claude/rules/PV-PROTOCOL.md", legacy_rule(name) + "\n")
+tests/test_prosevoice_migration.py:384:        claude = self.write(self.home / ".claude/rules/PV-PROTOCOL.md", legacy_rule("PV-PROTOCOL.v4.md") + "\n")
+tests/test_prosevoice_migration.py:386:                        "# Pi\n\n" + legacy_block(PV_BEGIN, PV_END, legacy_rule("PV-PROTOCOL.v4.md")))
+tests/test_prosevoice_migration.py:407:                              "OC\n\n" + legacy_block(PV_BEGIN, PV_END, legacy_rule("PV-PROTOCOL.v3.md")))
+tests/test_prosevoice_migration.py:430:        self.write(self.project / ".claude/rules/PV-PROTOCOL.md", legacy_rule("PV-PROTOCOL.v4.md") + "\n")
+tests/test_prosevoice_migration.py:431:        self.write(self.project / "AGENTS.md", legacy_block(PV_BEGIN, PV_END, legacy_rule("PV-PROTOCOL.v4.md")))
+tests/test_prosevoice_migration.py:440:        body = legacy_rule("PV-PROTOCOL.v4.md")
+tests/test_prosevoice_migration.py:456:                target = (self.project / ".claude/rules/PV-PROTOCOL.md" if kind == "file"
+tests/test_prosevoice_migration.py:531:        self.write(self.legacy / "config.json", json.dumps({"guidance": {"VOICE.md": [".prose-voice/linked/VOICE.md"]}}))
+tests/test_prosevoice_migration.py:572:        self.write(self.project / ".claude/rules/PV-PROTOCOL.md", legacy_rule("PV-PROTOCOL.v4.md") + "\n")
+tests/test_prosevoice_migration.py:600:        self.assertFalse((self.project / ".claude/rules/PV-PROTOCOL.md").exists())
+tests/test_prosevoice_migration.py:625:        self.assertTrue((self.project / ".claude/rules/PV-PROTOCOL.md").exists(), "rules activate last")
+tests/test_prosevoice_migration.py:665:        self.assertFalse(any(".prose-voice" in t["path"] for t in voice["tried"]))
+tests/test_prosevoice_migration.py:669:        self.assertFalse(any(".prose-voice" in p for p in policy["sources"]["dictionary"]))
+tests/test_prosevoice_migration.py:671:        self.assertNotIn(".prose-voice", json.dumps(config["data"]))
+tests/test_prosevoice_package.py:144:        self.assertFalse((copy.parent / "pv-preflight").exists())
+tests/test_prosevoice_rules.py:22:LEGACY_BEGIN = "<!-- BEGIN pv-protocol (managed by pv-preflight; edits are overwritten) -->"
+tests/test_prosevoice_rules.py:115:        (self.project / ".claude/skills/pv-prosevoice").mkdir(parents=True)
+tests/test_prosevoice_rules.py:116:        (self.home / ".agents/skills/pv-prosevoice").mkdir(parents=True)
+tests/test_prosevoice_runtime.py:390:                self.assertNotIn("pv-preflight", text)
+tests/test_prosevoice_runtime.py:391:                self.assertNotIn("pv_config", text)
+tests/test_prosevoice_runtime.py:393:                self.assertNotIn('".prose-voice', text)
+tests/test_prosevoice_runtime.py:394:                self.assertNotIn("Path.home() / \".prose-voice", text)
+AGENTS.md:26:- Ordinary commands never read `.prose-voice/` or the retired `pv-prosevoice` / `pv-preflight` / `PV-PROTOCOL` identities. Only `prosevoice_lib/migration.py`, its tests and fixtures may name them.
+README.md:22:Releases up to v1.1.0 shipped two skills, `pv-prosevoice` and `pv-preflight`, with guidance in `.prose-voice/` and `~/.prose-voice/`. The single `prosevoice` skill and the `.prosevoice/` layout replace them; the new skill does not read the old locations. See [Migrating from pv-prosevoice and pv-preflight](#migrating-from-pv-prosevoice-and-pv-preflight).
+README.md:297:## Migrating from pv-prosevoice and pv-preflight
+README.md:299:The `prosevoice` skill does not read `.prose-voice/`, `~/.prose-voice/`, `PV-PROTOCOL.md` or `pv-protocol` blocks. `pv migrate` converts them on request; nothing migrates automatically. Install the new skill first, because migration replaces old reminders only where a `prosevoice` installation exists.
+README.md:302:pv migrate --scope user              # preview: ~/.prose-voice -> user prosevoice directory, global reminders
+README.md:304:pv migrate                           # preview: <project>/.prose-voice -> <project>/.prosevoice, project reminders
+README.md:313:| `--legacy-user-dir PATH`   | Legacy user directory to read (default `~/.prose-voice`).                                               |
+README.md:316:Run user migration before project migration when a project relies on guides or Harper policy in `~/.prose-voice`. Project migration reads those legacy user files only for comparison; if the project still depends on them, it reports `blocked` with a `user-dependency-unmet` blocker and lists each missing file and its new location under `data.dependencies`.
+README.md:324:- Recognizes only the released `PV-PROTOCOL.md` and `BLOG_VOICE.md` files and exact `pv-protocol` / `blog-voice` managed blocks at the supported reminder locations, and replaces them with the new reminder. Modified rule files and malformed, nested or duplicate markers block before anything is written. Unrelated `AGENTS.md` content is preserved byte for byte.
+README.md:331:The original `.prose-voice/` data stays in place, unchanged and inactive. Remove it, and the old skills (`npx skills remove pv-prosevoice pv-preflight`, adding `-g` for user scope), yourself once you are satisfied; migration never edits installer locks or symlinks.
+README.md:337:- **Old data:** nothing needs restoring, because migration never modifies `.prose-voice/` or `~/.prose-voice/`.
