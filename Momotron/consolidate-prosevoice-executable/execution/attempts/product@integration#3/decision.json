@@ -1,0 +1,13 @@
+{
+  "decision": "block",
+  "reason": "The worker never ran the integration step. Its result is status=failed with reason model-unadvertised: the adapter rejected model 'claude-opus-5-5' because the agent does not advertise it, and it has no fallback. The required check 'Isolated skill install, copied launcher and installed wheel' fails because tests/check_distribution.py does not exist, so the distribution validation this node owns was not delivered. The failure comes from the adapter/model configuration and is not a fixable product defect. Retrying with the same configuration would fail the same way. This is attempt #3 and the node allows two rework cycles. The operator has to correct the executor/model configuration, or re-dispatch with a supported model, before this node can proceed.",
+  "evidence": [
+    "result.json: {status: failed, outputs.reason: model-unadvertised, summary: \"model 'claude-opus-5-5' is not among the 14 models the agent advertises; no fallback to the default model\", artifacts: []}",
+    "artifacts/ directory for attempt #3 is empty; no evidence report or command logs were produced",
+    "Check 'Final source regression' (uv run python -m unittest discover -s tests, cwd /Users/james/workspace/dixson3/blog-voice): independently re-run by controller, exit 0, 'Ran 142 tests ... OK' (matches controller packet result exit 0, passed)",
+    "Check 'Isolated skill install, copied launcher and installed wheel' (uv run tests/check_distribution.py, timeout 900s, cwd /Users/james/workspace/dixson3/blog-voice): independently re-run by controller, exit 2, 'error: Failed to spawn: tests/check_distribution.py / cause: No such file or directory (os error 2)' — FAILED (matches controller packet exit 2, passed=false)",
+    "tests/check_distribution.py confirmed absent from the working directory",
+    "Prior attempts product@integration#1 and #2 contain no result.json or decision.json; #2 adapter.log ends with the agent asking to be re-invoked, so the earlier attempts were also interrupted",
+    "Node description limits rework to two cycles per task and says exhausted failures return to the operator through the runner; this is attempt #3"
+  ]
+}

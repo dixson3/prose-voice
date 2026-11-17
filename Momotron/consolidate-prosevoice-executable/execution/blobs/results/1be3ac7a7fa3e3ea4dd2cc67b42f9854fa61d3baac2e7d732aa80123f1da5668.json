@@ -1,0 +1,8 @@
+{
+ "artifacts": [],
+ "outputs": {
+  "reason": "model-unadvertised"
+ },
+ "status": "failed",
+ "summary": "model 'claude-opus-5-5' is not among the 14 models the agent advertises; no fallback to the default model"
+}

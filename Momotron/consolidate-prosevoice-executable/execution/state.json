@@ -421,6 +421,230 @@
    "run": "product",
    "state": "abandoned"
   },
+  "product:integration#3": {
+   "adapter": "acpx",
+   "checks": [
+    {
+     "argv": [
+      "uv",
+      "run",
+      "python",
+      "-m",
+      "unittest",
+      "discover",
+      "-s",
+      "tests"
+     ],
+     "exit": 0,
+     "name": "Final source regression",
+     "output": "..............................................................................................................................................\n----------------------------------------------------------------------\nRan 142 tests in 7.955s\n\nOK\n",
+     "passed": true
+    },
+    {
+     "argv": [
+      "uv",
+      "run",
+      "tests/check_distribution.py"
+     ],
+     "exit": 2,
+     "name": "Isolated skill install, copied launcher and installed wheel",
+     "output": "error: Failed to spawn: tests/check_distribution.py\n  cause: No such file or directory (os error 2)\n",
+     "passed": false
+    }
+   ],
+   "claimant": "run:acpx",
+   "claimed_at": "2026-11-16T23:57:44.060995Z",
+   "decision": {
+    "at": "2026-11-16T23:58:40.013220Z",
+    "controller": "agent-controller",
+    "decision": "block",
+    "effect": "blocked",
+    "evidence": [
+     "result.json: {status: failed, outputs.reason: model-unadvertised, summary: \"model 'claude-opus-5-5' is not among the 14 models the agent advertises; no fallback to the default model\", artifacts: []}",
+     "artifacts/ directory for attempt #3 is empty; no evidence report or command logs were produced",
+     "Check 'Final source regression' (uv run python -m unittest discover -s tests, cwd /Users/james/workspace/dixson3/blog-voice): independently re-run by controller, exit 0, 'Ran 142 tests ... OK' (matches controller packet result exit 0, passed)",
+     "Check 'Isolated skill install, copied launcher and installed wheel' (uv run tests/check_distribution.py, timeout 900s, cwd /Users/james/workspace/dixson3/blog-voice): independently re-run by controller, exit 2, 'error: Failed to spawn: tests/check_distribution.py / cause: No such file or directory (os error 2)' \u2014 FAILED (matches controller packet exit 2, passed=false)",
+     "tests/check_distribution.py confirmed absent from the working directory",
+     "Prior attempts product@integration#1 and #2 contain no result.json or decision.json; #2 adapter.log ends with the agent asking to be re-invoked, so the earlier attempts were also interrupted",
+     "Node description limits rework to two cycles per task and says exhausted failures return to the operator through the runner; this is attempt #3"
+    ],
+    "reason": "The worker never ran the integration step. Its result is status=failed with reason model-unadvertised: the adapter rejected model 'claude-opus-5-5' because the agent does not advertise it, and it has no fallback. The required check 'Isolated skill install, copied launcher and installed wheel' fails because tests/check_distribution.py does not exist, so the distribution validation this node owns was not delivered. The failure comes from the adapter/model configuration and is not a fixable product defect. Retrying with the same configuration would fail the same way. This is attempt #3 and the node allows two rework cycles. The operator has to correct the executor/model configuration, or re-dispatch with a supported model, before this node can proceed.",
+    "revision": 290
+   },
+   "id": "product:integration#3",
+   "n": 3,
+   "node": "integration",
+   "packet": "execution/blobs/packets/d73c02c07aa0503228d986ba58687ec2ae1f0acd09473344d5853b57ffef62f1.json",
+   "receipt": {
+    "acpx_version": "0.22.0",
+    "adapter": "acpx",
+    "agent": "claude",
+    "cwd": "/Users/james/workspace/dixson3/blog-voice",
+    "effective": {
+     "agent": "claude",
+     "config": {},
+     "config_source": "project",
+     "model": "claude-opus-5-5",
+     "permission": "approve-all",
+     "session_policy": "fresh-per-attempt",
+     "timeout": 3600
+    },
+    "identity": {
+     "attempt": "product:integration#3",
+     "bundle_uid": "caa4bb0e2178465197995adceda728b2",
+     "generation": 1,
+     "group": "attempt:product:integration#3",
+     "host": "d3-mbp-m5.local",
+     "location": "/Users/james/workspace/dixson3/blog-voice/Momotron/consolidate-prosevoice-executable",
+     "node": "integration",
+     "plan_id": "consolidate-prosevoice-executable",
+     "policy": "fresh-per-attempt",
+     "role": "processes/_roles/worker.md",
+     "run": "product",
+     "schema": "momotron-session-identity/1",
+     "session_name": "momo-consolidate-prosevoi-integration-ae26ac0440811f8a7bd3",
+     "session_plan": {
+      "action": "fresh",
+      "generation": 1,
+      "key": null,
+      "problem": null,
+      "reason": "fresh-per-attempt"
+     }
+    },
+    "log": "execution/attempts/product@integration#3/adapter.log",
+    "native": {
+     "acp_session_id": "94cc8f20-50a4-41bc-bab6-2acd703b630a",
+     "acpx_record_id": "65bfefd9-cac1-4913-9078-d61ae5e4ea16",
+     "agent_session_id": null,
+     "available": true,
+     "available_model_count": 14,
+     "closed": false,
+     "config_option_ids": [
+      "effort",
+      "fast",
+      "mode",
+      "model",
+      "ultracode"
+     ],
+     "current_model_id": "default",
+     "model_control": "config_option",
+     "usage_tokens": null
+    },
+    "phase": "selected",
+    "recorded_at": "2026-11-16T23:57:44.323610Z",
+    "selection": {
+     "acknowledged": false,
+     "effective_model": "default",
+     "options": {},
+     "problem": {
+      "code": "model-unadvertised",
+      "message": "model 'claude-opus-5-5' is not among the 14 models the agent advertises; no fallback to the default model"
+     },
+     "requested_model": "claude-opus-5-5"
+    },
+    "session": "momo-consolidate-prosevoi-integration-ae26ac0440811f8a7bd3"
+   },
+   "recovery": {
+    "action": "retry",
+    "actor": "James Dixson",
+    "at": "2026-11-17T00:00:33.894554Z",
+    "evidence": "Continue the operator-authorized integration retry after correcting the pre-dispatch model selector. Native catalog advertises opus as Opus 5.5; a tool-free opus probe returned ACP_OPUS_ALIAS_OK and native usage confirmed claude-opus-5-5. No worker code ran in attempt #3. Both roles now use the verified advertised selector; see references/integration-adapter-recovery.md."
+   },
+   "result": "execution/blobs/results/1be3ac7a7fa3e3ea4dd2cc67b42f9854fa61d3baac2e7d732aa80123f1da5668.json",
+   "run": "product",
+   "state": "abandoned"
+  },
+  "product:integration#4": {
+   "adapter": "acpx",
+   "claimant": "run:acpx",
+   "claimed_at": "2026-11-17T00:00:56.581436Z",
+   "decision": null,
+   "id": "product:integration#4",
+   "n": 4,
+   "node": "integration",
+   "packet": "execution/blobs/packets/25e6e37bb261fa365a79a2db3f628f095582f0aa425bebe3e0c0cb6360724584.json",
+   "receipt": {
+    "acpx_version": "0.22.0",
+    "adapter": "acpx",
+    "agent": "claude",
+    "cwd": "/Users/james/workspace/dixson3/blog-voice",
+    "deadline": 1794877262.78478,
+    "effective": {
+     "agent": "claude",
+     "config": {},
+     "config_source": "project",
+     "model": "opus",
+     "permission": "approve-all",
+     "session_policy": "fresh-per-attempt",
+     "timeout": 3600
+    },
+    "identity": {
+     "attempt": "product:integration#4",
+     "bundle_uid": "caa4bb0e2178465197995adceda728b2",
+     "generation": 1,
+     "group": "attempt:product:integration#4",
+     "host": "d3-mbp-m5.local",
+     "location": "/Users/james/workspace/dixson3/blog-voice/Momotron/consolidate-prosevoice-executable",
+     "node": "integration",
+     "plan_id": "consolidate-prosevoice-executable",
+     "policy": "fresh-per-attempt",
+     "role": "processes/_roles/worker.md",
+     "run": "product",
+     "schema": "momotron-session-identity/1",
+     "session_name": "momo-consolidate-prosevoi-integration-92e2da4a48fa10ad3672",
+     "session_plan": {
+      "action": "fresh",
+      "generation": 1,
+      "key": null,
+      "problem": null,
+      "reason": "fresh-per-attempt"
+     }
+    },
+    "launched_at": "2026-11-17T00:01:02.784734Z",
+    "log": "execution/attempts/product@integration#4/adapter.log",
+    "native": {
+     "acp_session_id": "786d916a-9639-4b57-8555-000278675433",
+     "acpx_record_id": "c0dcbaea-0e11-4bf4-ac30-052b8915f3a3",
+     "agent_session_id": null,
+     "available": true,
+     "available_model_count": 14,
+     "closed": false,
+     "config_option_ids": [
+      "effort",
+      "fast",
+      "mode",
+      "model",
+      "ultracode"
+     ],
+     "current_model_id": "opus",
+     "model_control": "config_option",
+     "usage_tokens": null
+    },
+    "phase": "launched",
+    "pid": 88965,
+    "process": {
+     "pgid": 88965,
+     "started": "Mon Nov 16 16:01:02 2026"
+    },
+    "recorded_at": "2026-11-17T00:00:56.837981Z",
+    "selection": {
+     "acknowledged": true,
+     "effective_model": "opus",
+     "options": {
+      "model": {
+       "acknowledged": true,
+       "effective": "opus",
+       "requested": "opus"
+      }
+     },
+     "requested_model": "opus"
+    },
+    "session": "momo-consolidate-prosevoi-integration-92e2da4a48fa10ad3672"
+   },
+   "result": null,
+   "run": "product",
+   "state": "running"
+  },
   "product:migration#1": {
    "adapter": "acpx",
    "claimant": "run:acpx",
@@ -762,6 +986,23 @@
    ],
    "reason": "Worker status is succeeded. The controller packet's checks array is empty, so no runner acceptance check failed. The controller reran both checks named in the worker result and both passed. The foundation scope is implemented: a package skeleton, cwd-independent resource lookup, strict layered config with provenance, init, a JSON envelope with exits 0/1/2, a Hatchling MIT pyproject attributed to James Dixson, and the two required test modules mapped to every required case. The 19 original tests and the legacy helpers are byte-unchanged. Commands still unimplemented (check, rule, policy, lint, extract, premise, ready, migrate) belong to later steps, and nothing was committed.",
    "revision": 73
+  },
+  "product:integration#3": {
+   "at": "2026-11-16T23:58:40.013220Z",
+   "controller": "agent-controller",
+   "decision": "block",
+   "effect": "blocked",
+   "evidence": [
+    "result.json: {status: failed, outputs.reason: model-unadvertised, summary: \"model 'claude-opus-5-5' is not among the 14 models the agent advertises; no fallback to the default model\", artifacts: []}",
+    "artifacts/ directory for attempt #3 is empty; no evidence report or command logs were produced",
+    "Check 'Final source regression' (uv run python -m unittest discover -s tests, cwd /Users/james/workspace/dixson3/blog-voice): independently re-run by controller, exit 0, 'Ran 142 tests ... OK' (matches controller packet result exit 0, passed)",
+    "Check 'Isolated skill install, copied launcher and installed wheel' (uv run tests/check_distribution.py, timeout 900s, cwd /Users/james/workspace/dixson3/blog-voice): independently re-run by controller, exit 2, 'error: Failed to spawn: tests/check_distribution.py / cause: No such file or directory (os error 2)' \u2014 FAILED (matches controller packet exit 2, passed=false)",
+    "tests/check_distribution.py confirmed absent from the working directory",
+    "Prior attempts product@integration#1 and #2 contain no result.json or decision.json; #2 adapter.log ends with the agent asking to be re-invoked, so the earlier attempts were also interrupted",
+    "Node description limits rework to two cycles per task and says exhausted failures return to the operator through the runner; this is attempt #3"
+   ],
+   "reason": "The worker never ran the integration step. Its result is status=failed with reason model-unadvertised: the adapter rejected model 'claude-opus-5-5' because the agent does not advertise it, and it has no fallback. The required check 'Isolated skill install, copied launcher and installed wheel' fails because tests/check_distribution.py does not exist, so the distribution validation this node owns was not delivered. The failure comes from the adapter/model configuration and is not a fixable product defect. Retrying with the same configuration would fail the same way. This is attempt #3 and the node allows two rework cycles. The operator has to correct the executor/model configuration, or re-dispatch with a supported model, before this node can proceed.",
+   "revision": 290
   },
   "product:migration#1": {
    "at": "2026-11-16T23:38:25.814273Z",
@@ -2165,6 +2406,36 @@
    "at": "2026-11-16T23:57:36.130402Z",
    "event": "recover product:integration#2: retry by James Dixson",
    "revision": 285
+  },
+  {
+   "at": "2026-11-16T23:57:44.102719Z",
+   "event": "claim",
+   "revision": 286
+  },
+  {
+   "at": "2026-11-16T23:57:56.308903Z",
+   "event": "result submitted for product:integration#3",
+   "revision": 289
+  },
+  {
+   "at": "2026-11-16T23:58:40.013279Z",
+   "event": "decision for product:integration#3",
+   "revision": 290
+  },
+  {
+   "at": "2026-11-17T00:00:33.902622Z",
+   "event": "recover product:integration#3: retry by James Dixson",
+   "revision": 291
+  },
+  {
+   "at": "2026-11-17T00:00:56.620194Z",
+   "event": "claim",
+   "revision": 292
+  },
+  {
+   "at": "2026-11-17T00:01:22.763140Z",
+   "event": "resume reconciliation",
+   "revision": 296
   }
  ],
  "identity": {
@@ -2194,7 +2465,40 @@
  ],
  "plan_id": "consolidate-prosevoice-executable",
  "planning": null,
- "revision": 285,
+ "progress": {
+  "product:integration#3": {
+   "archives": [],
+   "asserted": null,
+   "event_ids": [],
+   "events": [
+    {
+     "at": "2026-11-16T23:57:56.308760Z",
+     "data": {
+      "checks": [
+       {
+        "exit": 0,
+        "name": "Final source regression",
+        "passed": true
+       },
+       {
+        "exit": 2,
+        "name": "Isolated skill install, copied launcher and installed wheel",
+        "passed": false
+       }
+      ]
+     },
+     "kind": "check-result",
+     "seq": null,
+     "source": "runner"
+    }
+   ],
+   "heartbeats": 0,
+   "liveness": null,
+   "seq": 0,
+   "verified": null
+  }
+ },
+ "revision": 296,
  "runs": {
   "product": {
    "created_at": "2026-11-16T22:44:19.682979Z",
@@ -2224,10 +2528,12 @@
     "integration": {
      "attempts": [
       "product:integration#1",
-      "product:integration#2"
+      "product:integration#2",
+      "product:integration#3",
+      "product:integration#4"
      ],
      "cycles": 0,
-     "state": "pending"
+     "state": "running"
     },
     "migration": {
      "attempts": [

@@ -1,0 +1,64 @@
+{
+ "schema": "momotron-controller-packet/1",
+ "attempt": "product:integration#3",
+ "node": {
+  "description": "# Step execution and acceptance\n\nEvery step reads `plan-assets/contract.md` and `plan-assets/migration.md`; perform only the section matching the dispatched step. Keep test fixtures temporary and isolated from real home/XDG, installed tooling and operator projects. Store command logs and a concise evidence report in the dispatched attempt's artifact directory. Commands in plan.yaml are failing acceptance checks, not permission to skip the wider assertions here. A failed requirement must fail the node rather than be documented as complete. Rework is limited to two cycles per task; exhausted failures return to the operator through the runner. Do not resolve gates yourself.\n\n## foundation\n\nCapture source status and implement package skeleton, resource lookup, strict shared config, init and command envelope. Add Hatchling metadata with MIT attribution to James Dixson using the current year if creating license/module attribution. Implement tests/test_prosevoice_config.py and tests/test_prosevoice_package.py. Tests cover every config tier/provenance, XDG fallback/invalid paths, explicit and non-Git roots, relative anchors, duplicate and unknown keys, list replacement per filename without losing other guides, empty/unfilled fallback, optional illustrations, idempotent initialization and custom cache ignores. Package tests initially cover source resource lookup, unrelated cwd and CLI envelope/exit behavior. Keep old source helpers available until their callers are migrated in the next steps. Run the complete current suite after this step, without weakening the 19 existing assertions.\n\n## consolidate\n\nMove runtime responsibilities and editorial resources into the single skill and update all its agent/helper callers to the new CLI. Eliminate READY's sibling import and Harper's private legacy path resolver together. Port the existing three test modules to new imports without weakening behavioral coverage. Add tests/test_prosevoice_runtime.py for the 12 artifact paths in both modes, nested essay directories, full source/visual READY cases, exact premise fingerprints, policy unions/isolation, lint offsets/spelling restrictions/errors and isolated new-skill launcher imports. Add tests/test_prosevoice_rules.py for new-rule target discovery, target deduplication, preview nonmutation, apply idempotence, malformed blocks and unrelated-content preservation. Implement the conservative shared parser needed by migration. A copied tree containing only prosevoice must run READY and policy without old siblings. Preserve all editorial invariants in contract.md; record an instruction-by-instruction mapping of prior responsibilities to their new locations in this step's evidence report.\n\n## migration\n\nImplement the bounded migration helper described in migration.md, using shared runtime functions rather than duplicate config or policy resolution. Add tests/test_prosevoice_migration.py with success fixtures for no-config projects, ordered/external guides, user-only and mixed fallback, cache/adjacent modes, duplicate stems in nested directories, active visual choices/no-image, blank templates, policy/custom ignores and every recognized rule target/remnant. Assert effective guidance/policy and READY outcomes before/after and unchanged original essays/assets/external data/unrelated AGENTS bytes. Include differing destinations, equal reruns, invalid/duplicate config, unknown semantics, malformed/duplicate/nested blocks, symlink escapes, missing installation and unmet user dependencies. Preview and blocked preflight must leave the fixture tree unchanged. Failure injection verifies resume before and after a replacement, before rule activation and with intervening edits; reruns must not produce repeated backups. Ordinary runtime must ignore retained old data entirely. Recovery instructions are part of acceptance; no generic rollback infrastructure is required.\n\n## integration\n\nRemove the two legacy source skill trees and entrypoints only after consolidated tests pass; this is tracked source refactoring, not permission to remove installed tooling. Update root README/AGENTS, consolidated skill README, examples where needed, protocol references, all live instruction/agent command references and installer validation instructions. Keep CLAUDE.md as its include wrapper. Document exact CLI, config schema/provenance/path anchors, installation, migration preview/apply/user dependencies, retained legacy data and recovery. Preserve template headings and generic examples, one line per paragraph and valid GFM. Search only live product source/docs/tests for obsolete runtime references, allowing literals in migration, fixtures and historical records; do not sweep Momotron or operator-installed tooling.\n\nAdd a stdlib PEP 723 developer check script `tests/check_distribution.py`. It builds the wheel with uv/Hatchling into a temporary directory and installs it in an isolated uv environment. From unrelated cwd with isolated home/XDG, exercise console help/version/config, init/template lookup, policy, artifact resolution and READY source/visual outcomes. Assert required SKILL/agent/protocol/policy/template resources are present; unavailable legacy siblings cannot be relied on. Also copy only skills/prosevoice and exercise its thin launcher. Run `npx skills add <absolute-source-repo> -s prosevoice -a claude-code -a pi -y` in a scratch Git repo with isolated HOME/XDG and no inherited harness targets; execute the installed check/resolve/rule preview and apply/READY against filled fixture guides. Check actual installed paths and require only the new skill. Script exits nonzero on failed commands/assertions and preserves diagnostic output; dependency/network failures are reported as unverified, never passes. Keep installer and wheel checks in one focused script rather than a new testing framework.\n\n## acceptance\n\nIndependently review the final diff and evidence against both contracts and investigation. Run unittest discovery and the distribution script once on the final tree. Compare baseline to final status to confirm `.agents/`, `.claude/`, skills-lock.json and frozen bundle history were preserved and the momotron reference remains unchanged. Verify every live editorial responsibility and exact helper behavior is preserved; report any actual behavior difference as a blocker. Confirm no legacy runtime fallback remains, all 12 artifact kinds route correctly, migration fails closed and resumes safely, and docs match implemented parser/config. Record commands/results, important diff findings and residual limits (optional external editorial tools are not certification of their services). Complete the plan when the authorized implementation and verification pass, reporting the outcome and remaining limitations. No additional completion gate is needed. No automatic publication, product commits, installer updates in real home, or migrations of real projects follow it. Plan bookkeeping commits remain authorized by the standing repository instruction.\n",
+  "id": "integration",
+  "inputs": [],
+  "kind": "task",
+  "outcomes": [],
+  "outputs": [],
+  "params": {},
+  "process": null,
+  "source": {
+   "step": "integration"
+  },
+  "title": "Complete documentation and distribution validation"
+ },
+ "role": "# Role: controller\n\nYou assess one submitted attempt and propose a decision. The runner validates your decision;\nit does not trust it.\n\nInput: the context packet, the worker result, and the acceptance-check results.\n\nReturn JSON only:\n`{\"decision\": \"accept\" | \"retry\" | \"block\" | \"fail\" | \"choose:<outcome>\", \"reason\": \"...\", \"evidence\": [\"...\"]}`\n\n- `accept` only when the result status is `succeeded` **and** every acceptance check passed.\n- `retry` only when the failure is plausibly transient or fixable and budget remains.\n- `choose:<outcome>` only on a gateway node, naming one of its declared outcomes.\n- You can never approve a human gate.\n",
+ "worker_result": {
+  "artifacts": [],
+  "outputs": {
+   "reason": "model-unadvertised"
+  },
+  "status": "failed",
+  "summary": "model 'claude-opus-5-5' is not among the 14 models the agent advertises; no fallback to the default model"
+ },
+ "checks": [
+  {
+   "argv": [
+    "uv",
+    "run",
+    "python",
+    "-m",
+    "unittest",
+    "discover",
+    "-s",
+    "tests"
+   ],
+   "exit": 0,
+   "name": "Final source regression",
+   "output": "..............................................................................................................................................\n----------------------------------------------------------------------\nRan 142 tests in 7.955s\n\nOK\n",
+   "passed": true
+  },
+  {
+   "argv": [
+    "uv",
+    "run",
+    "tests/check_distribution.py"
+   ],
+   "exit": 2,
+   "name": "Isolated skill install, copied launcher and installed wheel",
+   "output": "error: Failed to spawn: tests/check_distribution.py\n  cause: No such file or directory (os error 2)\n",
+   "passed": false
+  }
+ ],
+ "decision_path": "/Users/james/workspace/dixson3/blog-voice/Momotron/consolidate-prosevoice-executable/execution/attempts/product@integration#3/decision.json",
+ "decision_schema": {
+  "decision": "accept|retry|block|fail|choose:<outcome>",
+  "reason": "string",
+  "evidence": [
+   "string"
+  ]
+ }
+}
