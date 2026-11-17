@@ -1,0 +1,6 @@
+{
+  "at": "2026-11-17T00:56:04.146Z",
+  "checked": 205,
+  "changed": [],
+  "scope": "Captured early in repair execution; not a baseline for preceding implementation. Excludes Python bytecode caches."
+}
