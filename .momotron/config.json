@@ -5,7 +5,7 @@
   "controller": "agent",
   "acpx": {
     "agent": "claude",
-    "model": "claude-opus-5-5",
+    "model": "opus",
     "timeout": 3600,
     "permission": "approve-all"
   },
@@ -13,7 +13,7 @@
     "argv": [
       "acpx",
       "--cwd", "{cwd}",
-      "--model", "claude-opus-5-5",
+      "--model", "opus",
       "--approve-all",
       "--format", "json",
       "--timeout", "1800",
